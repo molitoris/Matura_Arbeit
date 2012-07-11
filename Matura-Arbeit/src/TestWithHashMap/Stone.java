@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package TestWithHasMap;
+package TestWithHashMap;
 
 import javax.media.j3d.GeometryArray;
 import javax.media.j3d.QuadArray;
@@ -18,7 +18,6 @@ import javax.vecmath.Point3f;
  */
 public class Stone
 {
-    private float x, y, z;
     
     private Shape3D shape = new Shape3D();
     private QuadArray stone = new QuadArray(24, GeometryArray.COORDINATES|GeometryArray.COLOR_3);
@@ -30,21 +29,20 @@ public class Stone
     private Color3f red     = new Color3f(1.0f, .0f, 0.0f);
     private Color3f orange  = new Color3f(1.0f, 0.5f, 0.0f);
     
-    private Point3f pa = new Point3f(x-0.5f,y-0.5f,z+0.5f);
-    private Point3f pb = new Point3f(x+0.5f,y-0.5f,z+0.5f);
-    private Point3f pc = new Point3f(x+0.5f,y+0.5f,z+0.5f);
-    private Point3f pd = new Point3f(x-0.5f,y+0.5f,z+0.5f);
-
-    private Point3f pe = new Point3f(x-0.5f,y-0.5f,z-0.5f);
-    private Point3f pf = new Point3f(x+0.5f,y-0.5f,z-0.5f);
-    private Point3f pg = new Point3f(x+0.5f,y+0.5f,z-0.5f);
-    private Point3f ph = new Point3f(x-0.5f,y+0.5f,z-0.5f);
     
-    public Stone(float x, float y, float z)
-    {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+    
+    public Stone(float x, float y, float z, Color3f front, Color3f back,
+                 Color3f left, Color3f right, Color3f top, Color3f down)
+    {       
+        Point3f pa = new Point3f(x-0.5f,y-0.5f,z+0.5f);
+        Point3f pb = new Point3f(x+0.5f,y-0.5f,z+0.5f);
+        Point3f pc = new Point3f(x+0.5f,y+0.5f,z+0.5f);
+        Point3f pd = new Point3f(x-0.5f,y+0.5f,z+0.5f);
+
+        Point3f pe = new Point3f(x-0.5f,y-0.5f,z-0.5f);
+        Point3f pf = new Point3f(x+0.5f,y-0.5f,z-0.5f);
+        Point3f pg = new Point3f(x+0.5f,y+0.5f,z-0.5f);
+        Point3f ph = new Point3f(x-0.5f,y+0.5f,z-0.5f);
         
         //front
         stone.setCoordinate(0, pa);
@@ -108,41 +106,12 @@ public class Stone
         
         shape.addGeometry(stone);    
     }
-    public Stone rotateStone(Stone stone, float x, float y, float z)
-    {
-        /*TODO:
-         * Hier müsse ich den Stein um die eigene Achse drehen
-         */
-        
-        
-        Transform3D rotate_x = new Transform3D();
-        Transform3D rotate_y = new Transform3D();
-        Transform3D rotate_z = new Transform3D();
-        
-        rotate_x.rotX(x / (2 * Math.PI));
-        rotate_y.rotX(y / (2 * Math.PI));
-        rotate_z.rotX(z / (2 * Math.PI));
-        rotate_x.mul(rotate_y, rotate_z);
-        
-        TransformGroup objRotate = new TransformGroup(rotate_x);
-        
-        return stone;
-    }
     
-    public Stone moveStone( float a, float b, float c)
+    public TransformGroup makeTransformGroup()
     {
-        /* TODO:
-         * Hier müsse ich die x-, y-, z-Koordinate auslesen und die oberen Paramerer
-         * dazu addieren.
-         */  
-        Stone stone = new Stone(x + a, y + b, z + c);
-        
-        return stone;
-    }
-    
-    public Shape3D makeShape3D()
-    {
-        return shape;
+        TransformGroup objCube = new TransformGroup();
+        objCube.addChild(shape);
+        return objCube;
     }
     
 }

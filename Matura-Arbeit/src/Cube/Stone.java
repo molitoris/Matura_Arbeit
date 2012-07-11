@@ -104,45 +104,37 @@ public class Stone
         stone.setCoordinate(22, pg);
         stone.setColor(22, blue);
         stone.setCoordinate(23, pc);
-        stone.setColor(23, blue);
+        stone.setColor(23, blue); 
         
-        shape.addGeometry(stone);    
+        shape.addGeometry(stone);
     }
-    public Stone rotateStone(Stone stone, float x, float y, float z)
+        
+    public TransformGroup makeTransform(double a, double b, double c)
     {
         /*TODO:
          * Hier müsse ich den Stein um die eigene Achse drehen
+         * 
+         * 1. TransformGroup bilden
+         * 2. Transformieren
+         * 3. Stein-Objekt in Transformgroup geben --> Wir jetzt transformiert?
+         * 4. Stein-Objekt aus TransformGroup entfernen
+         * 5. Stein zurückgeben
          */
         
+        Shape3D stoneShape = new Shape3D();
+        stoneShape.addGeometry(stone);
         
         Transform3D rotate_x = new Transform3D();
         Transform3D rotate_y = new Transform3D();
         Transform3D rotate_z = new Transform3D();
         
-        rotate_x.rotX(x / (2 * Math.PI));
-        rotate_y.rotX(y / (2 * Math.PI));
-        rotate_z.rotX(z / (2 * Math.PI));
-        rotate_x.mul(rotate_y, rotate_z);
+        rotate_x.rotX(a / (2 * Math.PI));
+        rotate_y.rotX(b / (2 * Math.PI));
+        rotate_z.rotX(c / (2 * Math.PI));
+        rotate_x.mul(rotate_y, rotate_z);        
         
-        TransformGroup objRotate = new TransformGroup(rotate_x);
-        
-        return stone;
-    }
-    
-    public Stone moveStone( float a, float b, float c)
-    {
-        /* TODO:
-         * Hier müsse ich die x-, y-, z-Koordinate auslesen und die oberen Paramerer
-         * dazu addieren.
-         */  
-        Stone stone = new Stone(x + a, y + b, z + c);
-        
-        return stone;
-    }
-    
-    public Shape3D makeShape3D()
-    {
-        return shape;
-    }
-    
+        TransformGroup objStone = new TransformGroup(rotate_x);
+        objStone.addChild(stoneShape);
+        return objStone;
+    }  
 }

@@ -43,17 +43,16 @@ public class RubicsCube extends JFrame
 //        Transform3D rotate = new Transform3D();
 //        rotate.rotY(-45 / ( 2* Math.PI));
         
-        TransformGroup objTransform = new TransformGroup(/*rotate*/);
+//        TransformGroup objTransform = new TransformGroup(/*rotate*/);
         
-        Stone stone = new Stone(0.0f, 0.0f, 0.0f); 
-        stone.moveStone( 0.5f, 0.0f, 0.0f);
+        Stone stone = new Stone(0.0f, 0.0f, 0.0f);
 
         
-        Shape3D shape = stone.makeShape3D();
+        TransformGroup shape = stone.makeTransform(10, 0, 0);
         
         
-        objTransform.addChild(shape);
-        objRoot.addChild(objTransform);        
+//        objTransform.addChild(shape);
+        objRoot.addChild(shape);        
         return objRoot;
     }
 }

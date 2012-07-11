@@ -1,11 +1,10 @@
-package TestWithHasMap;
+package TestWithHashMap;
 
 import com.sun.j3d.utils.universe.SimpleUniverse;
 import java.awt.GraphicsConfiguration;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
 import javax.media.j3d.Shape3D;
-import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
@@ -36,24 +35,16 @@ public class RubicsCube extends JFrame
         SimpleUniverse universe = new SimpleUniverse(canvas);
         universe.getViewingPlatform().setNominalViewingTransform();
         universe.addBranchGraph(createSceneGraph());
-    }
+    }    
     
     public BranchGroup createSceneGraph()
     {        
-//        Transform3D rotate = new Transform3D();
-//        rotate.rotY(-45 / ( 2* Math.PI));
+        Stone front = new Stone(0.0f, 0.0f, 0.0f);
         
-        TransformGroup objTransform = new TransformGroup(/*rotate*/);
-        
-        Stone stone = new Stone(0.0f, 0.0f, 0.0f); 
-        stone.moveStone( 0.5f, 0.0f, 0.0f);
 
+        TransformGroup tg = front.makeTransformGroup();
         
-        Shape3D shape = stone.makeShape3D();
-        
-        
-        objTransform.addChild(shape);
-        objRoot.addChild(objTransform);        
+        objRoot.addChild(tg);
         return objRoot;
     }
 }
