@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Cube;
+package TestWithHasMap;
 
 import javax.media.j3d.GeometryArray;
 import javax.media.j3d.QuadArray;

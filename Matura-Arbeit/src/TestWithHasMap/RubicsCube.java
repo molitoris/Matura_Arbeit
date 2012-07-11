@@ -1,4 +1,4 @@
-package Cube;
+package TestWithHasMap;
 
 import com.sun.j3d.utils.universe.SimpleUniverse;
 import java.awt.GraphicsConfiguration;
