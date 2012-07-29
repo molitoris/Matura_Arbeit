@@ -12,7 +12,6 @@ public class Main
 {
     public static void main(String[] args)
     {
-        RubicsCube a = new RubicsCube();
-        a.setVisible(true);
+        GUI gui = new GUI();
     }
 }
