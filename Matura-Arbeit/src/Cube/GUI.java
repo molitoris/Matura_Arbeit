@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Cube;
 
 import java.awt.BorderLayout;
@@ -12,16 +8,17 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
-
 /**
  *
- * @author Rafael Müller_2
+ * @author Rafael Sebastian Müller
  */
-public class GUI
+
+public final class GUI
 {
-    Container container;
+    //Attribute
     RubicsCube cube;
             
+    //Konstruktor
     public GUI()
     {
         JFrame frame = new JFrame();
@@ -29,38 +26,50 @@ public class GUI
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(500, 700);
         frame.setResizable(false);
-        frame.setLocationRelativeTo(null);
-        
+        frame.setLocationRelativeTo(null);        
         frame.setLayout(new BorderLayout());
-        
-        container = new Container();
+        	
+        Container container = new Container();
         container = frame.getContentPane();
-        
-        
-        container.add("East", createButtonPanel());
         
         cube = new RubicsCube();
         container.add("Center", cube.returnCanvas());
+	
+	container.add("North", createPanel());
         
         frame.setVisible(true);
-    }
+    }    
+    //Methoden
     
-    public JPanel createButtonPanel()
+    public JPanel createPanel()
     {
-        JPanel panel = new JPanel();        
-        JButton button = new JButton("turne");        
-        
-        ActionListener al = new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent ae)
-            {
-                
-            }
-        };
-        button.addActionListener(al);
-        panel.add(button);
-        
-        return panel;
+	JPanel panel = new JPanel();
+	
+	final JButton button = new JButton("Test");
+	final JButton button2 = new JButton("Test2");
+	final JButton button3 = new JButton("Test3");
+	
+	ActionListener al = new ActionListener() {
+
+	    @Override
+	    public void actionPerformed(ActionEvent e)
+	    {
+		if(e.getSource() == button)
+		    cube.test();
+		if(e.getSource() == button2)
+		    cube.test2();
+		if(e.getSource() == button3)
+		   cube.test3(); 
+	    }
+	};
+	button.addActionListener(al);
+	button2.addActionListener(al);
+	button3.addActionListener(al);
+	
+	panel.add(button);
+	panel.add(button2);
+	panel.add(button3);
+	
+	return panel;
     }
 }
