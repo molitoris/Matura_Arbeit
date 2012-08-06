@@ -1,13 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Cube;
 
-import com.sun.j3d.utils.behaviors.vp.OrbitBehavior;
+import com.sun.j3d.utils.behaviors.mouse.MouseRotate;
+import com.sun.j3d.utils.geometry.ColorCube;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 import java.awt.GraphicsConfiguration;
 import javax.media.j3d.*;
+import javax.vecmath.AxisAngle4f;
+import javax.vecmath.Vector3f;
 
 /**
  *
@@ -17,7 +16,9 @@ public class RubicsCube
 {
     //Attribute
     Canvas3D canvas;
+    SimpleUniverse universe;
     Shape3D line;
+    Stone[][][] stone;
     int angel   = 90;
     int angel2 = 90;
     int angel3 = 90;
@@ -45,38 +46,44 @@ public class RubicsCube
 	GraphicsConfiguration config = SimpleUniverse.getPreferredConfiguration();
 	canvas = new Canvas3D(config);
 	
-	SimpleUniverse universe = new SimpleUniverse(canvas);
+	universe = new SimpleUniverse(canvas);
 	
 	canvas.getView().setFieldOfView(0.09);
 	canvas.getView().setWindowEyepointPolicy(View.RELATIVE_TO_WINDOW);
-	
-	universe.addBranchGraph(createSceneGraph());
-	
-	OrbitBehavior orbit = new OrbitBehavior(canvas, OrbitBehavior.REVERSE_ALL);
-	orbit.setSchedulingBounds(new BoundingSphere());
-	universe.getViewingPlatform().setViewPlatformBehavior(orbit);
 	universe.getViewingPlatform().setNominalViewingTransform();
+	universe.addBranchGraph(createSceneGraph());
     }
 
     //Methoden
     private BranchGroup createSceneGraph()
     {
-	BranchGroup objRoot = new BranchGroup();
+	BranchGroup objRoot = new BranchGroup();	    
 	TransformGroup objTransform = new TransformGroup(setStart());
 	
-	stoneTransform = new TransformGroup[3][3][3];
-		
+	//Mouse-Rotation
+	MouseRotate rotateMouse = new MouseRotate();
+	objTransform.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+	objTransform.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+	rotateMouse.setTransformGroup(objTransform);
+	rotateMouse.setSchedulingBounds(new BoundingSphere());
+	objRoot.addChild(rotateMouse);
+	    
+	//Steine erstellen    
+	stone = new Stone[3][3][3];
+	stoneTransform = new TransformGroup[3][3][3];		
 	for(int z = 0; z < stoneTransform.length; z++)
 	    for(int y = 0; y < stoneTransform.length; y++)
 		for(int x = 0; x < stoneTransform.length; x++)
 		{
-		    Stone stone= new Stone(x-1, y-1, z-1);
+		    stone[x][y][z]= new Stone(x-1, y-1, z-1);
 		    stoneTransform[x][y][z] = new TransformGroup();
-			stoneTransform[x][y][z].setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
-			stoneTransform[x][y][z].setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-		    stoneTransform[x][y][z].addChild(stone.getQuadArray());
-		    objTransform.addChild(stoneTransform[x][y][z]);
+		    stoneTransform[x][y][z].setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+		    stoneTransform[x][y][z].setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		    stoneTransform[x][y][z].addChild(stone[x][y][z].getTransformGroup());
+		    objTransform.addChild(stoneTransform[x][y][z]);		    
 		}
+	
+	//drei Koordinatenlinien erstellen
 	Koordinatensystem ka = new Koordinatensystem();
 	objTransform.addChild(ka.getBranchGroup());
 	
@@ -103,8 +110,7 @@ public class RubicsCube
     }
     
     void test()
-    {
-	
+    {	
 	Transform3D rotate = new Transform3D();
 	rotate.rotY(Math.toRadians(angel));
 	for(int x = 0; x < stoneTransform.length; x++)

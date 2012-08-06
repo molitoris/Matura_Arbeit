@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Cube;
 
 import javax.media.j3d.*;
@@ -32,12 +28,17 @@ public class Stone
      * Es werden nur die Steine eingefärbt, die sich aussen befinden. Das Ein-
      * färben ist nur einmal nötig, weil sie sich danach nie mehr ändert.
      */
+    private final float x;
+    private final float y;
+    private final float z;
     
     //Konstruktor
     public Stone(float x, float y, float z)
     {
         stone = new QuadArray(24, GeometryArray.COORDINATES|GeometryArray.COLOR_3);
-        
+        this.x = x;
+	this.y = y;
+	this.z = z;
         /*
 	 * Die Position der Ecksteine werden durch die drei Parameter ausge-
 	 * rechnet und in Punkt-Variabeln gespeichert.
@@ -126,12 +127,10 @@ public class Stone
 	
 	shape.addGeometry(stone);
 	objStone.addChild(shape);
-	
-	
     }    
 
     //Methoden
-    public TransformGroup getQuadArray()
+    public TransformGroup getTransformGroup()
     {
         return objStone;
     }

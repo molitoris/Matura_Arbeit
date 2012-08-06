@@ -24,7 +24,7 @@ public final class GUI
         JFrame frame = new JFrame();
         frame.setTitle("Cube Solver");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(500, 700);
+        frame.setSize(500, 500);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);        
         frame.setLayout(new BorderLayout());
@@ -45,9 +45,9 @@ public final class GUI
     {
 	JPanel panel = new JPanel();
 	
-	final JButton button = new JButton("Test");
-	final JButton button2 = new JButton("Test2");
-	final JButton button3 = new JButton("Test3");
+	final JButton button = new JButton("Top");
+	final JButton button2 = new JButton("Front");
+	final JButton button3 = new JButton("Right");
 	
 	ActionListener al = new ActionListener() {
 
