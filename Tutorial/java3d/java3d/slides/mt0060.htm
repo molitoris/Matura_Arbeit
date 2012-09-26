@@ -1,0 +1,100 @@
+
+<HTML>
+<HEAD>
+<!-- Created by mktalk.pl on 5/4/99 at 4:41:12 PM -->
+<TITLE>Controlling access capabilities</TITLE>
+</HEAD>
+
+<BODY
+	
+	BGCOLOR=#000000
+	TEXT=#FFFFFF
+	LINK=#FFFFFF
+	ALINK=#00FF00
+	VLINK=#888888
+>
+<TABLE WIDTH=100%
+	BORDER=0
+	CELLSPACING=0
+	CELLPADDING=0
+>
+<TR >
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0000.htm><B><IMG SRC="../images/arwtoc2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0024.htm><B><IMG SRC="../images/arwndx2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0059.htm><B><IMG SRC="../images/arwprev2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0061.htm><B><IMG SRC="../images/arwnext2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=4%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	60
+</TD>
+</TR>
+</TABLE>
+<P>
+
+<FONT COLOR=#FFFF00 SIZE=+0>
+<CENTER>Building 3D content with a scene graph</CENTER>
+<FONT COLOR=#FFFF00 SIZE=+3>
+<CENTER><B><I>Controlling access capabilities</I></B></CENTER>
+<CENTER><IMG SRC="../images/red.jpg" HEIGHT=2 WIDTH=70% BORDER=0></CENTER>
+<P>
+<FONT COLOR=#FFFFFF SIZE=+2>
+
+<DL>
+<DD><LI>Each node has its own read and write capabilities
+<DL>
+	<DD><LI>Usually a separate capability for each attribute of a node
+	<DD><LI>Node's also inherit parent class capabilities
+	<DD><LI>Each capability has an upper-case name
+</DL>
+<P>
+<DD><LI>For example, <B><TT><FONT COLOR=#00FF00 SIZE=+2>Shape3D</FONT></TT></B> capabilities include:
+<DL>
+	<DD><LI><B><TT><FONT COLOR=#00FF00 SIZE=+2>ALLOW_APPEARANCE_READ</FONT></TT></B>
+	<DD><LI><B><TT><FONT COLOR=#00FF00 SIZE=+2>ALLOW_APPEARANCE_WRITE</FONT></TT></B>
+	<DD><LI><B><TT><FONT COLOR=#00FF00 SIZE=+2>ALLOW_GEOMETRY_READ</FONT></TT></B>
+	<DD><LI><B><TT><FONT COLOR=#00FF00 SIZE=+2>ALLOW_GEOMETRY_WRITE</FONT></TT></B>
+	<DD><LI><B><TT><FONT COLOR=#00FF00 SIZE=+2>ALLOW_COLLISION_BOUNDS_READ</FONT></TT></B>
+	<DD><LI><B><TT><FONT COLOR=#00FF00 SIZE=+2>ALLOW_COLLISION_BOUNDS_WRITE</FONT></TT></B>
+	<DD><LI>Plus capabilities from the parent <B><TT><FONT COLOR=#00FF00 SIZE=+2>Node</FONT></TT></B> class, including:
+	<DL>
+		<DD><LI><B><TT><FONT COLOR=#00FF00 SIZE=+2>ALLOW_BOUNDS_READ</FONT></TT></B>
+		<DD><LI><B><TT><FONT COLOR=#00FF00 SIZE=+2>ALLOW_BOUNDS_WRITE</FONT></TT></B>
+		<DD><LI><B><TT><FONT COLOR=#00FF00 SIZE=+2>ALLOW_PICKABLE_READ</FONT></TT></B>
+		<DD><LI><B><TT><FONT COLOR=#00FF00 SIZE=+2>ALLOW_PICKABLE_WRITE</FONT></TT></B>
+		<DD><LI><I>. . . and others</I>
+	</DL>
+</DL>
+</DL>
+
+
+<!------------------------------------------------------------------------>
+
+</BODY>
+</HTML>

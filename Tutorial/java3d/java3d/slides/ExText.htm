@@ -1,0 +1,212 @@
+
+<HTML>
+<HEAD>
+<!-- Created by mktalk.pl on 5/4/99 at 4:41:12 PM -->
+<TITLE>ExText.java</TITLE>
+</HEAD>
+
+<BODY
+	
+	BGCOLOR=#000000
+	TEXT=#FFFFFF
+	LINK=#FFFFFF
+	ALINK=#00FF00
+	VLINK=#888888
+>
+<FONT COLOR=#FFFF00 SIZE=+0>
+<CENTER>Building text shapes</CENTER></FONT>
+<FONT COLOR=#FFFF00 SIZE=+3>
+<CENTER><B><I>ExText.java</I></B></CENTER></FONT>
+<CENTER><IMG SRC="../images/red.jpg" HEIGHT=2 WIDTH=70% BORDER=0></CENTER>
+<P>
+<PRE>	
+<FONT COLOR=#00FF00 SIZE=+1>
+//
+//  CLASS
+//    ExText  -  illustrate use of 3D text
+//
+//  LESSON
+//    Use Text3D to define Shape3D geometry
+//
+//  AUTHOR
+//    David R. Nadeau / San Diego Supercomputer Center
+//
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.media.j3d.*;
+import javax.vecmath.*;
+import java.awt.geom.*;
+
+public class ExText
+	extends Example
+{
+	//--------------------------------------------------------------
+	//  SCENE CONTENT
+	//--------------------------------------------------------------
+
+	//
+	//  Nodes (updated via menu)
+	//
+	private FontExtrusion extrusion = null;
+	private Shape3D shape = null;
+	private Group scene = null;
+	private BranchGroup textGroup = null;
+
+
+	//
+	//  Build scene
+	//
+	public Group buildScene( )
+	{
+		// Get the current font attributes
+		Font font = (Font)fonts[currentFont].value;
+		String textString = (String)fonts[currentFont].name;
+
+		// Turn on the example headlight
+		setHeadlightEnable( true );
+
+		// Build the scene group
+		scene = new Group( );
+		scene.setCapability( Group.ALLOW_CHILDREN_EXTEND );
+		scene.setCapability( Group.ALLOW_CHILDREN_WRITE );
+
+		// Build a branch group to hold the text shape
+		// (this allows us to remove the text shape later,
+		// change it, then put it back, all under menu control)
+		textGroup = new BranchGroup( );
+		textGroup.setCapability( BranchGroup.ALLOW_DETACH );
+		scene.addChild( textGroup );
+
+
+	// BEGIN EXAMPLE TOPIC
+		// Create a font extrusion with a default extrusion shape
+		extrusion = new FontExtrusion( );
+
+		// Define a 3D font with a default extrusion path
+		Font3D font3d = new Font3D( font, extrusion );
+
+		// Build 3D text geometry using the 3D font
+		Text3D tex = new Text3D( );
+		tex.setFont3D( font3d );
+		tex.setString( textString );
+		tex.setAlignment( Text3D.ALIGN_CENTER );
+
+		// Define a generic shaded appearance
+		Appearance app = new Appearance( );
+		Material mat = new Material( );
+		mat.setLightingEnable( true );
+		app.setMaterial( mat );
+
+		// Assemble geometry and appearance into a shape
+		// and add it to the scene
+		shape = new Shape3D( tex, app );
+		shape.setCapability( Shape3D.ALLOW_GEOMETRY_WRITE );
+		textGroup.addChild( shape );
+	// END EXAMPLE TOPIC
+
+		return scene;
+	}
+
+
+
+	//--------------------------------------------------------------
+	//  USER INTERFACE
+	//--------------------------------------------------------------
+
+	//
+	//  Main
+	//
+	public static void main( String[] args )
+	{
+		ExText ex = new ExText( );
+		ex.initialize( args );
+		ex.buildUniverse( );
+		ex.showFrame( );
+	}
+
+	//  Font menu choices
+	private NameValue[] fonts = null;
+	private int currentFont = 0;
+	private CheckboxMenu fontMenu = null;
+
+
+
+
+	//
+	//  Initialize the GUI (application and applet)
+	//
+	public void initialize( String[] args )
+	{
+		// Initialize the window, menubar, etc.
+		super.initialize( args );
+		exampleFrame.setTitle( "Java 3D Text Example" );
+
+
+		//
+		//  Add a menubar menu to change node parameters
+		//    Font --&gt;
+		//
+
+		Menu m = new Menu( "Font3D" );
+
+		// Get a list of available fonts
+		GraphicsEnvironment ge =
+			GraphicsEnvironment.getLocalGraphicsEnvironment( );
+		String[] fontNames = ge.getAvailableFontFamilyNames( );
+		fonts = new NameValue[fontNames.length];
+		Font newFont = null;
+
+		// Add those fonts to a list and build the font menu
+		if ( debug )
+			System.err.println( "Loading fonts..." );
+		for ( int i = 0; i &lt; fontNames.length; i++ )
+		{
+			if ( debug )
+				System.err.println( "  " + fontNames[i] );
+			newFont  = new Font( fontNames[i], Font.PLAIN, 1 );
+			fonts[i] = new NameValue( fontNames[i], newFont );
+		}
+		fontMenu = new CheckboxMenu( "Font", fonts,
+			currentFont, this );
+		m.add( fontMenu );
+
+		exampleMenuBar.add( m );
+	}
+
+
+	//
+	//  Handle checkboxes and menu choices
+	//
+	public void checkboxChanged( CheckboxMenu menu, int check )
+	{
+		if ( menu == fontMenu )
+		{
+			// Change the 2D font used to build a 3D font
+			currentFont = check;
+			String fontName = (String)fonts[currentFont].name;
+			Font font = (Font)fonts[currentFont].value;
+			Font3D font3d = new Font3D( font, extrusion );
+
+			Text3D tex = new Text3D( );
+			tex.setFont3D( font3d );
+			tex.setString( fontName );
+			tex.setAlignment( Text3D.ALIGN_CENTER );
+
+			scene.removeChild( 0 );
+			shape.setGeometry( tex );
+			scene.addChild( textGroup );
+
+			if ( debug )
+				System.err.println( "Font set to " + fontName );
+			return;
+		}
+
+		// Handle all other checkboxes
+		super.checkboxChanged( menu, check );
+	}
+
+}
+</FONT></PRE>
+</BODY>
+</HTML>

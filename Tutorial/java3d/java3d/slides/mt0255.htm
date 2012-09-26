@@ -1,0 +1,109 @@
+
+<HTML>
+<HEAD>
+<!-- Created by mktalk.pl on 5/4/99 at 4:41:12 PM -->
+<TITLE>Using point light attenuation</TITLE>
+</HEAD>
+
+<BODY
+	
+	BGCOLOR=#000000
+	TEXT=#FFFFFF
+	LINK=#FFFFFF
+	ALINK=#00FF00
+	VLINK=#888888
+>
+<TABLE WIDTH=100%
+	BORDER=0
+	CELLSPACING=0
+	CELLPADDING=0
+>
+<TR >
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0000.htm><B><IMG SRC="../images/arwtoc2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0245.htm><B><IMG SRC="../images/arwndx2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0254.htm><B><IMG SRC="../images/arwprev2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0256.htm><B><IMG SRC="../images/arwnext2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=4%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	255
+</TD>
+</TR>
+</TABLE>
+<P>
+
+<FONT COLOR=#FFFF00 SIZE=+0>
+<CENTER>Lighting the environment</CENTER>
+<FONT COLOR=#FFFF00 SIZE=+3>
+<CENTER><B><I>Using point light attenuation</I></B></CENTER>
+<CENTER><IMG SRC="../images/red.jpg" HEIGHT=2 WIDTH=70% BORDER=0></CENTER>
+<P>
+<FONT COLOR=#FFFFFF SIZE=+2>
+
+<DL>
+<DD><LI>Point light rays are <I>attenuated</I>:
+<DL>
+	<DD><LI>As distance increases, light brightness decreases
+</DL>
+<P>
+<DD><LI>Attenuation is controlled by three coefficients:
+<DL>
+	<DD><LI><I>constant</I>, <I>linear</I>, and <I>quadratic</I>
+</DL>
+<P>
+<TABLE>
+<TR VALIGN=CENTER>
+	<TD><FONT SIZE=+2 COLOR=#FFFFFF><FONT COLOR=#FFFF00>
+	brightness =
+	</FONT></FONT>
+	</TD>
+
+	<TD><FONT SIZE=+2 COLOR=#FFFFFF><FONT COLOR=#FFFF00>
+	<CENTER>
+	lightIntensity
+	<BR>
+	<HR>
+	constant + linear*distance + quadratic*distance<SUP>2</SU>
+	</CENTER>
+	</FONT></FONT>
+	</TD>
+</TR>
+</TABLE>
+<P>
+</DL>
+<CENTER><TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=2 BORDER=1 BORDERCOLOR=#777777>	<TR VALIGN=TOP ALIGN=LEFT BGCOLOR=#004400>		<TD WIDTH=100%><FONT SIZE=+2 COLOR=#FFFFFF><FONT COLOR=#FFFF00><I>Method</I></FONT></FONT></TD>	</TR>
+		<TR VALIGN=TOP ALIGN=LEFT>		<TD><B><TT><FONT COLOR=#00FF00 SIZE=+2>	void setAttenuation( Point3f atten )		</FONT></TT></B></TD>	</TR>
+</TABLE></CENTER>
+</DL>
+
+
+<!------------------------------------------------------------------------>
+
+</BODY>
+</HTML>

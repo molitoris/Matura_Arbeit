@@ -1,0 +1,92 @@
+
+<HTML>
+<HEAD>
+<!-- Created by mktalk.pl on 5/4/99 at 4:41:12 PM -->
+<TITLE>Immersive workbench example code</TITLE>
+</HEAD>
+
+<BODY
+	
+	BGCOLOR=#000000
+	TEXT=#FFFFFF
+	LINK=#FFFFFF
+	ALINK=#00FF00
+	VLINK=#888888
+>
+<TABLE WIDTH=100%
+	BORDER=0
+	CELLSPACING=0
+	CELLPADDING=0
+>
+<TR >
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0000.htm><B><IMG SRC="../images/arwtoc2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0321.htm><B><IMG SRC="../images/arwndx2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0356.htm><B><IMG SRC="../images/arwprev2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0358.htm><B><IMG SRC="../images/arwnext2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=4%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	357
+</TD>
+</TR>
+</TABLE>
+<P>
+
+<FONT COLOR=#FFFF00 SIZE=+0>
+<CENTER>Viewing the scene</CENTER>
+<FONT COLOR=#FFFF00 SIZE=+3>
+<CENTER><B><I>Immersive workbench example code</I></B></CENTER>
+<CENTER><IMG SRC="../images/red.jpg" HEIGHT=2 WIDTH=70% BORDER=0></CENTER>
+<P>
+<FONT COLOR=#FFFFFF SIZE=+2>
+
+<DL>
+<DD><LI>For an immersive workbench, use a single canvas and screen
+<DD><PRE><B><TT><FONT COLOR=#00FF00 SIZE=+2>myView.setCanvas3D( myCanvas );</FONT></TT></B></PRE>
+<P>
+
+<DD><LI>Use a room-mounted display view policy:
+<DD><PRE><B><TT><FONT COLOR=#00FF00 SIZE=+2>myView.setViewPolicy( View.SCREEN_VIEW );</FONT></TT></B></PRE>
+<P>
+
+<DD><LI>Attach the view to the user's head:
+<DD><PRE><B><TT><FONT COLOR=#00FF00 SIZE=+2>myViewPlatform.setViewAttachPolicy( View.NOMINAL_HEAD );</FONT></TT></B></PRE>
+<P>
+
+<DD><LI>Use virtual-world window policies and a screen-relative eyepoint:
+<DD><PRE><B><TT><FONT COLOR=#00FF00 SIZE=+2>myView.setWindowResizePolicy( View.VIRTUAL_WORLD );
+myView.setWindowMovementPolicy( View.VIRTUAL_WORLD );
+myView.setWindowEyePointPolicy( RELATIVE_TO_SCREEN );</FONT></TT></B></PRE>
+</DL>
+
+
+<!------------------------------------------------------------------------>
+
+</BODY>
+</HTML>

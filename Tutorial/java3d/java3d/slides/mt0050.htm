@@ -1,0 +1,96 @@
+
+<HTML>
+<HEAD>
+<!-- Created by mktalk.pl on 5/4/99 at 4:41:12 PM -->
+<TITLE>HelloWorld example code</TITLE>
+</HEAD>
+
+<BODY
+	
+	BGCOLOR=#000000
+	TEXT=#FFFFFF
+	LINK=#FFFFFF
+	ALINK=#00FF00
+	VLINK=#888888
+>
+<TABLE WIDTH=100%
+	BORDER=0
+	CELLSPACING=0
+	CELLPADDING=0
+>
+<TR >
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0000.htm><B><IMG SRC="../images/arwtoc2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0024.htm><B><IMG SRC="../images/arwndx2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0049.htm><B><IMG SRC="../images/arwprev2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0051.htm><B><IMG SRC="../images/arwnext2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=4%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	50
+</TD>
+</TR>
+</TABLE>
+<P>
+
+<FONT COLOR=#FFFF00 SIZE=+0>
+<CENTER>Building 3D content with a scene graph</CENTER>
+<FONT COLOR=#FFFF00 SIZE=+3>
+<CENTER><B><I>HelloWorld example code</I></B></CENTER>
+<CENTER><IMG SRC="../images/red.jpg" HEIGHT=2 WIDTH=70% BORDER=0></CENTER>
+<P>
+<FONT COLOR=#FFFFFF SIZE=+2>
+
+<DL>
+<DD><LI>Build a frame, 3D canvas, and simple universe . . .
+<DL>
+	<DD><PRE><B><TT><FONT COLOR=#007700 SIZE=+2>public static void main( String[] args ) {
+    Frame frame = new Frame( );
+    frame.setSize( 640, 480 );
+    frame.setLayout( new BorderLayout( ) );</FONT></TT></B>
+
+    <B><TT><FONT COLOR=#00FF00 SIZE=+2>Canvas3D canvas = new Canvas3D( null );
+    frame.add( "Center", canvas );
+
+    SimpleUniverse univ = new SimpleUniverse( canvas );
+    univ.getViewingPlatform( ).setNominalViewingTransform( );
+
+    BranchGroup scene = createSceneGraph( );
+    scene.compile( );
+    univ.addBranchGraph( scene );</FONT></TT></B>
+
+    <B><TT><FONT COLOR=#007700 SIZE=+2>frame.show( );
+}</FONT></TT></B></PRE>
+</DL>
+</DL>
+
+
+<!------------------------------------------------------------------------>
+
+</BODY>
+</HTML>

@@ -1,0 +1,146 @@
+//
+//  CLASS
+//    ExBackgroundColor  -  illustrate use of colored Backgrounds
+//
+//  LESSON
+//    Add a Background node to set the background color.
+//
+//  SEE ALSO
+//    ExBackgroundImage
+//    ExBackgroundGeometry
+//
+//  AUTHOR
+//    David R. Nadeau / San Diego Supercomputer Center
+//
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.media.j3d.*;
+import javax.vecmath.*;
+import com.sun.j3d.utils.image.*;
+
+public class ExBackgroundColor
+	extends Example
+{
+	//--------------------------------------------------------------
+	//  SCENE CONTENT
+	//--------------------------------------------------------------
+
+	//
+	//  Nodes (updated via menu)
+	//
+	private Background background = null;
+
+	//
+	//  Build scene
+	//
+	public Group buildScene( )
+	{
+		// Get the current color
+		Color3f color = (Color3f)colors[currentColor].value;
+
+		// Turn off the example headlight
+		setHeadlightEnable( false );
+
+		// Default to walk navigation
+		setNavigationType( Walk );
+
+		// Create the scene group
+		Group scene = new Group( );
+
+
+	// BEGIN EXAMPLE TOPIC
+		// Create application bounds
+		BoundingSphere worldBounds = new BoundingSphere(
+			new Point3d( 0.0, 0.0, 0.0 ),  // Center
+			1000.0 );                      // Extent
+
+		// Set the background color and its application bounds
+		background = new Background( );
+		background.setColor( color );
+		background.setCapability( Background.ALLOW_COLOR_WRITE );
+		background.setApplicationBounds( worldBounds );
+		scene.addChild( background );
+	// END EXAMPLE TOPIC
+
+
+		// Build foreground geometry
+		scene.addChild( new TowerScene( this ) );
+
+		return scene;
+	}
+
+
+
+	//--------------------------------------------------------------
+	//  USER INTERFACE
+	//--------------------------------------------------------------
+
+	//
+	//  Main
+	//
+	public static void main( String[] args )
+	{
+		ExBackgroundColor ex = new ExBackgroundColor( );
+		ex.initialize( args );
+		ex.buildUniverse( );
+		ex.showFrame( );
+	}
+
+
+	//  Color menu choices
+	private NameValue[] colors = {
+		new NameValue( "White",      White ),
+		new NameValue( "Dark Gray",  DarkGray ),
+		new NameValue( "Black",      Black ),
+		new NameValue( "Dark Red",   DarkRed ),
+		new NameValue( "Dark Green", DarkGreen ),
+		new NameValue( "Dark Blue",  DarkBlue ),
+	};
+	private int currentColor = 2;
+	private CheckboxMenu colorMenu = null;
+
+
+	//
+	//  Initialize the GUI (application and applet)
+	//
+	public void initialize( String[] args )
+	{
+		// Initialize the window, menubar, etc.
+		super.initialize( args );
+		exampleFrame.setTitle( "Java 3D Background Color Example" );
+
+
+		//
+		//  Add a menubar menu to change node parameters
+		//    Color -->
+		//
+
+		Menu m = new Menu( "Background" );
+
+		colorMenu = new CheckboxMenu( "Color", colors,
+			currentColor, this );
+		m.add( colorMenu );
+
+		exampleMenuBar.add( m );
+	}
+
+
+	//
+	//  Handle checkboxes and menu choices
+	//
+	public void checkboxChanged( CheckboxMenu menu, int check )
+	{
+		if ( menu == colorMenu )
+		{
+			// Change the light color
+			currentColor = check;
+			Color3f color = (Color3f)colors[check].value;
+			background.setColor( color );
+			return;
+		}
+
+		// Handle all other checkboxes
+		super.checkboxChanged( menu, check );
+	}
+}

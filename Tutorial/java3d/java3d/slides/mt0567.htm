@@ -1,0 +1,100 @@
+
+<HTML>
+<HEAD>
+<!-- Created by mktalk.pl on 5/4/99 at 4:41:12 PM -->
+<TITLE>BackgroundSound example code</TITLE>
+</HEAD>
+
+<BODY
+	
+	BGCOLOR=#000000
+	TEXT=#FFFFFF
+	LINK=#FFFFFF
+	ALINK=#00FF00
+	VLINK=#888888
+>
+<TABLE WIDTH=100%
+	BORDER=0
+	CELLSPACING=0
+	CELLPADDING=0
+>
+<TR >
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0000.htm><B><IMG SRC="../images/arwtoc2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0552.htm><B><IMG SRC="../images/arwndx2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0566.htm><B><IMG SRC="../images/arwprev2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0568.htm><B><IMG SRC="../images/arwnext2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=4%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	567
+</TD>
+</TR>
+</TABLE>
+<P>
+
+<FONT COLOR=#FFFF00 SIZE=+0>
+<CENTER>Adding sound</CENTER>
+<FONT COLOR=#FFFF00 SIZE=+3>
+<CENTER><B><I>BackgroundSound example code</I></B></CENTER>
+<CENTER><IMG SRC="../images/red.jpg" HEIGHT=2 WIDTH=70% BORDER=0></CENTER>
+<P>
+<FONT COLOR=#FFFFFF SIZE=+2>
+
+<DL>
+<DD><LI>Load sound data
+<DL>
+	<DD><PRE><B><TT><FONT COLOR=#00FF00 SIZE=+2>MediaContainer myWave = new MediaContainer( "canon.wav" );</FONT></TT></B></PRE>
+</DL>
+<P>
+<DD><LI>Create a sound
+<DL>
+	<DD><PRE><B><TT><FONT COLOR=#00FF00 SIZE=+2>BackgroundSound mySound = new BackgroundSound( );
+mySound.setSoundData( myWave );
+mySound.setEnable( true );
+mySound.setInitialGain( 1.0f );
+mySound.setLoop( -1 );  // Loop forever</FONT></TT></B></PRE>
+</DL>
+<P>
+<DD><LI>Set the scheduling bounds
+<DL>
+	<DD><PRE><B><TT><FONT COLOR=#00FF00 SIZE=+2>BoundingSphere myBounds = new BoundingSphere(
+    new Point3d( ), 1000.0 );
+mySound.setSchedulingBounds( myBounds );</FONT></TT></B></PRE>
+</DL>
+</DL>
+
+
+	<!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
+	<! POINT SOUND ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
+	<!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
+
+<!------------------------------------------------------------------------>
+
+</BODY>
+</HTML>

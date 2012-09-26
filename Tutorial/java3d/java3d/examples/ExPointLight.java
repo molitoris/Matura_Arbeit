@@ -1,0 +1,295 @@
+//
+//  CLASS
+//    ExPointLight  -  illustrate use of point lights
+//
+//  LESSON
+//    Add a PointLight node to illuminate a scene.
+//
+//  SEE ALSO
+//    ExAmbientLight
+//    ExDirectionalLight
+//    ExSpotLight
+//
+//  AUTHOR
+//    David R. Nadeau / San Diego Supercomputer Center
+//
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.media.j3d.*;
+import javax.vecmath.*;
+
+public class ExPointLight
+	extends Example
+{
+	//--------------------------------------------------------------
+	//  SCENE CONTENT
+	//--------------------------------------------------------------
+
+	//
+	//  Nodes (updated via menu)
+	//
+	private PointLight light = null;
+
+	//
+	//  Build scene
+	//
+	public Group buildScene( )
+	{
+		// Get the current color, position, and attenuation
+		Color3f color = (Color3f)colors[currentColor].value;
+		Point3f pos   = (Point3f)positions[currentPosition].value;
+		Point3f atten = (Point3f)attenuations[currentAttenuation].value;
+
+		// Turn off the example headlight
+		setHeadlightEnable( false );
+
+		// Build the scene root
+		Group scene = new Group( );
+
+
+	// BEGIN EXAMPLE TOPIC
+		// Create influencing bounds
+		BoundingSphere worldBounds = new BoundingSphere(
+			new Point3d( 0.0, 0.0, 0.0 ),  // Center
+			1000.0 );                      // Extent
+
+		// Set the light color and its influencing bounds
+		light = new PointLight( );
+		light.setEnable( lightOnOff );
+		light.setColor( color );
+		light.setPosition( pos );
+		light.setAttenuation( atten );
+		light.setCapability( PointLight.ALLOW_STATE_WRITE );
+		light.setCapability( PointLight.ALLOW_COLOR_WRITE );
+		light.setCapability( PointLight.ALLOW_POSITION_WRITE);
+		light.setCapability( PointLight.ALLOW_ATTENUATION_WRITE);
+		light.setInfluencingBounds( worldBounds );
+		scene.addChild( light );
+	// END EXAMPLE TOPIC
+
+
+		// Build foreground geometry
+		scene.addChild( new SphereGroup( ) );
+
+
+		// Add arrows in a fan to show light ray directions
+		scene.addChild( buildArrows( ) );
+
+		return scene;
+	}
+
+
+
+	//--------------------------------------------------------------
+	//  FOREGROUND AND ANNOTATION CONTENT
+	//--------------------------------------------------------------
+
+	//
+	//  Create a fan of annotation arrows aiming in all directions,
+	//  but in the XY plane.  Next, build an array of Transform3D's,
+	//  one for each of the light positions shown on the positions
+	//  menu.  Save these Transform3Ds and a top-level TransformGroup
+	//  surrounding the arrows.  Later, when the user selects a new
+	//  light position, we poke the corresponding Transform3D into
+	//  the TransformGroup to cause the arrows to move to a new
+	//  position.
+	//
+	private Transform3D[]  arrowPositionTransforms     = null;
+	private TransformGroup arrowPositionTransformGroup = null;
+
+	private Group buildArrows( )
+	{
+		// Create a transform group surrounding the arrows.
+		// Enable writing of its transform.
+		arrowPositionTransformGroup = new TransformGroup( );
+		arrowPositionTransformGroup.setCapability(
+			TransformGroup.ALLOW_TRANSFORM_WRITE );
+
+
+		// Create a group of arrows in a fan and add that group
+		// to the transform group.
+		AnnotationArrowFan af = new AnnotationArrowFan(
+			0.0f, 0.0f, 0.0f,      // center position
+			2.5f,                  // arrow length
+			0.0f,                  // start angle
+			(float)(Math.PI*2.0*7.0/8.0),// end angle
+			8 );                   // number of arrows
+		arrowPositionTransformGroup.addChild( af );
+
+
+		// Create a set of Transform3Ds for the different
+		// arrow positions.
+		arrowPositionTransforms = new Transform3D[positions.length];
+		Point3f pos;
+		Vector3f v = new Vector3f( );
+		for ( int i = 0; i < positions.length; i++ )
+		{
+			// Create a Transform3D, setting its translation.
+			arrowPositionTransforms[i] = new Transform3D( );
+			pos = (Point3f)positions[i].value;
+			v.set( pos );
+			arrowPositionTransforms[i].setTranslation( v );
+		}
+
+		// Set the initial transform to be the current position
+		arrowPositionTransformGroup.setTransform(
+			arrowPositionTransforms[currentPosition] );
+
+		return arrowPositionTransformGroup;
+	}
+
+
+
+	//--------------------------------------------------------------
+	//  USER INTERFACE
+	//--------------------------------------------------------------
+
+	//
+	//  Main
+	//
+	public static void main( String[] args )
+	{
+		ExPointLight ex = new ExPointLight( );
+		ex.initialize( args );
+		ex.buildUniverse( );
+		ex.showFrame( );
+	}
+
+
+	//  On/off choices
+	private boolean lightOnOff = true;
+	private CheckboxMenuItem lightOnOffMenu;
+
+	//  Color menu choices
+	private NameValue[] colors = {
+		new NameValue( "White",    White ),
+		new NameValue( "Gray",     Gray ),
+		new NameValue( "Black",    Black ),
+		new NameValue( "Red",      Red ),
+		new NameValue( "Yellow",   Yellow ),
+		new NameValue( "Green",    Green ),
+		new NameValue( "Cyan",     Cyan ),
+		new NameValue( "Blue",     Blue ),
+		new NameValue( "Magenta",  Magenta ),
+	};
+	private int currentColor = 0;
+	private CheckboxMenu colorMenu = null;
+
+	//  Position menu choices
+	private NameValue[] positions = {
+		new NameValue( "Origin", Origin ),
+		new NameValue( "+X", PlusX ),
+		new NameValue( "-X", MinusX ),
+		new NameValue( "+Y", PlusY ),
+		new NameValue( "-Y", MinusY ),
+		new NameValue( "+Z", PlusZ ),
+		new NameValue( "-Z", MinusZ ),
+	};
+	private int currentPosition = 0;
+	private CheckboxMenu positionMenu = null;
+
+	//  Attenuation menu choices
+	private NameValue[] attenuations = {
+		new NameValue( "Constant",  new Point3f( 1.0f, 0.0f, 0.0f ) ),
+		new NameValue( "Linear",    new Point3f( 0.0f, 1.0f, 0.0f ) ),
+		new NameValue( "Quadratic", new Point3f( 0.0f, 0.0f, 1.0f ) ),
+	};
+	private int currentAttenuation = 0;
+	private CheckboxMenu attenuationMenu = null;
+
+
+	//
+	//  Initialize the GUI (application and applet)
+	//
+	public void initialize( String[] args )
+	{
+		// Initialize the window, menubar, etc.
+		super.initialize( args );
+		exampleFrame.setTitle( "Java 3D Point Light Example" );
+
+
+		//
+		//  Add a menubar menu to change node parameters
+		//    Light on/off
+		//    Color -->
+		//    Position -->
+		//    Attenuation -->
+		//
+
+		Menu m = new Menu( "PointLight" );
+
+		lightOnOffMenu = new CheckboxMenuItem( "Light on/off",
+			lightOnOff );
+		lightOnOffMenu.addItemListener( this );
+		m.add( lightOnOffMenu );
+
+		colorMenu = new CheckboxMenu( "Color", colors,
+			currentColor, this );
+		m.add( colorMenu );
+
+		positionMenu = new CheckboxMenu( "Position", positions,
+			currentPosition, this );
+		m.add( positionMenu );
+
+		attenuationMenu = new CheckboxMenu( "Attenuation", attenuations,
+			currentAttenuation, this );
+		m.add( attenuationMenu );
+
+		exampleMenuBar.add( m );
+	}
+
+
+	//
+	//  Handle checkboxes and menu choices
+	//
+	public void checkboxChanged( CheckboxMenu menu, int check )
+	{
+		if ( menu == colorMenu )
+		{
+			// Change the light color
+			currentColor = check;
+			Color3f color = (Color3f)colors[check].value;
+			light.setColor( color );
+			return;
+		}
+		if ( menu == positionMenu )
+		{
+			// Change the light position
+			currentPosition = check;
+			Point3f pos = (Point3f)positions[check].value;
+			light.setPosition( pos );
+
+			// Change the arrow group position
+			arrowPositionTransformGroup.setTransform(
+				arrowPositionTransforms[check] );
+			return;
+		}
+		if ( menu == attenuationMenu )
+		{
+			// Change the light attenuation
+			currentAttenuation = check;
+			Point3f atten = (Point3f)attenuations[check].value;
+			light.setAttenuation( atten );
+			return;
+		}
+
+		// Handle all other checkboxes
+		super.checkboxChanged( menu, check );
+	}
+
+	public void itemStateChanged( ItemEvent event )
+	{
+		Object src = event.getSource( );
+		if ( src == lightOnOffMenu )
+		{
+			// Turn the light on or off
+			lightOnOff = lightOnOffMenu.getState( );
+			light.setEnable( lightOnOff );
+			return;
+		}
+
+		// Handle all other checkboxes
+		super.itemStateChanged( event );
+	}
+}

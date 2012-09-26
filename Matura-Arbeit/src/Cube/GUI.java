@@ -16,7 +16,7 @@ import javax.swing.WindowConstants;
 public final class GUI
 {
     //Attribute
-    RubicsCube cube;
+    Rubiks_Cube cube;
             
     //Konstruktor
     public GUI()
@@ -32,7 +32,7 @@ public final class GUI
         Container container = new Container();
         container = frame.getContentPane();
         
-        cube = new RubicsCube();
+        cube = new Rubiks_Cube();
         container.add("Center", cube.returnCanvas());
 	
 	container.add("North", createPanel());

@@ -1,0 +1,101 @@
+
+<HTML>
+<HEAD>
+<!-- Created by mktalk.pl on 5/4/99 at 4:41:12 PM -->
+<TITLE>RotationInterpolator example code</TITLE>
+</HEAD>
+
+<BODY
+	
+	BGCOLOR=#000000
+	TEXT=#FFFFFF
+	LINK=#FFFFFF
+	ALINK=#00FF00
+	VLINK=#888888
+>
+<TABLE WIDTH=100%
+	BORDER=0
+	CELLSPACING=0
+	CELLPADDING=0
+>
+<TR >
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0000.htm><B><IMG SRC="../images/arwtoc2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0409.htm><B><IMG SRC="../images/arwndx2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0428.htm><B><IMG SRC="../images/arwprev2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0430.htm><B><IMG SRC="../images/arwnext2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=4%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	429
+</TD>
+</TR>
+</TABLE>
+<P>
+
+<FONT COLOR=#FFFF00 SIZE=+0>
+<CENTER>Creating interpolator behaviors</CENTER>
+<FONT COLOR=#FFFF00 SIZE=+3>
+<CENTER><B><I>RotationInterpolator example code</I></B></CENTER>
+<CENTER><IMG SRC="../images/red.jpg" HEIGHT=2 WIDTH=70% BORDER=0></CENTER>
+<P>
+<FONT COLOR=#FFFFFF SIZE=+2>
+
+<DL>
+<DD><LI>Create a <B><TT><FONT COLOR=#00FF00 SIZE=+2>TransformGroup</FONT></TT></B> to animate
+<DL>
+	<DD><PRE><B><TT><FONT COLOR=#00FF00 SIZE=+2>TransformGroup myGroup = new TransformGroup( );</FONT></TT></B></PRE>
+</DL>
+<P>
+<DD><LI>Create an alpha generator
+<DL>
+	<DD><PRE><B><TT><FONT COLOR=#00FF00 SIZE=+2>Alpha upRamp = new Alpha( );
+upRamp.setIncreasingAlphaDuration( 10000 );
+upRamp.setLoopCount( -1 );  // loop forever</FONT></TT></B></PRE>
+</DL>
+<P>
+<DD><LI>Create and set up a rotation interpolator
+<DL>
+	<DD><PRE><B><TT><FONT COLOR=#00FF00 SIZE=+2>RotationInterpolator mySpinner = new RotationInterpolator( upRamp, myGroup );
+mySpinner.setAxisOfRotation( new Transform3D( ) );
+mySpinner.setMinimumAngle( 0.0f );
+mySpinner.setMaximumAngle( (float)(Math.PI * 2.0) );</FONT></TT></B></PRE>
+</DL>
+<P>
+<DD><LI>Set the scheduling bounds and add it to the scene
+<DL>
+	<DD><PRE><B><TT><FONT COLOR=#00FF00 SIZE=+2>mySpinner.setSchedulingBounds( bounds );
+myGroup.addChild( spinner );</FONT></TT></B></PRE>
+</DL>
+</DL>
+
+
+<!------------------------------------------------------------------------>
+
+</BODY>
+</HTML>

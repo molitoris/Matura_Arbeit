@@ -36,10 +36,10 @@ public class Koordinatensystem
         
         Color3f yellow  = new Color3f(1.0f, 1.0f, 0.0f);
         Color3f green   = new Color3f(0.0f, 1.0f, 0.0f);
-        Color3f red     = new Color3f(1.0f, 0.0f, 0.0f);
+        Color3f orange  = new Color3f(1.0f, 0.5f, 0.0f);
         
-        la.setColor(0, red);
-        la.setColor(1, red);
+        la.setColor(0, orange);
+        la.setColor(1, orange);
         
         la.setColor(2, green);
         la.setColor(3, green);

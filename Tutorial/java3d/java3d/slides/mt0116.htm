@@ -1,0 +1,97 @@
+
+<HTML>
+<HEAD>
+<!-- Created by mktalk.pl on 5/4/99 at 4:41:12 PM -->
+<TITLE>Material attributes example code</TITLE>
+</HEAD>
+
+<BODY
+	
+	BGCOLOR=#000000
+	TEXT=#FFFFFF
+	LINK=#FFFFFF
+	ALINK=#00FF00
+	VLINK=#888888
+>
+<TABLE WIDTH=100%
+	BORDER=0
+	CELLSPACING=0
+	CELLPADDING=0
+>
+<TR >
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0000.htm><B><IMG SRC="../images/arwtoc2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0103.htm><B><IMG SRC="../images/arwndx2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0115.htm><B><IMG SRC="../images/arwprev2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0117.htm><B><IMG SRC="../images/arwnext2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=4%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	116
+</TD>
+</TR>
+</TABLE>
+<P>
+
+<FONT COLOR=#FFFF00 SIZE=+0>
+<CENTER>Controlling appearance</CENTER>
+<FONT COLOR=#FFFF00 SIZE=+3>
+<CENTER><B><I>Material attributes example code</I></B></CENTER>
+<CENTER><IMG SRC="../images/red.jpg" HEIGHT=2 WIDTH=70% BORDER=0></CENTER>
+<P>
+<FONT COLOR=#FFFFFF SIZE=+2>
+
+<DL>
+<DD><LI>Create <B><TT><FONT COLOR=#00FF00 SIZE=+2>Material</FONT></TT></B> to set shape colors
+<DL>
+	<DD><PRE><B><TT><FONT COLOR=#00FF00 SIZE=+2>Material myMat = new Material( );
+myMat.setAmbientColor(  0.3f, 0.3f, 0.3f );
+myMat.setDiffuseColor(  1.0f, 0.0f, 0.0f );
+myMat.setEmissiveColor( 0.0f, 0.0f, 0.0f );
+myMat.setSpecularColor( 1.0f, 1.0f, 1.0f );
+myMat.setShininess( 64.0f );</FONT></TT></B></PRE>
+</DL>
+
+<DD><LI>Create <B><TT><FONT COLOR=#00FF00 SIZE=+2>Appearance</FONT></TT></B>, set the material, and
+	assemble the shape
+<DL>
+	<DD><PRE><B><TT><FONT COLOR=#00FF00 SIZE=+2>Appearance myAppear = new Appearance( );
+myAppear.setMaterial( myMat );
+Shape3D myShape = new Shape3D( myGeom, myAppear );</FONT></TT></B></PRE>
+</DL>
+</DL>
+
+
+	<!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
+	<! COORDINATE COLORS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
+	<!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
+
+<!------------------------------------------------------------------------>
+
+</BODY>
+</HTML>

@@ -1,0 +1,330 @@
+
+<HTML>
+<HEAD>
+<!-- Created by mktalk.pl on 5/4/99 at 4:41:12 PM -->
+<TITLE>ColumnScene.java</TITLE>
+</HEAD>
+
+<BODY
+	
+	BGCOLOR=#000000
+	TEXT=#FFFFFF
+	LINK=#FFFFFF
+	ALINK=#00FF00
+	VLINK=#888888
+>
+<FONT COLOR=#FFFF00 SIZE=+0>
+<CENTER>Using special-purpose groups</CENTER></FONT>
+<FONT COLOR=#FFFF00 SIZE=+3>
+<CENTER><B><I>ColumnScene.java</I></B></CENTER></FONT>
+<CENTER><IMG SRC="../images/red.jpg" HEIGHT=2 WIDTH=70% BORDER=0></CENTER>
+<P>
+<PRE>	
+<FONT COLOR=#00FF00 SIZE=+1>
+//
+//  CLASS
+//    ColumnScene	-  shapes and lights for a scene with gothic columns
+//
+//  DESCRIPTION
+//    This class builds a scene containing a stone floor, a set of
+//    marble columns, plus appropriate lighting.  The scene is used in
+//    several of the examples to provide content to affect with lights,
+//    background colors and images, and so forth.
+//
+//  SEE ALSO
+//    ExExponentialFog
+//    ExLinearFog
+//
+//  AUTHOR
+//    David R. Nadeau / San Diego Supercomputer Center
+//
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.media.j3d.*;
+import javax.vecmath.*;
+import com.sun.j3d.utils.image.*;
+
+public class ColumnScene
+	extends Group
+{
+	//--------------------------------------------------------------
+	//  SCENE CONTENT
+	//--------------------------------------------------------------
+
+	// Construction parameters
+	private final static float ColumnHeight = 3.0f;
+	private final static float ColumnRadius = 0.2f;
+	private final static float ColumnDepthSpacing = 6.0f;
+	private final static float ColumnSideOffset = 1.0f;
+	private final static int   NumberOfColumns = 4;
+	private final static float WalkwayWidth = 3.0f;
+	private final static float WalkwayDepth = ((float)NumberOfColumns-1) * ColumnDepthSpacing + 4.0f * WalkwayWidth;
+	private final static float LawnWidth = 4.0f * WalkwayWidth;
+	private final static float LawnDepth = WalkwayDepth;
+	private Texture columnTex = null;
+
+
+	//
+	//  Build a single column in a shared group
+	//
+	private SharedGroup buildSharedColumn( )
+	{
+		Appearance columnApp = new Appearance( );
+
+		Material columnMat = new Material( );
+		columnMat.setAmbientColor( 0.6f, 0.6f, 0.6f );
+		columnMat.setDiffuseColor( 1.0f, 1.0f, 1.0f );
+		columnMat.setSpecularColor( 0.0f, 0.0f, 0.0f );
+		columnApp.setMaterial( columnMat );
+
+		TextureAttributes columnTexAtt = new TextureAttributes( );
+		columnTexAtt.setTextureMode( TextureAttributes.MODULATE );
+		columnTexAtt.setPerspectiveCorrectionMode( TextureAttributes.NICEST);
+		columnApp.setTextureAttributes( columnTexAtt );
+
+		if ( columnTex != null )
+			columnApp.setTexture( columnTex );
+
+		GothicColumn columnShape = new GothicColumn(
+			ColumnHeight,  // height
+			ColumnRadius,  // radius
+			GothicColumn.BUILD_TOP,  // flags
+			columnApp );   // appearance
+
+	// BEGIN EXAMPLE TOPIC
+		// Build a shared group to hold the column shape
+		SharedGroup column = new SharedGroup( );
+		column.addChild( columnShape );
+	// END EXAMPLE TOPIC
+
+		return column;
+	}
+
+
+	//
+	//  Used a column in a shared group and link to it
+	//  several times to build a double row of columns
+	//
+	private Group buildColumns( SharedGroup column )
+	{
+		Group group = new Group( );
+
+		// Place columns
+		float x = -ColumnSideOffset;
+		float y = -1.6f;
+		float z =  ColumnDepthSpacing;
+		float xSpacing = 2.0f * ColumnSideOffset;
+		float zSpacing = -ColumnDepthSpacing;
+
+	// BEGIN EXAMPLE TOPIC
+		Vector3f trans = new Vector3f( );
+		Transform3D tr = new Transform3D( );
+		TransformGroup tg;
+
+		for ( int i = 0; i &lt; NumberOfColumns; i++ )
+		{
+			// Left link
+			trans.set( x, y, z );
+			tr.set( trans );
+			tg = new TransformGroup( tr );
+			tg.addChild( new Link( column ) );
+			group.addChild( tg );
+
+			// Right link
+			trans.set( x+xSpacing, y, z );
+			tr.set( trans );
+			tg = new TransformGroup( tr );
+			tg.addChild( new Link( column ) );
+			group.addChild( tg );
+
+			z += zSpacing;
+		}
+	// END EXAMPLE TOPIC
+
+		return group;
+	}
+
+
+	//
+	//  Build a scene containing multiple columns
+	//
+	public ColumnScene( Component observer )
+	{
+		BoundingSphere worldBounds = new BoundingSphere(
+			new Point3d( 0.0, 0.0, 0.0 ),  // Center
+			1000.0 );                      // Extent
+
+		// Add a few lights
+		AmbientLight ambient = new AmbientLight( );
+		ambient.setEnable( true );
+		ambient.setColor( new Color3f( 0.2f, 0.2f, 0.2f ) );
+		ambient.setInfluencingBounds( worldBounds );
+		addChild( ambient );
+
+		DirectionalLight dir1 = new DirectionalLight( );
+		dir1.setEnable( true );
+		dir1.setColor( new Color3f( 1.0f, 1.0f, 1.0f ) );
+		dir1.setDirection( new Vector3f( 0.8f, -0.35f, 0.5f ) );
+		dir1.setInfluencingBounds( worldBounds );
+		addChild( dir1 );
+
+		DirectionalLight dir2 = new DirectionalLight( );
+		dir2.setEnable( true );
+		dir2.setColor( new Color3f( 0.75f, 0.75f, 1.0f ) );
+		dir2.setDirection( new Vector3f( -0.7f, -0.35f, -0.5f ) );
+		dir2.setInfluencingBounds( worldBounds );
+		addChild( dir2 );
+
+
+		// Load textures
+		TextureLoader texLoader = new TextureLoader( "grass06.jpg", observer );
+		Texture grassTex = texLoader.getTexture( );
+		if ( grassTex == null )
+			System.err.println( "Cannot load grass06.jpg texture" );
+		else
+		{
+			grassTex.setBoundaryModeS( Texture.WRAP );
+			grassTex.setBoundaryModeT( Texture.WRAP );
+			grassTex.setMinFilter( Texture.NICEST );
+			grassTex.setMagFilter( Texture.NICEST );
+			grassTex.setMipMapMode( Texture.BASE_LEVEL );
+			grassTex.setEnable( true );
+		}
+
+		texLoader = new TextureLoader( "marble10.jpg", observer );
+		Texture walkTex = texLoader.getTexture( );
+		if ( walkTex == null )
+			System.err.println( "Cannot load marble10.jpg texture" );
+		else
+		{
+			walkTex.setBoundaryModeS( Texture.WRAP );
+			walkTex.setBoundaryModeT( Texture.WRAP );
+			walkTex.setMinFilter( Texture.NICEST );
+			walkTex.setMagFilter( Texture.NICEST );
+			walkTex.setMipMapMode( Texture.BASE_LEVEL );
+			walkTex.setEnable( true );
+		}
+
+		texLoader = new TextureLoader( "granite07rev.jpg", observer );
+		columnTex = texLoader.getTexture( );
+		if ( columnTex == null )
+			System.err.println( "Cannot load granite07rev.jpg texture" );
+		else
+		{
+			columnTex.setBoundaryModeS( Texture.WRAP );
+			columnTex.setBoundaryModeT( Texture.WRAP );
+			columnTex.setMinFilter( Texture.NICEST );
+			columnTex.setMagFilter( Texture.NICEST );
+			columnTex.setMipMapMode( Texture.BASE_LEVEL );
+			columnTex.setEnable( true );
+		}
+
+
+		//
+		//  Build the ground
+		//    +-----+---+-----+
+		//    |     |   |     |
+		//    |  G  | W |  G  |
+		//    |     |   |     |
+		//    +-----+---+-----+
+		//
+		//  where "G" is grass, and "W" is a walkway between columns
+		//
+		Vector3f trans = new Vector3f( );
+		Transform3D tr = new Transform3D( );
+		TransformGroup tg;
+
+		//  Walkway appearance
+		Appearance walkApp = new Appearance( );
+
+		Material walkMat = new Material( );
+		walkMat.setAmbientColor( 0.5f, 0.5f, 0.5f );
+		walkMat.setDiffuseColor( 1.0f, 1.0f, 1.0f );
+		walkMat.setSpecularColor( 0.0f, 0.0f, 0.0f );
+		walkApp.setMaterial( walkMat );
+
+		TextureAttributes walkTexAtt = new TextureAttributes( );
+		walkTexAtt.setTextureMode( TextureAttributes.MODULATE );
+		walkTexAtt.setPerspectiveCorrectionMode( TextureAttributes.NICEST );
+		tr.setIdentity( );
+		tr.setScale( new Vector3d( 1.0, 6.0, 1.0 ) );
+		walkTexAtt.setTextureTransform( tr );
+		walkApp.setTextureAttributes( walkTexAtt );
+
+		if ( walkTex != null )
+			walkApp.setTexture( walkTex );
+
+
+		//  Grass appearance
+		Appearance grassApp = new Appearance( );
+
+		Material grassMat = new Material( );
+		grassMat.setAmbientColor( 0.5f, 0.5f, 0.5f );
+		grassMat.setDiffuseColor( 1.0f, 1.0f, 1.0f );
+		grassMat.setSpecularColor( 0.0f, 0.0f, 0.0f );
+		grassApp.setMaterial( grassMat );
+
+		TextureAttributes grassTexAtt = new TextureAttributes( );
+		grassTexAtt.setTextureMode( TextureAttributes.MODULATE );
+		grassTexAtt.setPerspectiveCorrectionMode( TextureAttributes.NICEST );
+		tr.setIdentity( );
+		tr.setScale( new Vector3d( 2.0, 8.0, 1.0 ) );
+		grassTexAtt.setTextureTransform( tr );
+		grassApp.setTextureAttributes( grassTexAtt );
+
+		if ( grassTex != null )
+			grassApp.setTexture( grassTex );
+
+
+		//  Left grass
+		trans.set( -LawnWidth/2.0f - WalkwayWidth/2.0f, -1.6f, 0.0f );
+		tr.set( trans );
+		tg = new TransformGroup( tr );
+		ElevationGrid grass1 = new ElevationGrid(
+			2,             // X dimension
+			2,             // Z dimension
+			LawnWidth,     // X spacing
+			LawnDepth,     // Z spacing
+			grassApp );    // appearance
+		tg.addChild( grass1 );
+		addChild( tg );
+
+		//  Right grass
+		trans.set( LawnWidth/2.0f + WalkwayWidth/2.0f, -1.6f, 0.0f );
+		tr.set( trans );
+		tg = new TransformGroup( tr );
+		ElevationGrid grass2 = new ElevationGrid(
+			2,             // X dimension
+			2,             // Z dimension
+			LawnWidth,     // X spacing
+			LawnDepth,     // Z spacing
+			grassApp );    // appearance
+		tg.addChild( grass2 );
+		addChild( tg );
+
+		//  Walkway
+		trans.set( 0.0f, -1.6f, 0.0f );
+		tr.set( trans );
+		tg = new TransformGroup( tr );
+		ElevationGrid walk = new ElevationGrid(
+			2,             // X dimension
+			2,             // Z dimension
+			WalkwayWidth,  // X spacing
+			WalkwayDepth,  // Z spacing
+			walkApp );     // appearance
+		tg.addChild( walk );
+		addChild( tg );
+
+
+		//
+		// Build several columns on the floor
+		//
+		SharedGroup column = buildSharedColumn( );
+		Group columns = buildColumns( column );
+		addChild( columns );
+	}
+}
+</FONT></PRE>
+</BODY>
+</HTML>

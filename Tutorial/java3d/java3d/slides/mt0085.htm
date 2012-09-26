@@ -1,0 +1,99 @@
+
+<HTML>
+<HEAD>
+<!-- Created by mktalk.pl on 5/4/99 at 4:41:12 PM -->
+<TITLE>LineArray example code</TITLE>
+</HEAD>
+
+<BODY
+	
+	BGCOLOR=#000000
+	TEXT=#FFFFFF
+	LINK=#FFFFFF
+	ALINK=#00FF00
+	VLINK=#888888
+>
+<TABLE WIDTH=100%
+	BORDER=0
+	CELLSPACING=0
+	CELLPADDING=0
+>
+<TR >
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0000.htm><B><IMG SRC="../images/arwtoc2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0065.htm><B><IMG SRC="../images/arwndx2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0084.htm><B><IMG SRC="../images/arwprev2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0086.htm><B><IMG SRC="../images/arwnext2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=4%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	85
+</TD>
+</TR>
+</TABLE>
+<P>
+
+<FONT COLOR=#FFFF00 SIZE=+0>
+<CENTER>Building 3D shapes</CENTER>
+<FONT COLOR=#FFFF00 SIZE=+3>
+<CENTER><B><I>LineArray example code</I></B></CENTER>
+<CENTER><IMG SRC="../images/red.jpg" HEIGHT=2 WIDTH=70% BORDER=0></CENTER>
+<P>
+<FONT COLOR=#FFFFFF SIZE=+2>
+
+<CENTER>
+	<IMG SRC="../images/LineArray.jpg" BORDER=0 BORDERCOLOR=#777777 WIDTH=180 HEIGHT=135>
+</CENTER>
+
+<DL>
+<DD><LI>Create a list of 3D coordinates for the vertices
+<DL>
+	<DD><PRE><B><TT><FONT COLOR=#00FF00 SIZE=+2>Point3f[] myCoords = {
+    new Point3f(  0.0f, 0.0f, 0.0f ),
+    . . .
+}</FONT></TT></B></PRE>
+</DL>
+<DD><LI>Create a <B><TT><FONT COLOR=#00FF00 SIZE=+2>LineArray</FONT></TT></B> and set the vertex coordinates
+<DL>
+	<DD><PRE><B><TT><FONT COLOR=#00FF00 SIZE=+2>LineArray myLines = new LineArray(
+    myCoords.length,
+    GeometryArray.COORDINATES );
+myLines.setCoordinates( 0, myCoords );</FONT></TT></B></PRE>
+</DL>
+<P>
+<DD><LI>Assemble the shape
+<DL>
+	<DD><PRE><B><TT><FONT COLOR=#00FF00 SIZE=+2>Shape3D myShape = new Shape3D( myLines, myAppear );</FONT></TT></B></PRE>
+</DL>
+</DL>
+
+
+<!------------------------------------------------------------------------>
+
+</BODY>
+</HTML>

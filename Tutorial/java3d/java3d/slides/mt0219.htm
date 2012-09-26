@@ -1,0 +1,113 @@
+
+<HTML>
+<HEAD>
+<!-- Created by mktalk.pl on 5/4/99 at 4:41:12 PM -->
+<TITLE>Texture coordinates example code</TITLE>
+</HEAD>
+
+<BODY
+	
+	BGCOLOR=#000000
+	TEXT=#FFFFFF
+	LINK=#FFFFFF
+	ALINK=#00FF00
+	VLINK=#888888
+>
+<TABLE WIDTH=100%
+	BORDER=0
+	CELLSPACING=0
+	CELLPADDING=0
+>
+<TR >
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0000.htm><B><IMG SRC="../images/arwtoc2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0212.htm><B><IMG SRC="../images/arwndx2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0218.htm><B><IMG SRC="../images/arwprev2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0220.htm><B><IMG SRC="../images/arwnext2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=4%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	219
+</TD>
+</TR>
+</TABLE>
+<P>
+
+<FONT COLOR=#FFFF00 SIZE=+0>
+<CENTER>Using texture coordinates</CENTER>
+<FONT COLOR=#FFFF00 SIZE=+3>
+<CENTER><B><I>Texture coordinates example code</I></B></CENTER>
+<CENTER><IMG SRC="../images/red.jpg" HEIGHT=2 WIDTH=70% BORDER=0></CENTER>
+<P>
+<FONT COLOR=#FFFFFF SIZE=+2>
+
+<DL>
+<DD><LI>Create lists of 3D coordinates, lighting normals, and texture coordinates for
+	the vertices
+<DL>
+	<DD><PRE><B><TT><FONT COLOR=#00FF00 SIZE=+2>Point3f[] myCoords = {
+    new Point3f( 0.0f, 0.0f, 0.0f ),
+    . . .
+}
+Vector3f[] myNormals = {
+    new Vector3f( 0.0f, 1.0f, 0.0f ),
+    . . .
+}
+Point2f[] myTexCoords = {
+    new Point2f( 0.0f, 0.0f ),
+    . . .
+}</FONT></TT></B></PRE>
+</DL>
+<DD><LI>Create a <B><TT><FONT COLOR=#00FF00 SIZE=+2>QuadArray</FONT></TT></B> and set the vertex
+	coordinates, lighting normals, and texture coordinates
+<DL>
+	<DD><PRE><B><TT><FONT COLOR=#00FF00 SIZE=+2>QuadArray myQuads = new QuadArray(
+    myCoords.length,
+    GeometryArray.COORDINATES |
+    GeometryArray.NORMALS |
+    GeometryArray.TEXTURE_COORDINATE_2 );
+myQuads.setCoordinates( 0, myCoords );
+myQuads.setNormals( 0, myNormals );
+myQuads.setTextureCoordinates( 0, myTexCoords );</FONT></TT></B></PRE>
+</DL>
+<P>
+<DD><LI>Assemble the shape
+<DL>
+	<DD><PRE><B><TT><FONT COLOR=#00FF00 SIZE=+2>Shape3D myShape = new Shape3D( myQuads, myAppear );</FONT></TT></B></PRE>
+</DL>
+</DL>
+
+
+	<!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
+	<! TEXTURE TRANSFORM ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
+	<!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
+
+<!------------------------------------------------------------------------>
+
+</BODY>
+</HTML>

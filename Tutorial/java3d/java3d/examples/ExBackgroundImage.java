@@ -1,0 +1,170 @@
+//
+//  CLASS
+//    ExBackgroundImage  -  illustrate use of background images
+//
+//  LESSON
+//    Add a Background node to place an background image behind geometry.
+//
+//  SEE ALSO
+//    ExBackgroundColor
+//    ExBackgroundGeometry
+//
+//  AUTHOR
+//    David R. Nadeau / San Diego Supercomputer Center
+//
+
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.image.*;
+import java.net.*;
+import javax.media.j3d.*;
+import javax.vecmath.*;
+import com.sun.j3d.utils.image.*;
+
+public class ExBackgroundImage
+	extends Example
+{
+	//--------------------------------------------------------------
+	//  SCENE CONTENT
+	//--------------------------------------------------------------
+
+	//
+	//  Nodes (updated via menu)
+	//
+	private Background background = null;
+
+	//
+	//  Build scene
+	//
+	public Group buildScene( )
+	{
+		// Get the current image
+		ImageComponent2D image = imageComponents[currentImage];
+
+		// Turn off the example headlight
+		setHeadlightEnable( false );
+
+		// Default to walk navigation
+		setNavigationType( Walk );
+
+		// Build the scene root
+		Group scene = new Group( );
+
+
+	// BEGIN EXAMPLE TOPIC
+		// Create application bounds
+		BoundingSphere worldBounds = new BoundingSphere(
+			new Point3d( 0.0, 0.0, 0.0 ),  // Center
+			1000.0 );                      // Extent
+
+		// Set the background color and its application bounds
+		background = new Background( );
+		background.setImage( image );
+		background.setCapability( Background.ALLOW_IMAGE_WRITE );
+		background.setApplicationBounds( worldBounds );
+		scene.addChild( background );
+	// END EXAMPLE TOPIC
+
+
+		// Build foreground geometry
+		scene.addChild( new TowerScene( this ) );
+
+		return scene;
+	}
+
+
+
+	//--------------------------------------------------------------
+	//  USER INTERFACE
+	//--------------------------------------------------------------
+
+	//
+	//  Main
+	//
+	public static void main( String[] args )
+	{
+		ExBackgroundImage ex = new ExBackgroundImage( );
+		ex.initialize( args );
+		ex.buildUniverse( );
+		ex.showFrame( );
+	}
+
+
+	//  Image menu choices
+	private NameValue[] images = {
+		new NameValue( "None",         null ),
+		new NameValue( "Stars",        "stars2.jpg" ),
+		new NameValue( "Red Clouds",   "oddclouds.jpg" ),
+		new NameValue( "White Clouds", "clouds.jpg" ),
+	};
+	private int currentImage = 0;
+	private ImageComponent2D[] imageComponents = null;
+	private CheckboxMenu imageMenu = null;
+
+
+	//
+	//  Initialize the GUI (application and applet)
+	//
+	public void initialize( String[] args )
+	{
+		// Initialize the window, menubar, etc.
+		super.initialize( args );
+		exampleFrame.setTitle( "Java 3D Background Image Example" );
+
+
+		//
+		//  Add a menubar menu to change node parameters
+		//    Image -->
+		//
+
+		Menu m = new Menu( "Background" );
+
+		imageMenu = new CheckboxMenu( "Image", images,
+			currentImage, this );
+		m.add( imageMenu );
+
+		exampleMenuBar.add( m );
+
+
+		// Preload the background images
+		//   Use the texture loading utility to read in the image
+		//   files and process them into an ImageComponent2D
+		//   for use in the Background node.
+		if ( debug ) System.err.println( "  background images..." );
+		TextureLoader texLoader = null;
+		String value = null;
+		imageComponents = new ImageComponent2D[images.length];
+
+		for ( int i = 0; i < images.length; i++ )
+		{
+			value = (String)images[i].value;
+			if ( value == null )
+			{
+				imageComponents[i] = null;
+				continue;
+			}
+			texLoader = new TextureLoader( value, this );
+			imageComponents[i] = texLoader.getImage( );
+			// Component could be null if image couldn't be loaded
+		}
+	}
+
+
+	//
+	//  Handle checkboxes and menu choices
+	//
+	public void checkboxChanged( CheckboxMenu menu, int check )
+	{
+		if ( menu == imageMenu )
+		{
+			// Change the background image
+			currentImage = check;
+			ImageComponent2D image = imageComponents[check];
+			background.setImage( image );
+			return;
+		}
+
+		// Handle all other checkboxes
+		super.checkboxChanged( menu, check );
+	}
+}

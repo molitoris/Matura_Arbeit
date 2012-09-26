@@ -1,0 +1,703 @@
+
+<HTML>
+<HEAD>
+<!-- Created by mktalk.pl on 5/4/99 at 4:41:12 PM -->
+<TITLE>Building 3D shapes</TITLE>
+</HEAD>
+
+<BODY
+	
+	BGCOLOR=#000000
+	TEXT=#FFFFFF
+	LINK=#FFFFFF
+	ALINK=#00FF00
+	VLINK=#888888
+>
+<TABLE WIDTH=100%
+	BORDER=0
+	CELLSPACING=0
+	CELLPADDING=0
+>
+<TR >
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0000.htm><B><IMG SRC="../images/arwtoc2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0065.htm><B><IMG SRC="../images/arwndx2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0064.htm><B><IMG SRC="../images/arwprev2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0066.htm><B><IMG SRC="../images/arwnext2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=4%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	65
+</TD>
+</TR>
+</TABLE>
+<P>
+
+<FONT COLOR=#FFFF00 SIZE=+3>
+<CENTER>Building 3D shapes</CENTER>
+<CENTER><IMG SRC="../images/red.jpg" HEIGHT=2 WIDTH=70% BORDER=0></CENTER>
+<P>
+
+<CENTER>
+<TABLE WIDTH=100% CELLSPACING=8 CELLPADDING=8>
+<TD VALIGN=TOP WIDTH=50%>
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0066.htm>Motivation</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;66
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0067.htm>Example</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;67
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0068.htm>Shape3D class hierarchy</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;68
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0069.htm>Shape3D class methods</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;69
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0070.htm>Building geometry using coordinates</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;70
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0071.htm>Building geometry using coordinates</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;71
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0072.htm>Using a right-handed coordinate system</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;72
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0073.htm>Using coordinate order</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;73
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0074.htm>Using coordinate order</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;74
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0075.htm>Defining vertices</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;75
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0076.htm>Defining vertices</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;76
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0077.htm>Building geometry</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;77
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0078.htm>GeometryArray class hierarchy</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;78
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0079.htm>GeometryArray class methods</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;79
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0080.htm>GeometryArray class methods</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;80
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0081.htm>Building different types of geometry</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;81
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0082.htm>Building a PointArray</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;82
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0083.htm>PointArray example code</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;83
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0084.htm>Building a LineArray</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;84
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0085.htm>LineArray example code</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;85
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0086.htm>Building a TriangleArray</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;86
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0087.htm>TriangleArray example code</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;87
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0088.htm>Building a QuadArray</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;88
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0089.htm>QuadArray example code</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;89
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0090.htm>Building geometry strips</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;90
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0091.htm>GeometryStripArray class hierarchy</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;91
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0092.htm>Building a LineStripArray</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;92
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0093.htm>Building a TriangleFanArray</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;93
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0094.htm>Building a TriangleStripArray</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;94
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0095.htm>Building indexed geometry</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;95
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0096.htm>IndexedGeometryArray class hierarchy</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;96
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0097.htm>IndexedGeometryArray class methods</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;97
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0098.htm>IndexedGeometryArray class methods</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;98
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0099.htm>Gearbox example</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;99
+</TD>
+</TR>
+</TABLE>
+</TD><TD VALIGN=TOP WIDTH=50%>
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0100.htm>Summary</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;100
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0101.htm>Summary</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;101
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0102.htm>Summary</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;102
+</TD>
+</TR>
+</TABLE>
+
+</TD>
+</TABLE>
+</CENTER>
+
+</BODY>
+</HTML>

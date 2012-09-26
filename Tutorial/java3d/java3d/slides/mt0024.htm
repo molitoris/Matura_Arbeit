@@ -1,0 +1,754 @@
+
+<HTML>
+<HEAD>
+<!-- Created by mktalk.pl on 5/4/99 at 4:41:12 PM -->
+<TITLE>Building 3D content with a scene graph</TITLE>
+</HEAD>
+
+<BODY
+	
+	BGCOLOR=#000000
+	TEXT=#FFFFFF
+	LINK=#FFFFFF
+	ALINK=#00FF00
+	VLINK=#888888
+>
+<TABLE WIDTH=100%
+	BORDER=0
+	CELLSPACING=0
+	CELLPADDING=0
+>
+<TR >
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0000.htm><B><IMG SRC="../images/arwtoc2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0024.htm><B><IMG SRC="../images/arwndx2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0023.htm><B><IMG SRC="../images/arwprev2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0025.htm><B><IMG SRC="../images/arwnext2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=4%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	24
+</TD>
+</TR>
+</TABLE>
+<P>
+
+<FONT COLOR=#FFFF00 SIZE=+3>
+<CENTER>Building 3D content with a scene graph</CENTER>
+<CENTER><IMG SRC="../images/red.jpg" HEIGHT=2 WIDTH=70% BORDER=0></CENTER>
+<P>
+
+<CENTER>
+<TABLE WIDTH=100% CELLSPACING=8 CELLPADDING=8>
+<TD VALIGN=TOP WIDTH=50%>
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0025.htm>Building a scene graph</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;25
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0026.htm>Scene graph example</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;26
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0027.htm>Sketching a scene graph diagram</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;27
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0028.htm>Examples of creating large scenes</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;28
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0029.htm>Building a scene graph</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;29
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0030.htm>Processing a scene graph</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;30
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0031.htm>Examples of Java 3D features</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;31
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0032.htm>Examples of Java 3D features</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;32
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0033.htm>Examples of Java 3D features</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;33
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0034.htm>Using scene graph terminology</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;34
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0035.htm>Scene graph base class hierarchy</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;35
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0036.htm>Building a scene graph</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;36
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0037.htm>Building a scene graph</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;37
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0038.htm>Using universe terminology</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;38
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0039.htm>Using branch terminology</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;39
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0040.htm>Sketching a universe diagram</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;40
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0041.htm>Superstructure class hierarchy</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;41
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0042.htm>Building a universe</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;42
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0043.htm>Building a universe</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;43
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0044.htm>Building scene content</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;44
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0045.htm>Loading scene content from files</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;45
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0046.htm>Building scene graph superstructure</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;46
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0047.htm>Sketching a simple universe diagram</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;47
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0048.htm>HelloWorld example</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;48
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0049.htm>HelloWorld example code</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;49
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0050.htm>HelloWorld example code</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;50
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0051.htm>HelloWorld example code</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;51
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0052.htm>HelloWorld example code</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;52
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0053.htm>HelloWorld example</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;53
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0054.htm>Making a node live</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;54
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0055.htm>Checking if a node is live</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;55
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0056.htm>Compiling a scene graph</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;56
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0057.htm>Compiling a scene graph</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;57
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0058.htm>Controlling access capabilities</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;58
+</TD>
+</TR>
+</TABLE>
+</TD><TD VALIGN=TOP WIDTH=50%>
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0059.htm>Controlling access capabilities</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;59
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0060.htm>Controlling access capabilities</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;60
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=30 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0061.htm>Controlling access capabilities</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;61
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0062.htm>Summary</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;62
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0063.htm>Summary</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;63
+</TD>
+</TR>
+</TABLE>
+
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD NOWRAP ALIGN=LEFT>
+	<IMG SRC="../images/empty.gif" WIDTH=0 HEIGHT=1>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	<A HREF=mt0064.htm>Summary</A>&nbsp;
+</TD>
+<TD VALIGN=top WIDTH=100%>
+	<HR SIZE=1>
+</TD>
+<TD VALIGN=top ALIGN=right>
+	<FONT COLOR=#FFFFFF SIZE=+0>
+	&nbsp;64
+</TD>
+</TR>
+</TABLE>
+
+</TD>
+</TABLE>
+</CENTER>
+
+</BODY>
+</HTML>

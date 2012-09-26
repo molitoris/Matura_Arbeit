@@ -1,0 +1,99 @@
+
+<HTML>
+<HEAD>
+<!-- Created by mktalk.pl on 5/4/99 at 4:41:12 PM -->
+<TITLE>ConeSound example code</TITLE>
+</HEAD>
+
+<BODY
+	
+	BGCOLOR=#000000
+	TEXT=#FFFFFF
+	LINK=#FFFFFF
+	ALINK=#00FF00
+	VLINK=#888888
+>
+<TABLE WIDTH=100%
+	BORDER=0
+	CELLSPACING=0
+	CELLPADDING=0
+>
+<TR >
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0000.htm><B><IMG SRC="../images/arwtoc2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0552.htm><B><IMG SRC="../images/arwndx2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0576.htm><B><IMG SRC="../images/arwprev2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=24%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	<A HREF=mt0578.htm><B><IMG SRC="../images/arwnext2.gif" BORDER=0 WIDTH=24 HEIGHT=24></B></A>
+</TD>
+<TD ALIGN=CENTER WIDTH=4%>
+	<FONT
+		COLOR=#FFFFFF
+		SIZE=-1
+	>
+	577
+</TD>
+</TR>
+</TABLE>
+<P>
+
+<FONT COLOR=#FFFF00 SIZE=+0>
+<CENTER>Adding sound</CENTER>
+<FONT COLOR=#FFFF00 SIZE=+3>
+<CENTER><B><I>ConeSound example code</I></B></CENTER>
+<CENTER><IMG SRC="../images/red.jpg" HEIGHT=2 WIDTH=70% BORDER=0></CENTER>
+<P>
+<FONT COLOR=#FFFFFF SIZE=+2>
+
+<DL>
+<DD><LI>Load sound data
+<DL>
+	<DD><PRE><B><TT><FONT COLOR=#00FF00 SIZE=+2>MediaContainer myWave = new MediaContainer( "willow1.wav" );</FONT></TT></B></PRE>
+</DL>
+<P>
+<DD><LI>Create attenuation arrays
+<DL>
+	<DD><PRE><B><TT><FONT COLOR=#00FF00 SIZE=+2>Point2f[] myFrontAtten = {
+    new Point2f( 100.0f, 1.0f ),
+    new Point2f( 350.0f, 0.5f ),
+    new Point2f( 600.0f, 0.0f )
+};
+Point2f[] myBackAtten = {
+    new Point2f( 50.0f, 1.0f ),
+    new Point2f( 100.0f, 0.5f ),
+    new Point2f( 200.0f, 0.0f )
+};
+Point3f[] myAngular = {
+    new Point3f( 0.000f, 1.0f, 20000.0f ),
+    new Point3f( 0.785f, 0.5f,  5000.0f ),
+    new Point3f( 1.571f, 0.0f,  2000.0f ),
+};</FONT></TT></B></PRE>
+</DL>
+</DL>
+
+
+<!------------------------------------------------------------------------>
+
+</BODY>
+</HTML>

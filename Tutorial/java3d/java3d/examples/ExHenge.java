@@ -1,0 +1,581 @@
+//
+//  CLASS
+//    ExHenge - create a stone-henge like (vaguely) mysterious temple thing
+//
+//  DESCRIPTION
+//    This example illustrates the use of a few of Java 3D's lighting
+//    types to create atmospheric lighting to make a structure look
+//    like it is glowing.  In particular, we build a central emissive
+//    dome, unaffected by any lighting.  Surrounding that dome are a
+//    series of arches that are lit by a one or more of a point
+//    light in the center, directional lights at front-left and
+//    back-right, and two ambient lights.  Each of these lights can be
+//    turned on and off via menu items.
+//
+//  SEE ALSO
+//    Arch
+//    ExAmbientLight
+//    ExDirectionalLight
+//    ExPointLight
+//
+//  AUTHOR
+//    David R. Nadeau / San Diego Supercomputer Center
+//
+//
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.media.j3d.*;
+import javax.vecmath.*;
+import com.sun.j3d.utils.image.*;
+
+public class ExHenge
+	extends Example
+{
+	//--------------------------------------------------------------
+	//  SCENE CONTENT
+	//--------------------------------------------------------------
+
+	//
+	//  Nodes (updated via menu)
+	//
+	private AmbientLight ambient = null;
+	private AmbientLight brightAmbient = null;
+	private DirectionalLight redDirectional = null;
+	private DirectionalLight yellowDirectional = null;
+	private PointLight orangePoint = null;
+
+	//
+	//  Build scene
+	//
+	public Group buildScene( )
+	{
+		// Turn off the example headlight
+		setHeadlightEnable( false );
+
+		// Default to walk navigation
+		setNavigationType( Walk );
+
+		//
+		// Preload the texture images
+		//
+		if ( debug ) System.err.println( "  textures..." );
+		Texture groundTex = null;
+		Texture spurTex = null;
+		Texture domeTex = null;
+		TextureLoader texLoader = null;
+		ImageComponent image = null;
+
+		texLoader = new TextureLoader( "mud01.jpg", this );
+		image = texLoader.getImage( );
+		if ( image == null )
+			System.err.println( "Cannot load mud01.jpg texture" );
+		else
+		{
+			groundTex = texLoader.getTexture( );
+			groundTex.setBoundaryModeS( Texture.WRAP );
+			groundTex.setBoundaryModeT( Texture.WRAP );
+			groundTex.setMinFilter( Texture.NICEST );
+			groundTex.setMagFilter( Texture.NICEST );
+			groundTex.setMipMapMode( Texture.BASE_LEVEL );
+			groundTex.setEnable( true );
+		}
+
+		texLoader = new TextureLoader( "stonebrk2.jpg", this );
+		image = texLoader.getImage( );
+		if ( image == null )
+			System.err.println( "Cannot load stonebrk2.jpg texture" );
+		else
+		{
+			spurTex = texLoader.getTexture( );
+			spurTex.setBoundaryModeS( Texture.WRAP );
+			spurTex.setBoundaryModeT( Texture.WRAP );
+			spurTex.setMinFilter( Texture.NICEST );
+			spurTex.setMagFilter( Texture.NICEST );
+			spurTex.setMipMapMode( Texture.BASE_LEVEL );
+			spurTex.setEnable( true );
+		}
+
+		texLoader = new TextureLoader( "fire.jpg", this );
+		image = texLoader.getImage( );
+		if ( image == null )
+			System.err.println( "Cannot load fire.jpg texture" );
+		else
+		{
+			domeTex = texLoader.getTexture( );
+			domeTex.setBoundaryModeS( Texture.WRAP );
+			domeTex.setBoundaryModeT( Texture.WRAP );
+			domeTex.setMinFilter( Texture.NICEST );
+			domeTex.setMagFilter( Texture.NICEST );
+			domeTex.setMipMapMode( Texture.BASE_LEVEL );
+			domeTex.setEnable( true );
+		}
+
+
+		//
+		// Build some shapes we'll need
+		//
+		if ( debug ) System.err.println( "  flying buttresses..." );
+
+		// Build three types of spurs (flying buttresses)
+		Appearance spurApp = new Appearance( );
+
+		Material spurMat = new Material( );
+		spurMat.setAmbientColor( 0.6f, 0.6f, 0.6f );
+		spurMat.setDiffuseColor( 1.0f, 1.0f, 1.0f );
+		spurMat.setSpecularColor( 0.0f, 0.0f, 0.0f );
+		spurApp.setMaterial( spurMat );
+
+		Transform3D tr = new Transform3D( );
+		tr.setIdentity( );
+		tr.setScale( new Vector3d( 1.0, 4.0, 1.0 ) );
+
+		TextureAttributes spurTexAtt = new TextureAttributes( );
+		spurTexAtt.setTextureMode( TextureAttributes.MODULATE );
+		spurTexAtt.setPerspectiveCorrectionMode(
+			TextureAttributes.NICEST );
+		spurTexAtt.setTextureTransform( tr );
+		spurApp.setTextureAttributes( spurTexAtt );
+
+		if ( spurTex != null )
+			spurApp.setTexture( spurTex );
+
+		Arch spur1 = new Arch(
+			0.0,          // start Phi
+			1.571,        // end Phi
+			9,            // nPhi
+			-0.0982,      // start Theta
+			 0.0982,      // end Theta (11.25 degrees)
+			2,            // nTheta
+			2.5,          // start radius
+			1.0,          // end radius
+			0.05,         // start phi thickness
+			0.025,        // end phi thickness
+			spurApp );    // appearance
+
+		Arch spur2 = new Arch(
+			0.0,          // start Phi
+			1.571,        // end Phi
+			9,            // nPhi
+			-0.0982,      // start Theta
+			 0.0982,      // end Theta (11.25 degrees)
+			2,            // nTheta
+			1.5,          // start radius
+			2.0,          // end radius
+			0.05,         // start phi thickness
+			0.025,        // end phi thickness
+			spurApp );    // appearance
+
+		Arch spur3 = new Arch(
+			0.0,          // start Phi
+			1.571,        // end Phi
+			9,            // nPhi
+			-0.0982,      // start Theta
+			 0.0982,      // end Theta (11.25 degrees)
+			2,            // nTheta
+			1.5,          // start radius
+			1.0,          // end radius
+			0.05,         // start phi thickness
+			0.025,        // end phi thickness
+			spurApp );    // appearance
+
+		Arch spur4 = new Arch(
+			0.0,          // start Phi
+			1.178,        // end Phi
+			9,            // nPhi
+			-0.0982,      // start Theta
+			 0.0982,      // end Theta (11.25 degrees)
+			2,            // nTheta
+			4.0,          // start radius
+			4.0,          // end radius
+			0.05,         // start phi thickness
+			0.025,        // end phi thickness
+			spurApp );    // appearance
+
+
+		// Put each spur into a shared group so we can instance
+		// the spurs multiple times
+		SharedGroup spur1Group = new SharedGroup( );
+		spur1Group.addChild( spur1 );
+		spur1Group.compile( );
+
+		SharedGroup spur2Group = new SharedGroup( );
+		spur2Group.addChild( spur2 );
+		spur2Group.compile( );
+
+		SharedGroup spur3Group = new SharedGroup( );
+		spur3Group.addChild( spur3 );
+		spur3Group.compile( );
+
+		SharedGroup spur4Group = new SharedGroup( );
+		spur4Group.addChild( spur4 );
+		spur4Group.compile( );
+
+		// Build a central dome
+		if ( debug ) System.err.println( "  central dome..." );
+
+		Appearance domeApp = new Appearance( );
+			// No material needed - we want the dome to glow,
+			// so use a REPLACE mode texture only
+		TextureAttributes domeTexAtt = new TextureAttributes( );
+		domeTexAtt.setTextureMode( TextureAttributes.REPLACE );
+		domeTexAtt.setPerspectiveCorrectionMode(
+			TextureAttributes.NICEST );
+		domeApp.setTextureAttributes( domeTexAtt );
+
+		if ( domeTex != null )
+			domeApp.setTexture( domeTex );
+
+		Arch dome = new Arch(
+			0.0,          // start Phi
+			1.571,        // end Phi
+			5,            // nPhi
+			0.0,          // start Theta
+			2.0*Math.PI,  // end Theta (360 degrees)
+			17,           // nTheta
+			1.0,          // start radius
+			1.0,          // end radius
+			0.0,          // start phi thickness
+			0.0,          // end phi thickness
+			domeApp );    // appearance
+
+
+		// Build the ground.  Use a trick to get better lighting
+		// effects by using an elevation grid.  The idea is this:
+		// for interactive graphics systems, such as those
+		// controlled by Java3D, lighting effects are computed only
+		// at triangle vertexes.  Imagine a big rectangular ground
+		// underneath a PointLight (added below).  If the
+		// PointLight is above the center of the square, in the real
+		// world we'd expect a bright spot below it, fading to
+		// darkness at the edges of the square.  Not so in
+		// interactive graphics.  Since lighting is only computed
+		// at vertexes, and the square's vertexes are each
+		// equidistant from a centered PointLight, all four square
+		// coordinates get the same brightness.  That brightness
+		// is interpolated across the square, giving a *constant*
+		// brightness for the entire square!  There is no bright
+		// spot under the PointLight.  So, here's the trick:  use
+		// more triangles.  Pretty simple.  Split the ground under
+		// the PointLight into a grid of smaller squares.  Each
+		// smaller square is shaded using light brightness computed
+		// at the square's vertexes.  Squares directly under the
+		// PointLight get brighter lighting at their vertexes, and
+		// thus they are bright.  This gives the desired bright
+		// spot under the PointLight.  The more squares we use
+		// (a denser grid), the more accurate the bright spot and
+		// the smoother the lighting gradation from bright directly
+		// under the PointLight, to dark at the distant edges.  Of
+		// course, with more squares, we also get more polygons to
+		// draw and a performance slow-down.  So there is a
+		// tradeoff between lighting quality and drawing speed.
+		// For this example, we'll use a coarse mesh of triangles
+		// created using an ElevationGrid shape.
+		if ( debug ) System.err.println( "  ground..." );
+
+		Appearance groundApp = new Appearance( );
+
+		Material groundMat = new Material( );
+		groundMat.setAmbientColor( 0.3f, 0.3f, 0.3f );
+		groundMat.setDiffuseColor( 0.7f, 0.7f, 0.7f );
+		groundMat.setSpecularColor( 0.0f, 0.0f, 0.0f );
+		groundApp.setMaterial( groundMat );
+
+		tr = new Transform3D( );
+		tr.setScale( new Vector3d( 8.0, 8.0, 1.0 ) );
+
+		TextureAttributes groundTexAtt = new TextureAttributes( );
+		groundTexAtt.setTextureMode( TextureAttributes.MODULATE );
+		groundTexAtt.setPerspectiveCorrectionMode(
+			TextureAttributes.NICEST );
+		groundTexAtt.setTextureTransform( tr );
+		groundApp.setTextureAttributes( groundTexAtt );
+
+		if ( groundTex != null )
+			groundApp.setTexture( groundTex );
+
+		ElevationGrid ground = new ElevationGrid(
+			11,           // X dimension
+			11,           // Z dimension
+			2.0f,         // X spacing
+			2.0f,         // Z spacing
+			              // Automatically use zero heights
+			groundApp );  // Appearance
+
+
+
+		//
+		// Build the scene using the shapes above.  Place everything
+		// withing a TransformGroup.
+		//
+		// Build the scene root
+		TransformGroup scene = new TransformGroup( );
+		tr = new Transform3D( );
+		tr.setTranslation( new Vector3f( 0.0f, -1.6f, 0.0f ) );
+		scene.setTransform( tr );
+
+
+		// Create influencing bounds
+		BoundingSphere worldBounds = new BoundingSphere(
+			new Point3d( 0.0, 0.0, 0.0 ),  // Center
+			1000.0 );                      // Extent
+
+		// General Ambient light
+		ambient = new AmbientLight( );
+		ambient.setEnable( ambientOnOff );
+		ambient.setColor( new Color3f( 0.3f, 0.3f, 0.3f ) );
+		ambient.setCapability( AmbientLight.ALLOW_STATE_WRITE );
+		ambient.setInfluencingBounds( worldBounds );
+		scene.addChild( ambient );
+
+		// Bright Ambient light
+		brightAmbient = new AmbientLight( );
+		brightAmbient.setEnable( brightAmbientOnOff );
+		brightAmbient.setColor( new Color3f( 1.0f, 1.0f, 1.0f ) );
+		brightAmbient.setCapability( AmbientLight.ALLOW_STATE_WRITE );
+		brightAmbient.setInfluencingBounds( worldBounds );
+		scene.addChild( brightAmbient );
+
+		// Red directional light
+		redDirectional = new DirectionalLight( );
+		redDirectional.setEnable( redDirectionalOnOff );
+		redDirectional.setColor( new Color3f( 1.0f, 0.0f, 0.0f ) );
+		redDirectional.setDirection( new Vector3f( 1.0f, -0.5f, -0.5f ) );
+		redDirectional.setCapability( AmbientLight.ALLOW_STATE_WRITE );
+		redDirectional.setInfluencingBounds( worldBounds );
+		scene.addChild( redDirectional );
+
+		// Yellow directional light
+		yellowDirectional = new DirectionalLight( );
+		yellowDirectional.setEnable( yellowDirectionalOnOff );
+		yellowDirectional.setColor( new Color3f( 1.0f, 0.8f, 0.0f ) );
+		yellowDirectional.setDirection( new Vector3f( -1.0f, 0.5f, 1.0f ) );
+		yellowDirectional.setCapability( AmbientLight.ALLOW_STATE_WRITE );
+		yellowDirectional.setInfluencingBounds( worldBounds );
+		scene.addChild( yellowDirectional );
+
+		// Orange point light
+		orangePoint = new PointLight( );
+		orangePoint.setEnable( orangePointOnOff );
+		orangePoint.setColor( new Color3f( 1.0f, 0.5f, 0.0f ) );
+		orangePoint.setPosition( new Point3f( 0.0f, 0.5f, 0.0f ) );
+		orangePoint.setCapability( AmbientLight.ALLOW_STATE_WRITE );
+		orangePoint.setInfluencingBounds( worldBounds );
+		scene.addChild( orangePoint );
+
+		// Ground
+		scene.addChild( ground );
+
+		// Dome
+		scene.addChild( dome );
+
+		// Spur 1's
+		Group g = buildRing( spur1Group );
+		scene.addChild( g );
+
+		// Spur 2's
+		TransformGroup tg = new TransformGroup( );
+		tr = new Transform3D( );
+		tr.rotY( 0.3927 );
+		tg.setTransform( tr );
+		g = buildRing( spur2Group );
+		tg.addChild( g );
+		scene.addChild( tg );
+
+		// Spur 3's
+		g = buildRing( spur3Group );
+		scene.addChild( g );
+
+		// Spur 4's
+		tg = new TransformGroup( );
+		tg.setTransform( tr );
+		g = buildRing( spur4Group );
+		tg.addChild( g );
+		scene.addChild( tg );
+
+		return scene;
+	}
+
+
+	//
+	//  Build a ring of shapes, each shape contained in a given
+	//  shared group
+	//
+	public Group buildRing( SharedGroup sg )
+	{
+		Group g = new Group( );
+
+		g.addChild( new Link( sg ) );  // 0 degrees
+
+		TransformGroup tg = new TransformGroup( );
+		Transform3D tr = new Transform3D( );
+		tr.rotY( 0.785 );  // 45 degrees
+		tg.setTransform( tr );
+		tg.addChild( new Link( sg ) );
+		g.addChild( tg );
+
+		tg = new TransformGroup( );
+		tr = new Transform3D( );
+		tr.rotY( -0.785 );  // -45 degrees
+		tg.setTransform( tr );
+		tg.addChild( new Link( sg ) );
+		g.addChild( tg );
+
+		tg = new TransformGroup( );
+		tr = new Transform3D( );
+		tr.rotY( 1.571 );  // 90 degrees
+		tg.setTransform( tr );
+		tg.addChild( new Link( sg ) );
+		g.addChild( tg );
+
+		tg = new TransformGroup( );
+		tr = new Transform3D( );
+		tr.rotY( -1.571 );  // -90 degrees
+		tg.setTransform( tr );
+		tg.addChild( new Link( sg ) );
+		g.addChild( tg );
+
+		tg = new TransformGroup( );
+		tr = new Transform3D( );
+		tr.rotY( 2.356 );  // 135 degrees
+		tg.setTransform( tr );
+		tg.addChild( new Link( sg ) );
+		g.addChild( tg );
+
+		tg = new TransformGroup( );
+		tr = new Transform3D( );
+		tr.rotY( -2.356 );  // -135 degrees
+		tg.setTransform( tr );
+		tg.addChild( new Link( sg ) );
+		g.addChild( tg );
+
+		tg = new TransformGroup( );
+		tr = new Transform3D( );
+		tr.rotY( Math.PI );  // 180 degrees
+		tg.setTransform( tr );
+		tg.addChild( new Link( sg ) );
+		g.addChild( tg );
+
+		return g;
+	}
+
+
+
+	//--------------------------------------------------------------
+	//  USER INTERFACE
+	//--------------------------------------------------------------
+
+	//
+	//  Main
+	//
+	public static void main( String[] args )
+	{
+		ExHenge ex = new ExHenge( );
+		ex.initialize( args );
+		ex.buildUniverse( );
+		ex.showFrame( );
+	}
+
+	//  On/off choices
+	private boolean ambientOnOff           = true;
+	private boolean brightAmbientOnOff     = false;
+	private boolean redDirectionalOnOff    = false;
+	private boolean yellowDirectionalOnOff = false;
+	private boolean orangePointOnOff       = true;
+	private CheckboxMenuItem ambientOnOffMenu;
+	private CheckboxMenuItem brightAmbientOnOffMenu;
+	private CheckboxMenuItem redDirectionalOnOffMenu;
+	private CheckboxMenuItem yellowDirectionalOnOffMenu;
+	private CheckboxMenuItem orangePointOnOffMenu;
+
+
+	//
+	//  Initialize the GUI (application and applet)
+	//
+	public void initialize( String[] args )
+	{
+		// Initialize the window, menubar, etc.
+		super.initialize( args );
+		exampleFrame.setTitle( "Java 3D ExHenge Example" );
+
+		//
+		//  Add a menubar menu to change parameters
+		//    Dim ambient light
+		//    Bright ambient light
+		//    Red directional light
+		//    Yellow directional light
+		//    Orange point light
+		//
+
+		Menu m = new Menu( "Lights" );
+
+		ambientOnOffMenu = new CheckboxMenuItem(
+			"Dim ambient light", ambientOnOff );
+		ambientOnOffMenu.addItemListener( this );
+		m.add( ambientOnOffMenu );
+
+		brightAmbientOnOffMenu = new CheckboxMenuItem(
+			"Bright ambient light", brightAmbientOnOff );
+		brightAmbientOnOffMenu.addItemListener( this );
+		m.add( brightAmbientOnOffMenu );
+
+		redDirectionalOnOffMenu = new CheckboxMenuItem(
+			"Red directional light", redDirectionalOnOff );
+		redDirectionalOnOffMenu.addItemListener( this );
+		m.add( redDirectionalOnOffMenu );
+
+		yellowDirectionalOnOffMenu = new CheckboxMenuItem(
+			"Yellow directional light", yellowDirectionalOnOff );
+		yellowDirectionalOnOffMenu.addItemListener( this );
+		m.add( yellowDirectionalOnOffMenu );
+
+		orangePointOnOffMenu = new CheckboxMenuItem(
+			"Orange point light", orangePointOnOff );
+		orangePointOnOffMenu.addItemListener( this );
+		m.add( orangePointOnOffMenu );
+
+		exampleMenuBar.add( m );
+	}
+
+
+	//
+	//  Handle checkboxes
+	//
+	public void itemStateChanged( ItemEvent event )
+	{
+		Object src = event.getSource( );
+		if ( src == ambientOnOffMenu )
+		{
+			ambientOnOff = ambientOnOffMenu.getState( );
+			ambient.setEnable( ambientOnOff );
+			return;
+		}
+		if ( src == brightAmbientOnOffMenu )
+		{
+			brightAmbientOnOff = brightAmbientOnOffMenu.getState( );
+			brightAmbient.setEnable( brightAmbientOnOff );
+			return;
+		}
+		if ( src == redDirectionalOnOffMenu )
+		{
+			redDirectionalOnOff = redDirectionalOnOffMenu.getState( );
+			redDirectional.setEnable( redDirectionalOnOff );
+			return;
+		}
+		if ( src == yellowDirectionalOnOffMenu )
+		{
+			yellowDirectionalOnOff = yellowDirectionalOnOffMenu.getState( );
+			yellowDirectional.setEnable( yellowDirectionalOnOff );
+			return;
+		}
+		if ( src == orangePointOnOffMenu )
+		{
+			orangePointOnOff = orangePointOnOffMenu.getState( );
+			orangePoint.setEnable( orangePointOnOff );
+			return;
+		}
+
+		// Handle all other checkboxes
+		super.itemStateChanged( event );
+	}
+}

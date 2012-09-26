@@ -1,0 +1,471 @@
+//
+//  CLASS
+//    ExSpotLight  -  illustrate use of spot lights
+//
+//  LESSON
+//    Add a SpotLight node to illuminate a scene.
+//
+//  SEE ALSO
+//    ExAmbientLight
+//    ExDirectionalLight
+//    ExPointLight
+//
+//  AUTHOR
+//    David R. Nadeau / San Diego Supercomputer Center
+//
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.media.j3d.*;
+import javax.vecmath.*;
+
+public class ExSpotLight
+	extends Example
+{
+	//--------------------------------------------------------------
+	//  SCENE CONTENT
+	//--------------------------------------------------------------
+
+	//
+	//  Nodes (updated via menu)
+	//
+	private SpotLight light = null;
+
+	//
+	//  Build scene
+	//
+	public Group buildScene( )
+	{
+		// Get the current color, position, attenuation,
+		// spread angle, and concentration
+		Color3f color = (Color3f)colors[currentColor].value;
+		Point3f pos   = (Point3f)positions[currentPosition].value;
+		Vector3f dir  = (Vector3f)directions[currentDirection].value;
+		Point3f atten = (Point3f)attenuations[currentAttenuation].value;
+		float spread  = ((Double)spreads[currentSpread].value).floatValue( );
+		float concen  = ((Double)concentrations[currentConcentration].value).floatValue( );
+
+		// Turn off the example headlight
+		setHeadlightEnable( false );
+
+		// Build the scene root
+		Group scene = new Group( );
+
+
+	// BEGIN EXAMPLE TOPIC
+		// Create influencing bounds
+		BoundingSphere worldBounds = new BoundingSphere(
+			new Point3d( 0.0, 0.0, 0.0 ),  // Center
+			1000.0 );                      // Extent
+
+		// Set the light color and its influencing bounds
+		light = new SpotLight( );
+		light.setEnable( lightOnOff );
+		light.setColor( color );
+		light.setPosition( pos );
+		light.setAttenuation( atten );
+		light.setDirection( dir );
+		light.setSpreadAngle( spread );
+		light.setConcentration( concen );
+		light.setCapability( SpotLight.ALLOW_STATE_WRITE );
+		light.setCapability( SpotLight.ALLOW_COLOR_WRITE );
+		light.setCapability( SpotLight.ALLOW_POSITION_WRITE);
+		light.setCapability( SpotLight.ALLOW_ATTENUATION_WRITE);
+		light.setCapability( SpotLight.ALLOW_DIRECTION_WRITE);
+		light.setCapability( SpotLight.ALLOW_SPREAD_ANGLE_WRITE);
+		light.setCapability( SpotLight.ALLOW_CONCENTRATION_WRITE);
+		light.setInfluencingBounds( worldBounds );
+		scene.addChild( light );
+	// END EXAMPLE TOPIC
+
+
+		// Build foreground geometry
+		scene.addChild( new SphereGroup( ) );
+
+
+		// Add annotation arrows in a fan to show light ray directions,
+		// positions, and the spread angle
+		scene.addChild( buildArrows( ) );
+
+		return scene;
+	}
+
+
+
+	//--------------------------------------------------------------
+	//  FOREGROUND AND ANNOTATION CONTENT
+	//--------------------------------------------------------------
+
+	//
+	//  Create a set of fans of annotation arrows initially pointing in
+	//  the +X direction.  Each fan in the set illustrates a different
+	//  light spread angle listed in the user interface light control
+	//  menu.  Next, build two TransformGroups, one nested within
+	//  the other, and place the fan within the innermost TransformGroup.
+	//  The outer TransformGroup will be used to position the fan,
+	//  and the inner one will be used to rotate the fan.  The position
+	//  and orientation are both selected via menu items.  To do the
+	//  position and orientation change, we compute a bunch of Transform3Ds
+	//  for each menu choice position or orientation and save them.
+	//  Later, when the user selects a new light direction or position,
+	//  we poke the corresponding Transform3D into the appropriate
+	//  TransformGroup, causing the arrows to change position or direction.
+	//
+	private TransformGroup arrowDirectionTransformGroup = null;
+	private Transform3D[]  arrowDirectionTransforms     = null;
+	private TransformGroup arrowPositionTransformGroup  = null;
+	private Transform3D[]  arrowPositionTransforms      = null;
+	private Switch         arrowSpreadAngleSwitch       = null;
+
+	private Group buildArrows( )
+	{
+		// Create a switch group to hold the different arrow fan
+		// spread angle choices.  Enable child choice writing.
+		arrowSpreadAngleSwitch = new Switch( );
+		arrowSpreadAngleSwitch.setCapability( Switch.ALLOW_SWITCH_WRITE );
+
+		// Create a set of arrow fans, one per spread angle
+		// shown on the menu.
+		AnnotationArrowFan af = null;
+		float spread = 0.0f;
+		for ( int i = 0; i < spreads.length; i++ )
+		{
+			spread = ((Double)spreads[i].value).floatValue( );
+			af = new AnnotationArrowFan(
+				0.0f, 0.0f, 0.0f,      // center position
+				2.5f,                  // arrow length
+				-spread,               // start angle
+				spread,                // end angle
+				5 );                   // number of arrows
+			arrowSpreadAngleSwitch.addChild( af );
+		}
+
+		// Select the current fan.
+		arrowSpreadAngleSwitch.setWhichChild( currentSpread );
+
+
+		// Create an outer transform group used to change the fan
+		// position.  Enable writing of its transform.
+		arrowPositionTransformGroup = new TransformGroup( );
+		arrowPositionTransformGroup.setCapability(
+			TransformGroup.ALLOW_TRANSFORM_WRITE );
+
+
+		// Create a set of Transform3Ds for the different arrow positions.
+		arrowPositionTransforms = new Transform3D[positions.length];
+		Point3f pos;
+		Vector3f v = new Vector3f( );
+		for ( int i = 0; i < positions.length; i++ )
+		{
+			// Create a Transform3D, setting its translation.
+			arrowPositionTransforms[i] = new Transform3D( );
+			pos = (Point3f)positions[i].value;
+			v.set( pos );
+			arrowPositionTransforms[i].setTranslation( v );
+		}
+
+		// Set the initial transform to be the current position
+		arrowPositionTransformGroup.setTransform(
+			arrowPositionTransforms[currentPosition] );
+
+
+		// Create an inner transform group surrounding the arrows,
+		// used to set the aim direction.  Enable writing of its transform.
+		arrowDirectionTransformGroup = new TransformGroup( );
+		arrowDirectionTransformGroup.setCapability(
+			TransformGroup.ALLOW_TRANSFORM_WRITE );
+
+
+		// Add the switch group to the direction-change transform group,
+		// and add the direction-change transform group to the
+		// position-change transform gorup.
+		arrowDirectionTransformGroup.addChild( arrowSpreadAngleSwitch );
+		arrowPositionTransformGroup.addChild( arrowDirectionTransformGroup );
+
+
+		// Create a set of Transform3Ds for the different
+		// arrow directions.
+		arrowDirectionTransforms = new Transform3D[directions.length];
+		Vector3f dir = new Vector3f( );
+		Vector3f positiveX = new Vector3f( 1.0f, 0.0f, 0.0f );
+		Vector3f axis = new Vector3f( );
+		float angle;
+		float dot;
+
+		for ( int i = 0; i < directions.length; i++ )
+		{
+			// Normalize the direction vector
+			dir.normalize( (Vector3f)directions[i].value );
+
+			// Cross the direction vector with the arrow's
+			// +X aim direction to get a vector orthogonal
+			// to both.  This is the rotation axis.
+			axis.cross( positiveX, dir );
+			if ( axis.x == 0.0f && axis.y == 0.0f && axis.z == 0.0f )
+			{
+				// New direction is parallel to current
+				// arrow direction.  Default to a Y axis.
+				axis.y = 1.0f;
+			}
+
+			// Compute the angle between the direction and +X
+			// vectors, where:
+			//
+			//   cos(angle) = (dir dot positiveX)
+			//                -------------------------------
+			//                (positiveX.length * dir.length)
+			//
+			// but since positiveX is normalized (as created
+			// above) and dir has been normalized, both have
+			// a length of 1.  So, the angle between the
+			// vectors is:
+			//
+			//   angle = arccos(dir dot positiveX)
+			dot = dir.dot( positiveX );
+			angle = (float)Math.acos( dot );
+
+			// Create a Transform3D, setting its rotation using
+			// an AxisAngle4f, which takes an XYZ rotation vector
+			// and an angle to rotate by around that vector.
+			arrowDirectionTransforms[i] = new Transform3D( );
+			arrowDirectionTransforms[i].setRotation(
+				new AxisAngle4f( axis.x, axis.y, axis.z, angle ) );
+		}
+
+		// Set the initial transform to be the current aim direction.
+		arrowDirectionTransformGroup.setTransform(
+			arrowDirectionTransforms[currentDirection] );
+
+		return arrowPositionTransformGroup;
+	}
+
+
+
+	//--------------------------------------------------------------
+	//  USER INTERFACE
+	//--------------------------------------------------------------
+
+	//
+	//  Main
+	//
+	public static void main( String[] args )
+	{
+		ExSpotLight ex = new ExSpotLight( );
+		ex.initialize( args );
+		ex.buildUniverse( );
+		ex.showFrame( );
+	}
+
+
+	//  On/off choices
+	private boolean lightOnOff = true;
+	private CheckboxMenuItem lightOnOffMenu;
+
+	//  Color menu choices
+	private NameValue[] colors = {
+		new NameValue( "White",    White ),
+		new NameValue( "Gray",     Gray ),
+		new NameValue( "Black",    Black ),
+		new NameValue( "Red",      Red ),
+		new NameValue( "Yellow",   Yellow ),
+		new NameValue( "Green",    Green ),
+		new NameValue( "Cyan",     Cyan ),
+		new NameValue( "Blue",     Blue ),
+		new NameValue( "Magenta",  Magenta ),
+	};
+	private int currentColor = 0;
+	private CheckboxMenu colorMenu = null;
+
+	//  Position menu choices
+	private NameValue[] positions = {
+		new NameValue( "Origin", Origin ),
+		new NameValue( "+X", PlusX ),
+		new NameValue( "-X", MinusX ),
+		new NameValue( "+Y", PlusY ),
+		new NameValue( "-Y", MinusY ),
+		new NameValue( "+Z", PlusZ ),
+		new NameValue( "-Z", MinusZ ),
+	};
+	private int currentPosition = 0;
+	private CheckboxMenu positionMenu = null;
+
+	//  Attenuation menu choices
+	private NameValue[] attenuations = {
+		new NameValue( "Constant",  new Point3f( 1.0f, 0.0f, 0.0f ) ),
+		new NameValue( "Linear",    new Point3f( 0.0f, 1.0f, 0.0f ) ),
+		new NameValue( "Quadratic", new Point3f( 0.0f, 0.0f, 1.0f ) ),
+	};
+	private int currentAttenuation = 0;
+	private CheckboxMenu attenuationMenu = null;
+
+	//  Direction menu choices
+	private NameValue[] directions = {
+		new NameValue( "Positive X",    PosX ),
+		new NameValue( "Negative X",    NegX ),
+		new NameValue( "Positive Y",    PosY ),
+		new NameValue( "Negative Y",    NegY ),
+		new NameValue( "Positive Z",    PosZ ),
+		new NameValue( "Negative Z",    NegZ ),
+	};
+	private int currentDirection = 0;
+	private CheckboxMenu directionMenu = null;
+
+	//  Spread angle choices
+	private NameValue[] spreads = {
+		new NameValue( "22.5 degrees", new Double( Math.PI/8.0 ) ),
+		new NameValue( "45.0 degrees", new Double( Math.PI/4.0 ) ),
+		new NameValue( "90.0 degrees", new Double( Math.PI/2.0 ) ),
+	};
+	private int currentSpread = 1;
+	private CheckboxMenu spreadMenu = null;
+
+	//  Concentration choices
+	private NameValue[] concentrations = {
+		new NameValue( "0.0",   new Double( 0.0 ) ),
+		new NameValue( "5.0",   new Double( 5.0 ) ),
+		new NameValue( "10.0",  new Double( 10.0 ) ),
+		new NameValue( "50.0",  new Double( 50.0 ) ),
+		new NameValue( "100.0", new Double( 100.0 ) ),
+	};
+	private int currentConcentration = 0;
+	private CheckboxMenu concentrationMenu = null;
+
+
+	//
+	//  Initialize the GUI (application and applet)
+	//
+	public void initialize( String[] args )
+	{
+		// Initialize the window, menubar, etc.
+		super.initialize( args );
+		exampleFrame.setTitle( "Java 3D Spot Light Example" );
+
+
+		//
+		//  Add a menubar menu to change node parameters
+		//    Light on/off
+		//    Color -->
+		//    Position -->
+		//    Direction -->
+		//    Attenuation -->
+		//    Spread Angle -->
+		//    Concentration -->
+		//
+
+		Menu m = new Menu( "SpotLight" );
+
+		lightOnOffMenu = new CheckboxMenuItem( "Light on/off" );
+		lightOnOffMenu.addItemListener( this );
+		lightOnOffMenu.setState( lightOnOff );
+		m.add( lightOnOffMenu );
+
+		colorMenu = new CheckboxMenu( "Color", colors,
+			currentColor, this );
+		m.add( colorMenu );
+
+		positionMenu = new CheckboxMenu( "Position", positions,
+			currentPosition, this );
+		m.add( positionMenu );
+
+		directionMenu = new CheckboxMenu( "Direction", directions,
+			currentDirection, this );
+		m.add( directionMenu );
+
+		attenuationMenu = new CheckboxMenu( "Attenuation", attenuations,
+			currentAttenuation, this );
+		m.add( attenuationMenu );
+
+		spreadMenu = new CheckboxMenu( "Spread Angle", spreads,
+			currentSpread, this );
+		m.add( spreadMenu );
+
+		concentrationMenu = new CheckboxMenu( "Concentration", concentrations,
+			currentConcentration, this );
+		m.add( concentrationMenu );
+
+		exampleMenuBar.add( m );
+	}
+
+
+	//
+	//  Handle checkboxes and menu choices
+	//
+	public void checkboxChanged( CheckboxMenu menu, int check )
+	{
+		if ( menu == colorMenu )
+		{
+			// Change the light color
+			currentColor = check;
+			Color3f color = (Color3f)colors[check].value;
+			light.setColor( color );
+			return;
+		}
+		if ( menu == positionMenu )
+		{
+			// Change the light position
+			currentPosition = check;
+			Point3f pos = (Point3f)positions[check].value;
+			light.setPosition( pos );
+
+			// Change the arrow group position
+			arrowPositionTransformGroup.setTransform(
+				arrowPositionTransforms[check] );
+			return;
+		}
+		if ( menu == directionMenu )
+		{
+			// Change the light direction
+			currentDirection = check;
+			Vector3f dir = (Vector3f)directions[check].value;
+			light.setDirection( dir );
+
+			// Change the arrow group direction
+			arrowDirectionTransformGroup.setTransform(
+				arrowDirectionTransforms[check] );
+			return;
+		}
+		if ( menu == attenuationMenu )
+		{
+			// Change the light attenuation
+			currentAttenuation = check;
+			Point3f atten = (Point3f)attenuations[check].value;
+			light.setAttenuation( atten );
+			return;
+		}
+		if ( menu == spreadMenu )
+		{
+			// Change the light spread angle
+			currentSpread = check;
+			arrowSpreadAngleSwitch.setWhichChild( check );
+			float spread = ((Double)spreads[check].value).floatValue( );
+			light.setSpreadAngle( spread );
+			return;
+		}
+		if ( menu == concentrationMenu )
+		{
+			// Change the light concentration
+			currentConcentration = check;
+			float concen = ((Double)concentrations[check].value).floatValue( );
+			light.setConcentration( concen );
+			return;
+		}
+
+		// Handle all other checkboxes
+		super.checkboxChanged( menu, check );
+	}
+
+	public void itemStateChanged( ItemEvent event )
+	{
+		Object src = event.getSource( );
+		if ( src == lightOnOffMenu )
+		{
+			// Turn the light on or off
+			lightOnOff = lightOnOffMenu.getState( );
+			light.setEnable( lightOnOff );
+			return;
+		}
+
+		// Handle all other checkboxes
+		super.itemStateChanged( event );
+	}
+}
