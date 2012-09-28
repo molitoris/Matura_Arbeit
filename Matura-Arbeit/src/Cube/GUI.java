@@ -55,11 +55,11 @@ public final class GUI
 	    public void actionPerformed(ActionEvent e)
 	    {
 		if(e.getSource() == button)
-		    cube.test();
+		    cube.rotateBlueFace();
 		if(e.getSource() == button2)
-		    cube.test2();
+		    cube.rotateWhiteFace();
 		if(e.getSource() == button3)
-		   cube.test3(); 
+		   cube.rotateOrangeFace(); 
 	    }
 	};
 	button.addActionListener(al);
