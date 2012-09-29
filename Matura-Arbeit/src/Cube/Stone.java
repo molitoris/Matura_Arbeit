@@ -1,5 +1,8 @@
 package Cube;
 
+import com.sun.j3d.utils.geometry.Sphere;
+import com.sun.j3d.utils.image.TextureLoader;
+import java.awt.Component;
 import javax.media.j3d.*;
 import javax.vecmath.*;
 
@@ -99,6 +102,14 @@ public class Stone
     private Appearance createAppearance(float x, float y, float z)
     {
 	Appearance appearance = new Appearance();
+	
+	//create Light
+	Material material = new Material();
+	appearance.setMaterial(material);	
+	Sphere sphere = new Sphere(0.5f, Sphere.GENERATE_NORMALS, appearance);
+	objStone.addChild(sphere);
+	AmbientLight ambientLight = new AmbientLight();
+	ambientLight.setInfluencingBounds(new BoundingSphere());
 	
 	Color3f white   = new Color3f(1.0f, 1.0f, 1.0f);
         Color3f yellow  = new Color3f(1.0f, 1.0f, 0.0f);
