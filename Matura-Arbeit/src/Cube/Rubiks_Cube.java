@@ -10,6 +10,14 @@ import javax.vecmath.Point3f;
 /**
  *
  * @author Rafael Sebastian Müller
+ * 
+ * ***Information***
+ * In dieser Klasse werden die Stein-Objekte zum Würfel zusammengesetzt. Sie werden
+ * in ein Array der Transform Group gesetzt. Bei der Drehung werden die Transform
+ * Group ausgewählt und gedreht. Danach wird mit der Methode changeArrayPosition
+ * die Transform Group so angeordnet, dass sie bei der nächsten Rotation wieder richtig
+ * ausgewählt werden.
+ * 
  */
 public class Rubiks_Cube{
     //attributes
@@ -20,7 +28,6 @@ public class Rubiks_Cube{
     int angel2 = 90;
     int angel3 = 90;
     BranchGroup scene = new BranchGroup();
-    BranchGroup objRoot;    
     TransformGroup objTransform;
     TransformGroup[][][] stoneTransform;
     Transform3D[][][] rotate;
@@ -45,17 +52,9 @@ public class Rubiks_Cube{
 
     //Constructor
     Rubiks_Cube(){
-	GraphicsConfiguration config = SimpleUniverse.getPreferredConfiguration();
-	canvas = new Canvas3D(config);
+	canvas = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
 	
-	scene.setCapability(BranchGroup.ALLOW_DETACH);
-	scene.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
-	scene.setCapability(BranchGroup.ALLOW_CHILDREN_READ);
-	scene.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
-	
-	scene = createSceneGraph();
-	
-	
+	scene = createSceneGraph();	
 	scene.compile();
 	
 	universe = new SimpleUniverse(canvas);
@@ -66,36 +65,33 @@ public class Rubiks_Cube{
 	universe.addBranchGraph(scene);
     }
 
-    //methods
-    
-    
+    //methods    
     private BranchGroup createSceneGraph(){
-	objRoot = new BranchGroup();
+	BranchGroup objRoot = new BranchGroup();
+	
 	objTransform = new TransformGroup(setStart());
 	objTransform.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
 	objTransform.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
 		
 	//cenerate roation Behavoir
 	MouseRotate rotateMouse = createMouseRotation();
-	objRoot.addChild(rotateMouse);
-	
-	
+	objRoot.addChild(rotateMouse);	
 	    
 	//construct stones    
 	stoneTransform	= new TransformGroup[3][3][3];
-	rotate		= new Transform3D[3][3][3];
-	
+	rotate		= new Transform3D[3][3][3];	
 	for(int z = 0; z < stoneTransform.length; z++)
 	    for(int y = 0; y < stoneTransform.length; y++)
 		for(int x = 0; x < stoneTransform.length; x++)
 		{
 		    Stone stone = new Stone(x-1, y-1, z-1);
 		    stoneTransform[x][y][z] = new TransformGroup();
+		    rotate[x][y][z] = new Transform3D();
+		    
 		    stoneTransform[x][y][z].addChild(stone.getTransformGroup());
 		    objTransform.addChild(stoneTransform[x][y][z]);
-		    stoneTransform[x][y][z].setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 		    
-		    rotate[x][y][z] = new Transform3D();
+		    stoneTransform[x][y][z].setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);		    
 		}
 	
 	//construct coordinate system
@@ -103,17 +99,16 @@ public class Rubiks_Cube{
 	objTransform.addChild(cordSystem);
 		
 	objRoot.addChild(objTransform);
-	objRoot.compile();
 	return objRoot;
     }
     
     private Transform3D setStart(){
 	Transform3D rotate = new Transform3D();
         Transform3D tempRotate = new Transform3D();
-
-	    rotate.rotX(Math.PI/4.0d);
-	    tempRotate.rotY(-Math.PI/5.0d);
-	    rotate.mul(tempRotate);
+	
+	rotate.rotX(Math.PI/4.0d);
+	tempRotate.rotY(-Math.PI/5.0d);
+	rotate.mul(tempRotate);
 	
 	return rotate;
     }
@@ -191,8 +186,7 @@ public class Rubiks_Cube{
 	    }
     }
 
-    void rotateOrangeFace()
-    {}
+    void rotateOrangeFace(){}
 
     private void changeArrayPosition(int side)
     {
