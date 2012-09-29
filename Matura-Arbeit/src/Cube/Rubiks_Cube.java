@@ -184,11 +184,10 @@ public class Rubiks_Cube{
 	for(int x = 0; x < stoneTransform.length; x++)
 	    for(int y = 0; y < stoneTransform.length; y++)
 	    {
-		stoneTransform[x][y][2].setTransform(rotate[x][y][2]);
 		Transform3D temp_rot = new Transform3D();
 		temp_rot.rotZ(Math.toRadians(90));
-		stoneTransform[x][y][2].setTransform(temp_rot);
-		rotate[x][y][2].mul(temp_rot);
+		rotate[x][y][2].mul(temp_rot);		
+		stoneTransform[x][y][2].setTransform(rotate[x][y][2]);
 	    }
     }
 
@@ -227,6 +226,7 @@ public class Rubiks_Cube{
 		rotate[1][2][0] = rotate[2][2][1];
 		rotate[2][2][1] = temp_rot_edge;
 		break;
-	}	    
+	}
+	    
     }
 }
