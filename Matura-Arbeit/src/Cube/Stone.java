@@ -2,9 +2,11 @@ package Cube;
 
 import com.sun.j3d.utils.geometry.Sphere;
 import com.sun.j3d.utils.image.TextureLoader;
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.TextLoader;
 import java.awt.Component;
 import javax.media.j3d.*;
 import javax.vecmath.*;
+import com.sun.j3d.utils.image.*;
 
 /**
  *
@@ -110,6 +112,7 @@ public class Stone
 	objStone.addChild(sphere);
 	AmbientLight ambientLight = new AmbientLight();
 	ambientLight.setInfluencingBounds(new BoundingSphere());
+	
 	
 	Color3f white   = new Color3f(1.0f, 1.0f, 1.0f);
         Color3f yellow  = new Color3f(1.0f, 1.0f, 0.0f);

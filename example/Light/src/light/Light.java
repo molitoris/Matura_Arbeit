@@ -23,6 +23,7 @@ import javax.media.j3d.Material;
 import javax.media.j3d.RotationInterpolator;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
+import javax.swing.text.AttributeSet.ColorAttribute;
 import javax.vecmath.Color3f;
 
 /**
@@ -57,13 +58,15 @@ public class Light extends Applet
 	TransformGroup transformGroup = new TransformGroup();
 	transformGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 	
-	transformGroup.addChild(new Sphere(0.5f, Sphere.GENERATE_NORMALS, createAppearance()));
+	Sphere sphere = new Sphere(0.5f, Sphere.GENERATE_NORMALS, createAppearance());
+	
+	transformGroup.addChild(sphere);
 	
 	Transform3D yAxis = new Transform3D();
 	yAxis.rotY(Math.PI/2.0f);	
 
-	Alpha objAlpha = new Alpha(-1, 6000);	
-	RotationInterpolator objInterpolator = new RotationInterpolator(objAlpha, transformGroup, yAxis, 0.0f, (float) Math.toRadians(360));
+	Alpha objAlpha = new Alpha(1, 2000);	
+	RotationInterpolator objInterpolator = new RotationInterpolator(objAlpha, transformGroup, yAxis, 0.0f, (float) Math.toRadians(90));
 	
 	BoundingSphere objSphere = new BoundingSphere();	
 	objInterpolator.setSchedulingBounds(objSphere);
@@ -92,7 +95,7 @@ public class Light extends Applet
     {
 	Appearance appearance = new Appearance();
 	Material material = new Material();
-	
+		
 	appearance.setMaterial(material);
 	
 	return appearance;

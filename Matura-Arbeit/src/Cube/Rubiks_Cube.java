@@ -16,16 +16,19 @@ public class Rubiks_Cube{
     Canvas3D canvas;
     SimpleUniverse universe;
     Shape3D line;
-    Stone[][][] stone;
     int angel   = 90;
     int angel2 = 90;
     int angel3 = 90;
-    
+    BranchGroup scene = new BranchGroup();
+    BranchGroup objRoot;    
     TransformGroup objTransform;
-    BranchGroup[][][] branchStone;
+    TransformGroup[][][] stoneTransform;
+    Transform3D[][][] rotate;
     
     /* **** Structure of the Scene Graph ****
      * 
+     *			    scene(BG)
+     *				|
      *			    objRoot(BG)
      *				|
      *	    		  objTransform(TG)----------------------+
@@ -45,7 +48,14 @@ public class Rubiks_Cube{
 	GraphicsConfiguration config = SimpleUniverse.getPreferredConfiguration();
 	canvas = new Canvas3D(config);
 	
-	BranchGroup scene = createSceneGraph();
+	scene.setCapability(BranchGroup.ALLOW_DETACH);
+	scene.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
+	scene.setCapability(BranchGroup.ALLOW_CHILDREN_READ);
+	scene.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
+	
+	scene = createSceneGraph();
+	
+	
 	scene.compile();
 	
 	universe = new SimpleUniverse(canvas);
@@ -60,7 +70,7 @@ public class Rubiks_Cube{
     
     
     private BranchGroup createSceneGraph(){
-	BranchGroup objRoot = new BranchGroup();
+	objRoot = new BranchGroup();
 	objTransform = new TransformGroup(setStart());
 	objTransform.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
 	objTransform.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
@@ -72,18 +82,20 @@ public class Rubiks_Cube{
 	
 	    
 	//construct stones    
-	stone = new Stone[3][3][3];
-	branchStone = new BranchGroup[3][3][3];
-	for(int z = 0; z < stone.length; z++)
-	    for(int y = 0; y < stone.length; y++)
-		for(int x = 0; x < stone.length; x++)
+	stoneTransform	= new TransformGroup[3][3][3];
+	rotate		= new Transform3D[3][3][3];
+	
+	for(int z = 0; z < stoneTransform.length; z++)
+	    for(int y = 0; y < stoneTransform.length; y++)
+		for(int x = 0; x < stoneTransform.length; x++)
 		{
-		    stone[x][y][z]= new Stone(x-1, y-1, z-1);
-		    branchStone[x][y][z] = new BranchGroup();
-		    branchStone[x][y][z].setCapability(BranchGroup.ALLOW_DETACH);
+		    Stone stone = new Stone(x-1, y-1, z-1);
+		    stoneTransform[x][y][z] = new TransformGroup();
+		    stoneTransform[x][y][z].addChild(stone.getTransformGroup());
+		    objTransform.addChild(stoneTransform[x][y][z]);
+		    stoneTransform[x][y][z].setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 		    
-		    branchStone[x][y][z].addChild(stone[x][y][z].getTransformGroup());
-		    objTransform.addChild(branchStone[x][y][z]);
+		    rotate[x][y][z] = new Transform3D();
 		}
 	
 	//construct coordinate system
@@ -155,57 +167,66 @@ public class Rubiks_Cube{
     }
     
     void rotateBlueFace()
-    {		
-	Transform3D rotate = new Transform3D();
-	rotate.rotY(Math.toRadians(angel));
-	
-	BranchGroup branch = new BranchGroup();
-	branch.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
-	
-	TransformGroup rotateBlue = new TransformGroup();
-	rotateBlue.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
-	rotateBlue.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
-	
-	branch.addChild(rotateBlue);
-	
-	for(int x = 0; x < branchStone.length; x++)
-	    for(int z = 0; z < branchStone.length; z++)
+    {	
+	for(int x = 0; x < stoneTransform.length; x++)
+	    for(int z = 0; z < stoneTransform.length; z++)
 	    {
-		objTransform.removeChild(branchStone[x][2][z]);
-		rotateBlue.addChild(branchStone[x][2][z]);
+		Transform3D temp_rot = new Transform3D();
+		temp_rot.rotY(Math.toRadians(90));
+		rotate[x][2][z].mul(temp_rot);		
+		stoneTransform[x][2][z].setTransform(rotate[x][2][z]);
 	    }
-	
-	rotateBlue.setTransform(rotate);
-	objTransform.addChild(branch);
-	
-	
-	
-	angel = angel + 90;
-	
+	changeArrayPosition(1);
     }
 
     void rotateWhiteFace()
-    {}
+    {
+	for(int x = 0; x < stoneTransform.length; x++)
+	    for(int y = 0; y < stoneTransform.length; y++)
+	    {
+		stoneTransform[x][y][2].setTransform(rotate[x][y][2]);
+		Transform3D temp_rot = new Transform3D();
+		temp_rot.rotZ(Math.toRadians(90));
+		stoneTransform[x][y][2].setTransform(temp_rot);
+		rotate[x][y][2].mul(temp_rot);
+	    }
+    }
 
     void rotateOrangeFace()
     {}
-   
-    public void rotateTop()
+
+    private void changeArrayPosition(int side)
     {
-//	TransformGroup temp_corner = stoneTransform[0][2][2];
-//	
-//	stoneTransform[0][2][2] = stoneTransform[0][2][0];
-//	stoneTransform[0][2][0] = stoneTransform[2][2][0];
-//	
-//	stoneTransform[2][2][0] = stoneTransform[2][2][2];
-//	stoneTransform[2][2][2] = temp_corner;
-//	
-//	
-//	TransformGroup temp_edge = stoneTransform[1][2][2];
-//	
-//	stoneTransform[1][2][2] = stoneTransform[0][2][1];
-//	stoneTransform[0][2][1] = stoneTransform[1][2][0];
-//	stoneTransform[1][2][0] = stoneTransform[2][2][1];
-//	stoneTransform[2][2][1] = temp_edge;
-    }    
+	switch (side)
+	{
+	    case 1:
+		TransformGroup temp_corner = stoneTransform[0][2][2];	
+		stoneTransform[0][2][2] = stoneTransform[0][2][0];
+		stoneTransform[0][2][0] = stoneTransform[2][2][0];
+		stoneTransform[2][2][0] = stoneTransform[2][2][2];
+		stoneTransform[2][2][2] = temp_corner;
+		
+		Transform3D temp_rot_corner = rotate[0][2][2];	
+		rotate[0][2][2] = rotate[0][2][0];
+		rotate[0][2][0] = rotate[2][2][0];
+		rotate[2][2][0] = rotate[2][2][2];
+		rotate[2][2][2] = temp_rot_corner;
+
+
+		TransformGroup temp_edge = stoneTransform[1][2][2];
+
+		stoneTransform[1][2][2] = stoneTransform[0][2][1];
+		stoneTransform[0][2][1] = stoneTransform[1][2][0];
+		stoneTransform[1][2][0] = stoneTransform[2][2][1];
+		stoneTransform[2][2][1] = temp_edge;
+		
+		Transform3D temp_rot_edge = rotate[1][2][2];
+
+		rotate[1][2][2] = rotate[0][2][1];
+		rotate[0][2][1] = rotate[1][2][0];
+		rotate[1][2][0] = rotate[2][2][1];
+		rotate[2][2][1] = temp_rot_edge;
+		break;
+	}	    
+    }
 }
