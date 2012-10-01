@@ -1,24 +1,25 @@
 package Cube;
 
-import com.sun.j3d.utils.geometry.Sphere;
-import com.sun.j3d.utils.image.TextureLoader;
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.TextLoader;
-import java.awt.Component;
+import java.awt.Color;
 import javax.media.j3d.*;
 import javax.vecmath.*;
-import com.sun.j3d.utils.image.*;
 
 /**
  *
  * @author Rafael Sebastian Müller
  */
-
 public class Stone
-{  
+{
     //Attribute
     QuadArray array;
-    
     TransformGroup objStone = new TransformGroup();
+    final static Color3f white = new Color3f(Color.WHITE);
+    final static Color3f yellow = new Color3f(Color.YELLOW);
+    final static Color3f blue = new Color3f(Color.BLUE);
+    final static Color3f green = new Color3f(Color.GREEN);
+    final static Color3f red = new Color3f(Color.RED);
+    final static Color3f orange = new Color3f(Color.ORANGE);
+
     /*
      * ZEICHENRICHTUNG
      * Es ist wichtig, dass die Koordianten so gesetzt werden, dass sie
@@ -33,118 +34,132 @@ public class Stone
      * Es werden nur die Steine eingefärbt, die sich aussen befinden. Das Ein-
      * färben ist nur einmal nötig, weil sie sich danach nie mehr ändert.
      */
-    
     //constructor
     public Stone(float x, float y, float z)
     {
-        Geometry geometry = createGeometry(x, y, z);
+	Geometry geometry = createGeometry(x, y, z);
 	Appearance appearance = createAppearance(x, y, z);
 
-	Shape3D shape = new Shape3D(geometry, appearance);	
+	objStone.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+
+	Shape3D shape = new Shape3D(geometry, appearance);
 	objStone.addChild(shape);
-    }    
+    }
 
     //Methoden
     public TransformGroup getTransformGroup()
     {
-        return objStone;
+	return objStone;
     }
-    
+
+    public void turneStone()
+    {
+	Transform3D rotate = new Transform3D();
+	rotate.rotY(Math.toRadians(-90));
+	objStone.setTransform(rotate);
+    }
+
     private Geometry createGeometry(float x, float y, float z)
     {
-	array = new QuadArray(24, GeometryArray.COORDINATES|GeometryArray.COLOR_3);
-	
-	//With the three parameters all Points of stone get calculate
-	Point3f pa = new Point3f(x-0.49f,y-0.49f,z+0.49f);
-        Point3f pb = new Point3f(x+0.49f,y-0.49f,z+0.49f);
-        Point3f pc = new Point3f(x+0.49f,y+0.49f,z+0.49f);
-        Point3f pd = new Point3f(x-0.49f,y+0.49f,z+0.49f);
+	array = new QuadArray(24, GeometryArray.COORDINATES | GeometryArray.COLOR_3|GeometryArray.NORMALS);
 
-        Point3f pe = new Point3f(x-0.49f,y-0.49f,z-0.49f);
-        Point3f pf = new Point3f(x+0.49f,y-0.49f,z-0.49f);
-        Point3f pg = new Point3f(x+0.49f,y+0.49f,z-0.49f);
-        Point3f ph = new Point3f(x-0.49f,y+0.49f,z-0.49f);
-        
-	
-        //front
-        array.setCoordinate(0, pa);
-        array.setCoordinate(1, pb);
-        array.setCoordinate(2, pc);
-        array.setCoordinate(3, pd);        
-        //back
-        array.setCoordinate(4, pe);
-        array.setCoordinate(5, ph);
-        array.setCoordinate(6, pg);
-        array.setCoordinate(7, pf);        
-        //left
-        array.setCoordinate(8, pa);
-        array.setCoordinate(9, pd);
-        array.setCoordinate(10, ph);
-        array.setCoordinate(11, pe);        
-        //right
-        array.setCoordinate(12, pb);
-        array.setCoordinate(13, pf);
-        array.setCoordinate(14, pg);
-        array.setCoordinate(15, pc);        
-        //down
-        array.setCoordinate(16, pa);
-        array.setCoordinate(17, pe);
-        array.setCoordinate(18, pf);
-        array.setCoordinate(19, pb);        
-        //top
-        array.setCoordinate(20, pd);
-        array.setCoordinate(21, pc);
-        array.setCoordinate(22, pg);
-        array.setCoordinate(23, ph);
-	
+	array.setCapability(QuadArray.ALLOW_COLOR_WRITE);
+
+	Float[] x_pos = new Float[2];
+	x_pos[0] = new Float(x - 0.40);
+	x_pos[1] = new Float(x + 0.40);
+
+	Float[] y_pos = new Float[2];
+	y_pos[0] = new Float(y - 0.40);
+	y_pos[1] = new Float(y + 0.40);
+
+	Float[] z_pos = new Float[2];
+	z_pos[0] = new Float(z - 0.40);
+	z_pos[1] = new Float(z + 0.40);
+
+	Point3f[][][] point = new Point3f[2][2][2];
+
+	for (int i = 0; i < x_pos.length; i++)
+	    for (int j = 0; j < y_pos.length; j++)
+		for (int k = 0; k < z_pos.length; k++)
+		    point[i][j][k] = new Point3f(x_pos[i], y_pos[j], z_pos[k]);
+
+	//front
+	array.setCoordinate(0, point[0][0][1]);
+	array.setCoordinate(1, point[1][0][1]);
+	array.setCoordinate(2, point[1][1][1]);
+	array.setCoordinate(3, point[0][1][1]);
+	//back
+	array.setCoordinate(4, point[0][0][0]);
+	array.setCoordinate(5, point[0][1][0]);
+	array.setCoordinate(6, point[1][1][0]);
+	array.setCoordinate(7, point[1][0][0]);
+	//left
+	array.setCoordinate(8, point[0][0][1]);
+	array.setCoordinate(9, point[0][1][1]);
+	array.setCoordinate(10, point[0][1][0]);
+	array.setCoordinate(11, point[0][0][0]);
+	//right
+	array.setCoordinate(12, point[1][0][1]);
+	array.setCoordinate(13, point[1][0][0]);
+	array.setCoordinate(14, point[1][1][0]);
+	array.setCoordinate(15, point[1][1][1]);
+	//down
+	array.setCoordinate(16, point[0][0][1]);
+	array.setCoordinate(17, point[0][0][0]);
+	array.setCoordinate(18, point[1][0][0]);
+	array.setCoordinate(19, point[1][0][1]);
+	//top
+	array.setCoordinate(20, point[0][1][1]);
+	array.setCoordinate(21, point[1][1][1]);
+	array.setCoordinate(22, point[1][1][0]);
+	array.setCoordinate(23, point[0][1][0]);
+
 	return array;
     }
-
 
     private Appearance createAppearance(float x, float y, float z)
     {
 	Appearance appearance = new Appearance();
-	
-	//create Light
-	Material material = new Material();
-	appearance.setMaterial(material);	
-	Sphere sphere = new Sphere(0.5f, Sphere.GENERATE_NORMALS, appearance);
-	objStone.addChild(sphere);
-	AmbientLight ambientLight = new AmbientLight();
-	ambientLight.setInfluencingBounds(new BoundingSphere());
-	
-	
-	Color3f white   = new Color3f(1.0f, 1.0f, 1.0f);
-        Color3f yellow  = new Color3f(1.0f, 1.0f, 0.0f);
-        Color3f blue    = new Color3f(0.0f, 0.0f, 1.0f);
-        Color3f green   = new Color3f(0.0f, 1.0f, 0.0f);
-        Color3f red     = new Color3f(1.0f, 0.0f, 0.0f);
-        Color3f orange  = new Color3f(1.0f, 0.5f, 0.0f); 
-	        
-        if(z == 1)
-            for(int i = 0; i < 4; i++)
-                array.setColor(i, white);
 
-        if(z == -1)
-            for(int i = 4; i < 8; i++)
-                array.setColor(i, yellow);
+	if (z == 1)
+	    for (int i = 0; i < 4; i++)
+		array.setColor(i, white);
 
-        if(x == -1)
-            for(int i = 8; i < 12; i++)
-                array.setColor(i, orange);
+	if (z == -1)
+	    for (int i = 4; i < 8; i++)
+		array.setColor(i, yellow);
 
-        if(x == 1)
-            for(int i = 12; i < 16; i++)
-                array.setColor(i, red);
+	if (x == -1)
+	    for (int i = 8; i < 12; i++)
+		array.setColor(i, orange);
 
-        if(y == -1)
-            for(int i = 16; i < 20; i++)
-                array.setColor(i, green);
+	if (x == 1)
+	    for (int i = 12; i < 16; i++)
+		array.setColor(i, red);
 
-        if(y == 1)
-            for(int i = 20; i < 24; i++)
-                array.setColor(i, blue);
-	
+	if (y == -1)
+	    for (int i = 16; i < 20; i++)
+		array.setColor(i, green);
+
+	if (y == 1)
+	    for (int i = 20; i < 24; i++)
+		array.setColor(i, blue);
+
 	return appearance;
     }
+
+    void changeColor()
+    {
+	for (int i = 0; i < 4; i++)
+	    array.setColor(i, orange);
+	for (int i = 8; i < 12; i++)
+	    array.setColor(i, yellow);
+	for (int i = 4; i < 8; i++)
+	    array.setColor(i, red);
+	for (int i = 12; i < 16; i++)
+	    array.setColor(i, white);
+    }
+    
+
 }
