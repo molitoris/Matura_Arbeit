@@ -2,7 +2,9 @@ package Cube;
 
 import java.awt.Color;
 import javax.media.j3d.*;
+import javax.media.j3d.QuadArray;
 import javax.vecmath.*;
+
 
 /**
  *
@@ -11,14 +13,20 @@ import javax.vecmath.*;
 public class Stone
 {
     //Attribute
-    QuadArray array;
+    QuadArray[] array = new QuadArray[6];
     TransformGroup objStone = new TransformGroup();
     final static Color3f white = new Color3f(Color.WHITE);
     final static Color3f yellow = new Color3f(Color.YELLOW);
     final static Color3f blue = new Color3f(Color.BLUE);
     final static Color3f green = new Color3f(Color.GREEN);
     final static Color3f red = new Color3f(Color.RED);
-    final static Color3f orange = new Color3f(Color.ORANGE);
+    final static Color3f orange = new Color3f(new Color(244, 158, 2));
+    private String x_axe;
+    private String y_axe;
+    
+    Shape3D shape = new Shape3D();
+    int x_axis;
+    int y_axis;
 
     /*
      * ZEICHENRICHTUNG
@@ -37,12 +45,9 @@ public class Stone
     //constructor
     public Stone(float x, float y, float z)
     {
-	Geometry geometry = createGeometry(x, y, z);
-	Appearance appearance = createAppearance(x, y, z);
-
+	shape = createGeometry(x, y, z);
+	shape.setAppearance(createAppearance(x, y, z));
 	objStone.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-
-	Shape3D shape = new Shape3D(geometry, appearance);
 	objStone.addChild(shape);
     }
 
@@ -52,19 +57,8 @@ public class Stone
 	return objStone;
     }
 
-    public void turneStone()
+    private Shape3D createGeometry(float x, float y, float z)
     {
-	Transform3D rotate = new Transform3D();
-	rotate.rotY(Math.toRadians(-90));
-	objStone.setTransform(rotate);
-    }
-
-    private Geometry createGeometry(float x, float y, float z)
-    {
-	array = new QuadArray(24, GeometryArray.COORDINATES | GeometryArray.COLOR_3|GeometryArray.NORMALS);
-
-	array.setCapability(QuadArray.ALLOW_COLOR_WRITE);
-
 	Float[] x_pos = new Float[2];
 	x_pos[0] = new Float(x - 0.40);
 	x_pos[1] = new Float(x + 0.40);
@@ -83,83 +77,406 @@ public class Stone
 	    for (int j = 0; j < y_pos.length; j++)
 		for (int k = 0; k < z_pos.length; k++)
 		    point[i][j][k] = new Point3f(x_pos[i], y_pos[j], z_pos[k]);
+	
+	for(int i = 0; i < array.length; i++)
+	{
+	    array[i] = new QuadArray(4, GeometryArray.COORDINATES | GeometryArray.COLOR_3);
+	    array[i].setCapability(QuadArray.ALLOW_COLOR_WRITE);
+	}
 
 	//front
-	array.setCoordinate(0, point[0][0][1]);
-	array.setCoordinate(1, point[1][0][1]);
-	array.setCoordinate(2, point[1][1][1]);
-	array.setCoordinate(3, point[0][1][1]);
+	    array[0].setCoordinate(0, point[0][0][1]);
+	    array[0].setCoordinate(1, point[1][0][1]);
+	    array[0].setCoordinate(2, point[1][1][1]);
+	    array[0].setCoordinate(3, point[0][1][1]);
 	//back
-	array.setCoordinate(4, point[0][0][0]);
-	array.setCoordinate(5, point[0][1][0]);
-	array.setCoordinate(6, point[1][1][0]);
-	array.setCoordinate(7, point[1][0][0]);
+	    array[1].setCoordinate(0, point[0][0][0]);
+	    array[1].setCoordinate(1, point[0][1][0]);
+	    array[1].setCoordinate(2, point[1][1][0]);
+	    array[1].setCoordinate(3, point[1][0][0]);
 	//left
-	array.setCoordinate(8, point[0][0][1]);
-	array.setCoordinate(9, point[0][1][1]);
-	array.setCoordinate(10, point[0][1][0]);
-	array.setCoordinate(11, point[0][0][0]);
+	    array[2].setCoordinate(0, point[0][0][1]);
+	    array[2].setCoordinate(1, point[0][1][1]);
+	    array[2].setCoordinate(2, point[0][1][0]);
+	    array[2].setCoordinate(3, point[0][0][0]);
 	//right
-	array.setCoordinate(12, point[1][0][1]);
-	array.setCoordinate(13, point[1][0][0]);
-	array.setCoordinate(14, point[1][1][0]);
-	array.setCoordinate(15, point[1][1][1]);
+	    array[3].setCoordinate(0, point[1][0][1]);
+	    array[3].setCoordinate(1, point[1][0][0]);
+	    array[3].setCoordinate(2, point[1][1][0]);
+	    array[3].setCoordinate(3, point[1][1][1]);
 	//down
-	array.setCoordinate(16, point[0][0][1]);
-	array.setCoordinate(17, point[0][0][0]);
-	array.setCoordinate(18, point[1][0][0]);
-	array.setCoordinate(19, point[1][0][1]);
+	    array[4].setCoordinate(0, point[0][0][1]);
+	    array[4].setCoordinate(1, point[0][0][0]);
+	    array[4].setCoordinate(2, point[1][0][0]);
+	    array[4].setCoordinate(3, point[1][0][1]);
 	//top
-	array.setCoordinate(20, point[0][1][1]);
-	array.setCoordinate(21, point[1][1][1]);
-	array.setCoordinate(22, point[1][1][0]);
-	array.setCoordinate(23, point[0][1][0]);
+	    array[5].setCoordinate(0, point[0][1][1]);
+	    array[5].setCoordinate(1, point[1][1][1]);
+	    array[5].setCoordinate(2, point[1][1][0]);
+	    array[5].setCoordinate(3, point[0][1][0]);
 
-	return array;
+	for(int i = 0; i < array.length; i++)
+	{
+	   shape.addGeometry(array[i]);
+	}
+	
+	return shape;
     }
 
     private Appearance createAppearance(float x, float y, float z)
     {
 	Appearance appearance = new Appearance();
+	    for(int i = 0; i < 4; i++)
+	    {
+		if (z == 1)
+		    array[0].setColor(i, white);
 
-	if (z == 1)
-	    for (int i = 0; i < 4; i++)
-		array.setColor(i, white);
+		if (z == -1)
+		    array[1].setColor(i, yellow);
 
-	if (z == -1)
-	    for (int i = 4; i < 8; i++)
-		array.setColor(i, yellow);
+		if (x == -1)
+		    array[2].setColor(i, orange);
 
-	if (x == -1)
-	    for (int i = 8; i < 12; i++)
-		array.setColor(i, orange);
+		if (x == 1)
+		    array[3].setColor(i, red);
 
-	if (x == 1)
-	    for (int i = 12; i < 16; i++)
-		array.setColor(i, red);
+		if (y == -1)
+		    array[4].setColor(i, green);
 
-	if (y == -1)
-	    for (int i = 16; i < 20; i++)
-		array.setColor(i, green);
-
-	if (y == 1)
-	    for (int i = 20; i < 24; i++)
-		array.setColor(i, blue);
-
+		if (y == 1)
+		    array[5].setColor(i, blue);
+	    }
 	return appearance;
     }
 
-    void changeColor()
+    void setLocalCord()
     {
-	for (int i = 0; i < 4; i++)
-	    array.setColor(i, orange);
-	for (int i = 8; i < 12; i++)
-	    array.setColor(i, yellow);
-	for (int i = 4; i < 8; i++)
-	    array.setColor(i, red);
-	for (int i = 12; i < 16; i++)
-	    array.setColor(i, white);
+	x_axis = 1;
+	y_axis = 5;
     }
     
-
+    void setLocalCord(int x_axis, int y_axis)
+    {
+	this.x_axis = x_axis;
+	this.y_axis = y_axis;
+    }
+    
+    public int getX_axis()
+    {
+	return x_axis;
+    }
+    
+    public int getY_axis()
+    {
+	return y_axis;
+    }
+    
+    public Transform3D getTransform(float angle, int rotate_axis, int x_axis, int y_axis)
+    {
+	Transform3D rotate = new Transform3D();
+	
+// *** Es wird um die x-Achse rotiert *** //
+	if(rotate_axis == 1)
+	{
+	    //x-Achse ist gegen rechts gerichtet
+	    if(x_axis == 1 ){//
+		if(y_axis == 5){
+		    rotate.rotX(Math.toRadians(angle));
+		    y_axis = 4;
+		} else if(y_axis == 6){
+		    rotate.rotX(Math.toRadians(angle));
+		    y_axis = 2;
+		} else if(y_axis == 2){
+		    rotate.rotX(Math.toRadians(angle));
+		    y_axis = 5;
+		} else if(y_axis == 4){
+		    rotate.rotX(Math.toRadians(angle));
+		    y_axis = 6;
+		}
+	    } 
+	    //x-Achse gegen hinten gerichtet
+	    else if(x_axis == 2){//
+		if(y_axis == 5){
+		    rotate.rotZ(Math.toRadians(angle));
+		    y_axis = 4;
+		} else if(y_axis == 6){
+		    rotate.rotZ(Math.toRadians(-angle));
+		    y_axis = 2;
+		} else if(y_axis == 1){
+		    rotate.rotY(Math.toRadians(angle));
+		} else if(y_axis == 3){
+		    rotate.rotY(Math.toRadians(-angle));
+		}
+		x_axis = 5;
+	    }
+	    //x-Achse gegen links gerichtet
+	    else if(x_axis == 3){//
+		if(y_axis == 5){
+		    rotate.rotX(Math.toRadians(-angle));
+		    y_axis = 4;
+		} else if(y_axis == 6){
+		    rotate.rotX(Math.toRadians(-angle));
+		    y_axis = 2;
+		} else if(y_axis == 2){
+		    rotate.rotX(Math.toRadians(-angle));
+		    y_axis = 5;
+		} else if(y_axis == 4){
+		    rotate.rotX(Math.toRadians(-angle));
+		    y_axis = 6;
+		}
+		x_axis = 3;
+	    }
+	    //x-Achse gegen vorne gerichtet
+	    else if(x_axis == 4){//
+		if(y_axis == 5){
+		    rotate.rotZ(Math.toRadians(-angle));
+		    y_axis = 4;
+		} else if(y_axis == 6){
+		    rotate.rotZ(Math.toRadians(angle));
+		    y_axis = 2;
+		} else if(y_axis == 1){
+		    rotate.rotY(Math.toRadians(angle));
+		} else if(y_axis == 3){
+		    rotate.rotY(Math.toRadians(-angle));
+		}
+		x_axis = 6;
+	    }
+	    //x-Achse gegen oben gerichtet
+	    else if(x_axis == 5){
+		if(y_axis == 1){
+		    rotate.rotY(Math.toRadians(angle));
+		    y_axis = 1;
+		} else if(y_axis == 3){
+		    rotate.rotY(Math.toRadians(-angle));
+		    y_axis = 3;
+		} else if(y_axis == 2){
+		    rotate.rotZ(Math.toRadians(-angle));
+		    y_axis = 5;
+		} else if(y_axis == 4){
+		    rotate.rotZ(Math.toRadians(angle));
+		    y_axis = 6;
+		}
+		x_axis = 4;
+	    }
+	    //x-Achse gegen unten gerichtet
+	    else if(x_axis == 6){
+		if(y_axis == 1){
+		    rotate.rotY(Math.toRadians(angle));
+		    y_axis = 1;
+		} else if(y_axis == 3){
+		    rotate.rotY(Math.toRadians(-angle));
+		    y_axis = 3;
+		} else if(y_axis == 2){
+		    rotate.rotZ(Math.toRadians(angle));
+		    y_axis = 5;
+		} else if(y_axis == 4){
+		    rotate.rotZ(Math.toRadians(-angle));
+		    y_axis = 6;
+		}
+		x_axis = 2;
+	    }
+	}
+// *** Es wird um die y-Achse rotiert *** //
+ 	else if(rotate_axis == 2)
+	{
+	    //x-Achse gegen rechts gerichtet
+	    if(x_axis == 1){//
+		if(y_axis == 5){
+		    rotate.rotY(Math.toRadians(angle));
+		} else if(y_axis == 6){
+		    rotate.rotY(Math.toRadians(-angle));
+		} else if(y_axis == 2){
+		    rotate.rotZ(Math.toRadians(angle));
+		    y_axis = 3;
+		} else if(y_axis == 4){
+		    rotate.rotZ(Math.toRadians(-angle));
+		    y_axis = 1;
+		}
+		x_axis = 2;	
+	    }
+	    //x-Achse gegen hinten gerichtet
+	    else if(x_axis == 2){//
+		if(y_axis == 5){
+		    rotate.rotY(Math.toRadians(angle));
+		} else if(y_axis == 6){
+		    rotate.rotY(Math.toRadians(-angle));
+		} else if(y_axis == 1){
+		    rotate.rotZ(Math.toRadians(-angle));
+		    y_axis = 2;
+		} else if(y_axis == 3){
+		    rotate.rotZ(Math.toRadians(angle));
+		    y_axis = 4;
+		}
+		x_axis = 3;
+	    }
+	    //x-Achse gegen links gerichtet
+	    else if(x_axis == 3){//
+		if(y_axis == 5){
+		    rotate.rotY(Math.toRadians(angle));
+		} else if(y_axis == 6){
+		    rotate.rotY(Math.toRadians(-angle));
+		} else if(y_axis == 2){
+		    rotate.rotZ(Math.toRadians(-angle));
+		    y_axis = 3;
+		} else if(y_axis == 4){
+		    rotate.rotZ(Math.toRadians(angle));
+		    y_axis = 1;
+		}
+		x_axis = 4;
+	    }
+	    //x_Achse gegen vorne gerichtet
+	    else if(x_axis == 4){
+		if(y_axis == 5){
+		    rotate.rotY(Math.toRadians(angle));
+		    x_axis = 1;
+		    y_axis = 5;
+		} else if(y_axis == 6){
+		    rotate.rotY(Math.toRadians(-angle));
+		    x_axis = 1;
+		    y_axis = 6;
+		} else if(y_axis == 1){
+		    rotate.rotZ(Math.toRadians(angle));
+		    x_axis = 1;
+		    y_axis = 2;
+		} else if(y_axis == 3){
+		    rotate.rotZ(Math.toRadians(-angle));
+		    x_axis = 1;
+		    y_axis = 4;
+		}
+	    }
+	    //x-Achse gegen oben gerichtet
+	    else if(x_axis == 5){
+		if(y_axis == 1){
+		    rotate.rotX(Math.toRadians(angle));
+		    y_axis = 2;
+		} else if(y_axis == 3){
+		    rotate.rotX(Math.toRadians(angle));
+		    y_axis = 4;
+		} else if(y_axis == 2){
+		    rotate.rotX(Math.toRadians(angle));
+		    y_axis = 3;
+		} else if(y_axis == 4){
+		    rotate.rotX(Math.toRadians(angle));
+		    y_axis = 1;
+		}
+		x_axis = 5;
+	    }
+	    //x-Achse gegen unten gerichtet
+	    else if(x_axis == 6){//
+		if(y_axis == 1){
+		    rotate.rotX(Math.toRadians(-angle));
+		    y_axis = 2;
+		} else if(y_axis == 3){
+		    rotate.rotX(Math.toRadians(-angle));
+		    y_axis = 4;
+		} else if(y_axis == 2){
+		    rotate.rotX(Math.toRadians(-angle));
+		    y_axis = 3;
+		} else if(y_axis == 4){
+		    rotate.rotX(Math.toRadians(-angle));
+		    y_axis = 1;
+		}
+	    }
+	}
+// *** Es soll um die z-Achse rotiert werden *** //
+	else if(rotate_axis == 3)
+	{
+	    //x-Achse gegen rechts gerichtet
+	    if(x_axis == 1){//
+		if(y_axis == 5){
+		    rotate.rotZ(Math.toRadians(angle));
+		    y_axis = 3;
+		} else if(y_axis == 6){
+		    rotate.rotZ(Math.toRadians(-angle));
+		    y_axis = 1;
+		} else if(y_axis == 2){
+		    rotate.rotY(Math.toRadians(-angle));
+		} else if(y_axis ==4){
+		    rotate.rotY(Math.toRadians(angle));
+		}
+		x_axis = 5;
+	    }
+	    //x-Achse gegen hinten gerichtet
+	    else if(x_axis == 2){//
+		if(y_axis == 5){
+		    rotate.rotX(Math.toRadians(-angle));
+		    y_axis = 3;
+		} else if(y_axis == 6){
+		    rotate.rotX(Math.toRadians(-angle));
+		    y_axis = 1;
+		} else if(y_axis == 1){
+		    rotate.rotX(Math.toRadians(-angle));
+		    y_axis = 5;
+		} else if(y_axis == 3){
+		    rotate.rotX(Math.toRadians(-angle));
+		    y_axis = 6;
+		}
+	    }
+	    //x-Achse gegen links gerichtet
+	    else if(x_axis == 3){//
+		if(y_axis == 5){
+		    rotate.rotZ(Math.toRadians(-angle));
+		    y_axis = 3;
+		} else if(y_axis == 6){
+		    rotate.rotZ(Math.toRadians(angle));
+		    y_axis = 1;
+		} else if(y_axis == 2){
+		    rotate.rotY(Math.toRadians(-angle));
+		} else if(y_axis ==4){
+		    rotate.rotY(Math.toRadians(angle));
+		}
+		x_axis = 6;
+	    }
+	    //x_Achse gegen vorne gerichtet
+	    else if(x_axis == 4){//
+		if(y_axis == 5){
+		    rotate.rotX(Math.toRadians(angle));
+		    y_axis = 3;
+		} else if(y_axis == 6){
+		    rotate.rotX(Math.toRadians(angle));
+		    y_axis = 1;
+		} else if(y_axis == 1){
+		    rotate.rotX(Math.toRadians(angle));
+		    y_axis = 5;
+		} else if(y_axis == 3){
+		    rotate.rotX(Math.toRadians(angle));
+		    y_axis = 6;
+		}
+		x_axis = 4;
+	    }
+	    //x-Achse gegen oben gerichtet
+	    else if(x_axis == 5){//
+		if(y_axis == 1){
+		    rotate.rotZ(Math.toRadians(-angle));
+		    y_axis = 5;
+		} else if(y_axis == 3){
+		    rotate.rotZ(Math.toRadians(angle));
+		    y_axis = 6;
+		} else if(y_axis == 2){
+		    rotate.rotY(Math.toRadians(-angle));
+		} else if(y_axis == 4){
+		    rotate.rotY(Math.toRadians(angle));
+		}
+		x_axis = 3;
+	    }
+	    //x-Achse gegen unten gerichtet
+	    else if(x_axis == 6){//
+		if(y_axis == 1){
+		    rotate.rotZ(Math.toRadians(angle));
+		    y_axis = 5;
+		} else if(y_axis == 3){
+		    rotate.rotZ(Math.toRadians(-angle));
+		    y_axis = 6;
+		} else if(y_axis == 2){
+		    rotate.rotY(Math.toRadians(-angle));
+		} else if(y_axis == 4){
+		    rotate.rotY(Math.toRadians(angle));
+		}
+		x_axis = 1;
+	    }
+	}
+	this.x_axis = x_axis;
+	this.y_axis = y_axis;
+	return rotate;
+    }  
 }

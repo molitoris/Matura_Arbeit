@@ -28,47 +28,57 @@ public final class GUI
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);        
         frame.setLayout(new BorderLayout());
-        	
-        Container container = new Container();
-        container = frame.getContentPane();
         
         cube = new Rubiks_Cube();
-        container.add("Center", cube.returnCanvas());
 	
-	container.add("North", createPanel());
-        
+        frame.add("Center", cube.returnCanvas());	
+	frame.add("North", createPanel());        
         frame.setVisible(true);
     }    
-    //Methoden
     
-    public JPanel createPanel()
+    private JPanel createPanel()
     {
 	JPanel panel = new JPanel();
 	
-	final JButton button = new JButton("Top");
-	final JButton button2 = new JButton("Front");
-	final JButton button3 = new JButton("Right");
-	
+	final JButton white = new JButton("White");
+	final JButton yellow = new JButton("Yellow");
+	final JButton red = new JButton("Red");
+	final JButton orange = new JButton("Orange");
+	final JButton blue = new JButton("Blue");
+	final JButton green = new JButton("Green");
+			
 	ActionListener al = new ActionListener() {
 
 	    @Override
 	    public void actionPerformed(ActionEvent e)
 	    {
-		if(e.getSource() == button)
-		    cube.rotateBlueFace();
-		if(e.getSource() == button2)
+		if(e.getSource() == white)
 		    cube.rotateWhiteFace();
-		if(e.getSource() == button3)
-		   cube.rotateOrangeFace(); 
+		if(e.getSource() == yellow)
+		    cube.rotateYelllowFace();
+		if(e.getSource() == red)
+		   cube.rotateRedFace(); 
+		if(e.getSource() == orange)
+		    cube.rotateOrangeFace();
+		if(e.getSource() == blue)
+		    cube.rotateBlueFace();
+		if(e.getSource() == green)
+		    cube.rotateGreenFace();
 	    }
 	};
-	button.addActionListener(al);
-	button2.addActionListener(al);
-	button3.addActionListener(al);
+	white.addActionListener(al);
+	yellow.addActionListener(al);
+	red.addActionListener(al);
+	orange.addActionListener(al);
+	blue.addActionListener(al);
+	green.addActionListener(al);
 	
-	panel.add(button);
-	panel.add(button2);
-	panel.add(button3);
+	panel.add(white);
+//	panel.add(yellow);
+	panel.add(red);
+//	panel.add(orange);
+	panel.add(blue);
+//	panel.add(green);
 	
 	return panel;
     }

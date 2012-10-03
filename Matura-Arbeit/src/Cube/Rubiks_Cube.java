@@ -4,6 +4,7 @@ import com.sun.j3d.utils.behaviors.mouse.MouseRotate;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 import javax.media.j3d.*;
 import javax.vecmath.Color3f;
+import javax.vecmath.Matrix3f;
 import javax.vecmath.Point3f;
 
 /**
@@ -23,12 +24,13 @@ public class Rubiks_Cube{
     Canvas3D canvas;
     
     //SimpleUniverse generiert automatisch den ViewBranchGraph. Dadurch muss man sich nicht um die Kameraeinstellungen kümmern.
-
     TransformGroup objTransform;
     
+    String x_axe;
+    String y_axe;
     
     int count = 0;
-    float angle = 15f;
+    float angle = 90f;
     
     TransformGroup[][][] stoneTransform	= new TransformGroup[3][3][3];
     Transform3D[][][] rotate = new Transform3D[3][3][3];
@@ -36,8 +38,6 @@ public class Rubiks_Cube{
     
     /* **** Structure of the Scene Graph ****
      * 
-     *			    scene(BG)
-     *				|
      *			    objRoot(BG)
      *				|
      *	    		  objTransform(TG)----------------------+
@@ -56,14 +56,14 @@ public class Rubiks_Cube{
     Rubiks_Cube()
     {		
 	SimpleUniverse universe = createViewBranchGraph();
-	universe.addBranchGraph(createContentBranchGraph());	
+	universe.addBranchGraph(createContentBranchGraph());
     }
 
     private SimpleUniverse createViewBranchGraph(){
 	canvas = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
 	SimpleUniverse simpleUniverse = new SimpleUniverse(canvas);
 	
-	canvas.getView().setFieldOfView(0.09);
+	canvas.getView().setFieldOfView(0.1);
 	canvas.getView().setWindowEyepointPolicy(View.RELATIVE_TO_WINDOW);
 	simpleUniverse.getViewingPlatform().setNominalViewingTransform();
 	
@@ -76,22 +76,19 @@ public class Rubiks_Cube{
 	
 	objTransform = new TransformGroup(setStart());
 	objTransform.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
-	objTransform.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
+	objTransform.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);	
 		
-	//cenerate roation Behavoir
+	//cenerate roation Behavior
 	MouseRotate rotateMouse = createMouseRotation();
 	objRoot.addChild(rotateMouse);
 	
-//	Shape3D quad = createQuad();
-//	objTransform.addChild(quad);
-	
-
 	//construct stones		
 	for(int z = 0; z < stoneTransform.length; z++)
 	    for(int y = 0; y < stoneTransform.length; y++)
 		for(int x = 0; x < stoneTransform.length; x++)
 		{
 		    stone[x][y][z] = new Stone(x-1, y-1, z-1);
+		    stone[x][y][z].setLocalCord();
 		    stoneTransform[x][y][z] = new TransformGroup();
 		    rotate[x][y][z] = new Transform3D();
 		    stoneTransform[x][y][z].addChild(stone[x][y][z].getTransformGroup());
@@ -100,7 +97,7 @@ public class Rubiks_Cube{
 		}
 	
 	//construct coordinate system
-	Shape3D cordSystem = createCoordinateSystem();
+	Shape3D cordSystem = createCoordSystem();
 	objTransform.addChild(cordSystem);
 		
 	objRoot.addChild(objTransform);
@@ -133,7 +130,7 @@ public class Rubiks_Cube{
 	return rotate;
     }
 
-    private Shape3D createCoordinateSystem(){	
+    private Shape3D createCoordSystem(){	
 	LineArray lineArray = new LineArray(6, GeometryArray.COORDINATES|GeometryArray.COLOR_3|LineAttributes.PATTERN_DASH);
         
         Point3f p0 = new Point3f( 0.0f,  0.0f,  0.0f);
@@ -166,88 +163,256 @@ public class Rubiks_Cube{
 	return shape;
     }
     
-    void rotateBlueFace()
-    {	
-	for(int x = 0; x < stoneTransform.length; x++)
-	    for(int z = 0; z < stoneTransform.length; z++)
-	    {
-		Transform3D temp_rot = new Transform3D();
-		temp_rot.rotY(Math.toRadians(90));
-		rotate[x][2][z].mul(temp_rot);		
-		stoneTransform[x][2][z].setTransform(rotate[x][2][z]);
-	    }
-	changeArrayPosition(1);
-	count++;
-    }
-
     void rotateWhiteFace()
     {
 	for(int x = 0; x < stoneTransform.length; x++)
 	    for(int y = 0; y < stoneTransform.length; y++)
 	    {
-		if((count - 1) % 4 ==0 && x == 2 && y == 2 || (count - 1) % 4 ==0 && x == 1 && y == 2 || (count - 1) % 4 ==0 && x == 0 && y == 2)
-		{
-		    Transform3D temp_rot = new Transform3D();
-		    temp_rot.rotX(Math.toRadians(-angle));		
-		    rotate[x][y][2].mul(temp_rot);		
-		    stoneTransform[x][y][2].setTransform(rotate[x][y][2]);
-		}
-		else
-		{
-		    Transform3D temp_rot = new Transform3D();
-		    temp_rot.rotZ(Math.toRadians(angle));
-		    rotate[x][y][2].mul(temp_rot);		
-		    stoneTransform[x][y][2].setTransform(rotate[x][y][2]);
-		}		
+		Transform3D temp_rot = new Transform3D();
+		temp_rot = stone[x][y][2].getTransform(90, 3, stone[x][y][2].getX_axis(), stone[x][y][2].getY_axis());
+		rotate[x][y][2].mul(temp_rot);		
+		stoneTransform[x][y][2].setTransform(rotate[x][y][2]);
 	    }
+	changeArrayPosition(4);
+    }
+    
+    void rotateYelllowFace()
+    {
+	for(int x = 0; x < stoneTransform.length; x++)
+	    for(int y = 0; y < stoneTransform.length; y++)
+	    {
+		Transform3D temp_rot = new Transform3D();
+		temp_rot = stone[x][y][0].getTransform(-90, 3, stone[x][y][0].getX_axis(), stone[x][y][0].getY_axis());
+		rotate[x][y][0].mul(temp_rot);		
+		stoneTransform[x][y][0].setTransform(rotate[x][y][0]);
+	    }
+	changeArrayPosition(2);
+    }
+    
+    void rotateRedFace()
+    {
+	for(int z = 0; z < stoneTransform.length; z++)
+	    for(int y = 0; y < stoneTransform.length; y++)
+	    {
+		Transform3D temp_rot = new Transform3D();
+		temp_rot = stone[2][y][z].getTransform(90, 1, stone[2][y][z].getX_axis(), stone[2][y][z].getY_axis());
+		rotate[2][y][z].mul(temp_rot);		
+		stoneTransform[2][y][z].setTransform(rotate[2][y][z]);
+	    }
+	changeArrayPosition(1);
     }
 
     void rotateOrangeFace()
     {
-	
+	for(int z = 0; z < stoneTransform.length; z++)
+	    for(int y = 0; y < stoneTransform.length; y++)
+	    {
+		Transform3D temp_rot = new Transform3D();
+		temp_rot = stone[0][y][z].getTransform(-90, 1, stone[0][y][z].getX_axis(), stone[0][y][z].getY_axis());
+		rotate[0][y][z].mul(temp_rot);		
+		stoneTransform[0][y][z].setTransform(rotate[0][y][z]);
+	    }
+	changeArrayPosition(3);
+    }
+    
+    void rotateBlueFace()
+    {	
+	for(int x = 0; x < stoneTransform.length; x++)
+	    for(int z = 0; z < stoneTransform.length; z++)
+	    {		
+		Transform3D temp_rot = new Transform3D();
+		temp_rot = stone[x][2][z].getTransform(90, 2, stone[x][2][z].getX_axis(), stone[x][2][z].getY_axis());
+		rotate[x][2][z].mul(temp_rot);		
+		stoneTransform[x][2][z].setTransform(rotate[x][2][z]);
+	    }
+	changeArrayPosition(5);
+    }
+
+    void rotateGreenFace()
+    {
+	for(int x = 0; x < stoneTransform.length; x++)
+	    for(int z = 0; z < stoneTransform.length; z++)
+	    {		
+		Transform3D temp_rot = new Transform3D();
+		temp_rot = stone[x][0][z].getTransform(-90, 2, stone[x][0][z].getX_axis(), stone[x][0][z].getY_axis());
+		rotate[x][0][z].mul(temp_rot);		
+		stoneTransform[x][0][z].setTransform(rotate[x][0][z]);
+	    }
+	changeArrayPosition(6);
     }
 
     private void changeArrayPosition(int side)
     {
+	TransformGroup tempTG_corner;
+	TransformGroup tempTG_edge;
+	
+	Transform3D tempTF_corner;
+	Transform3D tempTF_edge;
+	
+	Stone tempST_corner;
+	Stone tempST_edge;
+	
 	switch (side)
 	{
-	    case 1:		
-		TransformGroup tempTG_corner = stoneTransform[0][2][2];	
+	    //Rotation der Right (Rote Wand)
+	    case 1:
+		tempTG_corner = stoneTransform[2][0][2];	
+		stoneTransform[2][0][2] = stoneTransform[2][2][2];
+		stoneTransform[2][2][2] = stoneTransform[2][2][0];
+		stoneTransform[2][2][0] = stoneTransform[2][0][0];
+		stoneTransform[2][0][0] = tempTG_corner;
+		
+		tempTG_edge = stoneTransform[2][0][1];
+		stoneTransform[2][0][1] = stoneTransform[2][1][2];
+		stoneTransform[2][1][2] = stoneTransform[2][2][1];
+		stoneTransform[2][2][1] = stoneTransform[2][1][0];
+		stoneTransform[2][1][0] = tempTG_edge;
+		
+		tempTF_corner = rotate[2][0][2];	
+		rotate[2][0][2] = rotate[2][2][2];
+		rotate[2][2][2] = rotate[2][2][0];
+		rotate[2][2][0] = rotate[2][0][0];
+		rotate[2][0][0] = tempTF_corner;
+		
+		tempTF_edge = rotate[2][0][1];
+		rotate[2][0][1] = rotate[2][1][2];
+		rotate[2][1][2] = rotate[2][2][1];
+		rotate[2][2][1] = rotate[2][1][0];
+		rotate[2][1][0] = tempTF_edge;
+		
+		tempST_corner = stone[2][0][2];	
+		stone[2][0][2] = stone[2][2][2];
+		stone[2][2][2] = stone[2][2][0];
+		stone[2][2][0] = stone[2][0][0];
+		stone[2][0][0] = tempST_corner;
+		
+		tempST_edge = stone[2][0][1];
+		stone[2][0][1] = stone[2][1][2];
+		stone[2][1][2] = stone[2][2][1];
+		stone[2][2][1] = stone[2][1][0];
+		stone[2][1][0] = tempST_edge;
+		break;
+		
+	    //Rotation der Back (Gelbe Wand)
+	    case 2:
+		tempTG_corner = stoneTransform[2][0][0];	
+		stoneTransform[2][0][0] = stoneTransform[0][0][0];
+		stoneTransform[0][0][0] = stoneTransform[0][2][0];
+		stoneTransform[0][2][0] = stoneTransform[2][2][0];
+		stoneTransform[2][2][0] = tempTG_corner;
+		
+		tempTG_edge = stoneTransform[1][0][0];
+		stoneTransform[1][0][0] = stoneTransform[0][1][0];
+		stoneTransform[0][1][0] = stoneTransform[1][2][0];
+		stoneTransform[1][2][0] = stoneTransform[1][1][0];
+		stoneTransform[1][1][0] = tempTG_edge;
+		
+		tempTF_corner = rotate[2][0][0];	
+		rotate[2][0][0] = rotate[0][0][0];
+		rotate[0][0][0] = rotate[0][2][0];
+		rotate[0][2][0] = rotate[2][2][0];
+		rotate[2][2][0] = tempTF_corner;
+		
+		tempTF_edge = rotate[1][0][0];
+		rotate[1][0][0] = rotate[0][1][0];
+		rotate[0][1][0] = rotate[1][2][0];
+		rotate[1][2][0] = rotate[1][1][0];
+		rotate[1][1][0] = tempTF_edge;
+		
+		tempST_corner = stone[2][0][0];	
+		stone[2][0][0] = stone[0][0][0];
+		stone[0][0][0] = stone[0][2][0];
+		stone[0][2][0] = stone[2][2][0];
+		stone[2][2][0] = tempST_corner;
+		
+		tempST_edge = stone[1][0][0];
+		stone[1][0][0] = stone[0][1][0];
+		stone[0][1][0] = stone[1][2][0];
+		stone[1][2][0] = stone[1][1][0];
+		stone[1][1][0] = tempST_edge;
+		break;
+		
+	    //Rotation der Front (Weisse Wand)
+	    case 4:
+		tempTG_corner = stoneTransform[0][0][2];	
+		stoneTransform[0][0][2] = stoneTransform[0][2][2];
+		stoneTransform[0][2][2] = stoneTransform[2][2][2];
+		stoneTransform[2][2][2] = stoneTransform[2][0][2];
+		stoneTransform[2][0][2] = tempTG_corner;
+		
+		tempTG_edge = stoneTransform[1][0][2];
+		stoneTransform[1][0][2] = stoneTransform[0][1][2];
+		stoneTransform[0][1][2] = stoneTransform[1][2][2];
+		stoneTransform[1][2][2] = stoneTransform[2][1][2];
+		stoneTransform[2][1][2] = tempTG_edge;
+		
+		tempTF_corner = rotate[0][0][2];	
+		rotate[0][0][2] = rotate[0][2][2];
+		rotate[0][2][2] = rotate[2][2][2];
+		rotate[2][2][2] = rotate[2][0][2];
+		rotate[2][0][2] = tempTF_corner;
+		
+		tempTF_edge = rotate[1][0][2];
+		rotate[1][0][2] = rotate[0][1][2];
+		rotate[0][1][2] = rotate[1][2][2];
+		rotate[1][2][2] = rotate[2][1][2];
+		rotate[2][1][2] = tempTF_edge;
+		
+		tempST_corner = stone[0][0][2];	
+		stone[0][0][2] = stone[0][2][2];
+		stone[0][2][2] = stone[2][2][2];
+		stone[2][2][2] = stone[2][0][2];
+		stone[2][0][2] = tempST_corner;
+		
+		tempST_edge = stone[1][0][2];
+		stone[1][0][2] = stone[0][1][2];
+		stone[0][1][2] = stone[1][2][2];
+		stone[1][2][2] = stone[2][1][2];
+		stone[2][1][2] = tempST_edge;
+		break;
+		
+	    //Rotation der Top (blaue Wand)
+	    case 5:		
+		tempTG_corner = stoneTransform[0][2][2];	
 		stoneTransform[0][2][2] = stoneTransform[0][2][0];
 		stoneTransform[0][2][0] = stoneTransform[2][2][0];
 		stoneTransform[2][2][0] = stoneTransform[2][2][2];
 		stoneTransform[2][2][2] = tempTG_corner;
 		
-		TransformGroup tempTG_edge = stoneTransform[1][2][2];
+		tempTG_edge = stoneTransform[1][2][2];
 		stoneTransform[1][2][2] = stoneTransform[0][2][1];
 		stoneTransform[0][2][1] = stoneTransform[1][2][0];
 		stoneTransform[1][2][0] = stoneTransform[2][2][1];
 		stoneTransform[2][2][1] = tempTG_edge;
 		
-		Transform3D tempTF_corner = rotate[0][2][2];	
+		tempTF_corner = rotate[0][2][2];	
 		rotate[0][2][2] = rotate[0][2][0];
 		rotate[0][2][0] = rotate[2][2][0];
 		rotate[2][2][0] = rotate[2][2][2];
 		rotate[2][2][2] = tempTF_corner;		
 		
-		Transform3D tempTF_edge = rotate[1][2][2];
+		tempTF_edge = rotate[1][2][2];
 		rotate[1][2][2] = rotate[0][2][1];
 		rotate[0][2][1] = rotate[1][2][0];
 		rotate[1][2][0] = rotate[2][2][1];
 		rotate[2][2][1] = tempTF_edge;
 		
-		Stone tempST_corner = stone[0][2][2];	
+		tempST_corner = stone[0][2][2];	
 		stone[0][2][2] = stone[0][2][0];
 		stone[0][2][0] = stone[2][2][0];
 		stone[2][2][0] = stone[2][2][2];
 		stone[2][2][2] = tempST_corner;
 		
-		Stone tempST_edge = stone[1][2][2];
+		tempST_edge = stone[1][2][2];
 		stone[1][2][2] = stone[0][2][1];
 		stone[0][2][1] = stone[1][2][0];
 		stone[1][2][0] = stone[2][2][1];
 		stone[2][2][1] = tempST_edge;
 		break;
+		
+	    
+		
+	    
 	}    
     }
 }
