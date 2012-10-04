@@ -71,9 +71,9 @@ public final class GUI {
 	panel.add(white);
 	panel.add(yellow);
 	panel.add(red);
-//	panel.add(orange);
+	panel.add(orange);
 	panel.add(blue);
-//	panel.add(green);
+	panel.add(green);
 
 	return panel;
     }

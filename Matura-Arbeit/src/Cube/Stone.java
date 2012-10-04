@@ -165,8 +165,9 @@ public class Stone {
 	return y_axis;
     }
 
-    public Transform3D getTransform(float angle, int rotate_axis, int x_axis, int y_axis) {
+    public Transform3D getTransform( int rotate_axis, int x_axis, int y_axis) {
 	Transform3D rotate = new Transform3D();
+	float angle = 90f;
 
 // *** Es wird um die x-Achse rotiert *** //
 	if (rotate_axis == 1) {
