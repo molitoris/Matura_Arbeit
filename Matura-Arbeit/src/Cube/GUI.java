@@ -1,7 +1,9 @@
 package Cube;
 
 import java.awt.BorderLayout;
-import java.awt.Container;
+import java.awt.Menu;
+import java.awt.MenuBar;
+import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -22,7 +24,7 @@ public final class GUI {
 	JFrame frame = new JFrame();
 	frame.setTitle("Cube Solver");
 	frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-	frame.setSize(500, 500);
+	frame.setSize(800, 800);
 	frame.setResizable(false);
 	frame.setLocationRelativeTo(null);
 	frame.setLayout(new BorderLayout());
@@ -30,7 +32,8 @@ public final class GUI {
 	cube = new Rubiks_Cube();
 
 	frame.add("Center", cube.returnCanvas());
-	frame.add("North", createPanel());
+	frame.setMenuBar(createMenuBar());
+	frame.add("South", createPanel());
 	frame.setVisible(true);
     }
 
@@ -76,5 +79,30 @@ public final class GUI {
 	panel.add(green);
 
 	return panel;
+    }
+
+    private MenuBar createMenuBar() {
+	MenuBar menuBar = new MenuBar();
+	
+	Menu data = new Menu("Datei");
+	menuBar.add(data);
+	
+	final MenuItem itemReset = new MenuItem("Zurücksetzen");
+	data.add(itemReset);
+	
+	ActionListener ListenerMenu = new ActionListener() {
+
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == itemReset)
+		    cube.reset();
+	    }
+	};
+	
+	itemReset.addActionListener(ListenerMenu);
+	
+	
+	
+	return menuBar;
     }
 }

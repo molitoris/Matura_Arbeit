@@ -2,9 +2,17 @@ package Cube;
 
 import com.sun.j3d.utils.behaviors.mouse.MouseRotate;
 import com.sun.j3d.utils.universe.SimpleUniverse;
-import javax.media.j3d.*;
+import javax.media.j3d.BoundingSphere;
+import javax.media.j3d.BranchGroup;
+import javax.media.j3d.Canvas3D;
+import javax.media.j3d.GeometryArray;
+import javax.media.j3d.LineArray;
+import javax.media.j3d.LineAttributes;
+import javax.media.j3d.Shape3D;
+import javax.media.j3d.Transform3D;
+import javax.media.j3d.TransformGroup;
+import javax.media.j3d.View;
 import javax.vecmath.Color3f;
-import javax.vecmath.Matrix3f;
 import javax.vecmath.Point3f;
 
 /**
@@ -21,16 +29,14 @@ import javax.vecmath.Point3f;
  */
 public class Rubiks_Cube {
 //Canvas verhält sich ähnlich, wie ein Spiegel, der die dreidimensionale Welt auf eine zweidimensionale Oberfläche proiziert. (http://fbim.fh-regensburg.de/~saj39122/fractal/docs/fractal/view/Canvas3D.html)
-    Canvas3D canvas;
+    public Canvas3D canvas;
 //SimpleUniverse generiert automatisch den ViewBranchGraph. Dadurch muss man sich nicht um die Kameraeinstellungen kümmern.
     TransformGroup objTransform;
-    String x_axe;
-    String y_axe;
-    int count = 0;
-    float angle = 90f;
+    SimpleUniverse universe;
     TransformGroup[][][] stoneTransform = new TransformGroup[3][3][3];
     Transform3D[][][] rotate = new Transform3D[3][3][3];
     Stone[][][] stone = new Stone[3][3][3];
+    BranchGroup objRoot;
 
     /* **** Structure of the Scene Graph ****
      * 
@@ -48,7 +54,12 @@ public class Rubiks_Cube {
      */
 //Constructor
     Rubiks_Cube() {
-	SimpleUniverse universe = createViewBranchGraph();
+	universe = createViewBranchGraph();
+	universe.addBranchGraph(createContentBranchGraph());
+    }
+    
+    void reset(){
+	objRoot.detach();
 	universe.addBranchGraph(createContentBranchGraph());
     }
 
@@ -56,7 +67,7 @@ public class Rubiks_Cube {
 	canvas = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
 	SimpleUniverse simpleUniverse = new SimpleUniverse(canvas);
 
-	canvas.getView().setFieldOfView(0.1);
+	canvas.getView().setFieldOfView(0.15);
 	canvas.getView().setWindowEyepointPolicy(View.RELATIVE_TO_WINDOW);
 	simpleUniverse.getViewingPlatform().setNominalViewingTransform();
 
@@ -65,7 +76,8 @@ public class Rubiks_Cube {
 
 //methods    
     private BranchGroup createContentBranchGraph() {
-	BranchGroup objRoot = new BranchGroup();
+	objRoot = new BranchGroup();
+	objRoot.setCapability(BranchGroup.ALLOW_DETACH);
 
 	objTransform = new TransformGroup(setStart());
 	objTransform.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
@@ -80,7 +92,7 @@ public class Rubiks_Cube {
 	    for (int y = 0; y < stone.length; y++)
 		for (int z = 0; z < stone.length; z++) {
 		    stone[x][y][z] = new Stone(x, y, z);
-		    stone[x][y][z].setLocalCord();
+		    stone[x][y][z].setLocalCord(1, 5);
 		    stoneTransform[x][y][z] = new TransformGroup();
 		    rotate[x][y][z] = new Transform3D();
 		    stoneTransform[x][y][z].addChild(stone[x][y][z].getTransformGroup());
@@ -89,8 +101,8 @@ public class Rubiks_Cube {
 		}
 
 //construct coordinate system
-	Shape3D cordSystem = createCoordSystem();
-	objTransform.addChild(cordSystem);
+//	Shape3D cordSystem = createCoordSystem();
+//	objTransform.addChild(cordSystem);
 
 	objRoot.addChild(objTransform);
 	return objRoot;
@@ -113,7 +125,6 @@ public class Rubiks_Cube {
 
     private MouseRotate createMouseRotation() {
 	MouseRotate rotate = new MouseRotate();
-
 	objTransform.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
 	objTransform.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 	rotate.setTransformGroup(objTransform);
@@ -130,13 +141,13 @@ public class Rubiks_Cube {
 	Point3f py = new Point3f(0.0f, 10.0f, 0.0f);
 	Point3f pz = new Point3f(0.0f, 0.0f, 10.0f);
 
-//x-Achse
+	//x-Achse
 	lineArray.setCoordinate(0, p0);
 	lineArray.setCoordinate(1, px);
-//y-Achse
+	//y-Achse
 	lineArray.setCoordinate(2, p0);
 	lineArray.setCoordinate(3, py);
-//z-Achse
+	//z-Achse
 	lineArray.setCoordinate(4, p0);
 	lineArray.setCoordinate(5, pz);
 
@@ -159,7 +170,7 @@ public class Rubiks_Cube {
 	for (int x = 0; x < stoneTransform.length; x++)
 	    for (int y = 0; y < stoneTransform.length; y++) {
 		Transform3D temp_rot = new Transform3D();
-		temp_rot = stone[x][y][2].getTransform( 3, stone[x][y][2].getX_axis(), stone[x][y][2].getY_axis());
+		temp_rot = stone[x][y][2].getTransform("z-Achse");
 		rotate[x][y][2].mul(temp_rot);
 		stoneTransform[x][y][2].setTransform(rotate[x][y][2]);
 	    }
@@ -170,7 +181,7 @@ public class Rubiks_Cube {
 	for (int x = 0; x < stoneTransform.length; x++)
 	    for (int y = 0; y < stoneTransform.length; y++) {
 		Transform3D temp_rot = new Transform3D();
-		temp_rot = stone[x][y][0].getTransform( 3, stone[x][y][0].getX_axis(), stone[x][y][0].getY_axis());
+		temp_rot = stone[x][y][0].getTransform("z-Achse");
 		rotate[x][y][0].mul(temp_rot);
 		stoneTransform[x][y][0].setTransform(rotate[x][y][0]);
 	    }
@@ -181,7 +192,7 @@ public class Rubiks_Cube {
 	for (int z = 0; z < stoneTransform.length; z++)
 	    for (int y = 0; y < stoneTransform.length; y++) {
 		Transform3D temp_rot = new Transform3D();
-		temp_rot = stone[2][y][z].getTransform( 1, stone[2][y][z].getX_axis(), stone[2][y][z].getY_axis());
+		temp_rot = stone[2][y][z].getTransform("x-Achse");
 		rotate[2][y][z].mul(temp_rot);
 		stoneTransform[2][y][z].setTransform(rotate[2][y][z]);
 	    }
@@ -192,7 +203,7 @@ public class Rubiks_Cube {
 	for (int z = 0; z < stoneTransform.length; z++)
 	    for (int y = 0; y < stoneTransform.length; y++) {
 		Transform3D temp_rot = new Transform3D();
-		temp_rot = stone[0][y][z].getTransform( 1, stone[0][y][z].getX_axis(), stone[0][y][z].getY_axis());
+		temp_rot = stone[0][y][z].getTransform("x-Achse");
 		rotate[0][y][z].mul(temp_rot);
 		stoneTransform[0][y][z].setTransform(rotate[0][y][z]);
 	    }
@@ -203,7 +214,7 @@ public class Rubiks_Cube {
 	for (int x = 0; x < stoneTransform.length; x++)
 	    for (int z = 0; z < stoneTransform.length; z++) {
 		Transform3D temp_rot = new Transform3D();
-		temp_rot = stone[x][2][z].getTransform( 2, stone[x][2][z].getX_axis(), stone[x][2][z].getY_axis());
+		temp_rot = stone[x][2][z].getTransform("y-Achse");
 		rotate[x][2][z].mul(temp_rot);
 		stoneTransform[x][2][z].setTransform(rotate[x][2][z]);
 	    }
@@ -214,7 +225,7 @@ public class Rubiks_Cube {
 	for (int x = 0; x < stoneTransform.length; x++)
 	    for (int z = 0; z < stoneTransform.length; z++) {
 		Transform3D temp_rot = new Transform3D();
-		temp_rot = stone[x][0][z].getTransform( 2, stone[x][0][z].getX_axis(), stone[x][0][z].getY_axis());
+		temp_rot = stone[x][0][z].getTransform("y-Achse");
 		rotate[x][0][z].mul(temp_rot);
 		stoneTransform[x][0][z].setTransform(rotate[x][0][z]);
 	    }

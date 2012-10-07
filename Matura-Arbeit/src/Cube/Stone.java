@@ -1,34 +1,48 @@
 package Cube;
 
+import com.sun.j3d.utils.image.TextureLoader;
 import java.awt.Color;
-import javax.media.j3d.*;
+import java.awt.Component;
+import javax.media.j3d.AmbientLight;
+import javax.media.j3d.Appearance;
+import javax.media.j3d.BoundingSphere;
+import javax.media.j3d.GeometryArray;
+import javax.media.j3d.LineAttributes;
+import javax.media.j3d.Material;
 import javax.media.j3d.QuadArray;
-import javax.vecmath.*;
+import javax.media.j3d.Shape3D;
+import javax.media.j3d.Texture;
+import javax.media.j3d.Transform3D;
+import javax.media.j3d.TransformGroup;
+import javax.media.j3d.TransparencyAttributes;
+import javax.vecmath.Color3f;
+import javax.vecmath.Point3f;
+import javax.vecmath.Vector3f;
 
 /**
  *
  * @author Rafael Sebastian Müller
  */
-public class Stone {
-    //Attribute
+public class Stone extends Component {
+
     QuadArray[] array = new QuadArray[6];
     TransformGroup objStone = new TransformGroup();
-    final static Color3f white = new Color3f(Color.WHITE);
-    final static Color3f yellow = new Color3f(Color.YELLOW);
-    final static Color3f blue = new Color3f(Color.BLUE);
-    final static Color3f green = new Color3f(Color.GREEN);
-    final static Color3f red = new Color3f(Color.RED);
-    final static Color3f orange = new Color3f(new Color(244, 158, 2));
-    private String x_axe;
-    private String y_axe;
     Shape3D shape = new Shape3D();
+    
     int x_axis;
     int y_axis;
+    
+    final static Color3f white	    = new Color3f(Color.WHITE);
+    final static Color3f yellow	    = new Color3f(Color.YELLOW);
+    final static Color3f blue	    = new Color3f(Color.BLUE);
+    final static Color3f green	    = new Color3f(Color.GREEN);
+    final static Color3f red	    = new Color3f(Color.RED);
+    final static Color3f orange	    = new Color3f(new Color(244, 158, 2));
 
     /*
      * ZEICHENRICHTUNG
      * Es ist wichtig, dass die Koordianten so gesetzt werden, dass sie
-     * -von aussen gesehen- immer gegen den Uhrzeigersinn laufen, da die
+     * -von aussen gesehen- immer gegen den Uhrzeigersinn laufen, da sonst die
      * Flächen nicht gezeichnet werden (culling).
      * 
      * FARBE
@@ -45,6 +59,10 @@ public class Stone {
 	shape.setAppearance(createAppearance(x, y, z));
 	objStone.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 	objStone.addChild(shape);
+	
+	AmbientLight al = new AmbientLight();
+	al.setInfluencingBounds(new BoundingSphere());
+	objStone.addChild(al);
     }
 
     //Methoden
@@ -58,16 +76,16 @@ public class Stone {
 	z = z - 1;
 	
 	Float[] x_pos = new Float[2];
-	x_pos[0] = new Float(x - 0.40);
-	x_pos[1] = new Float(x + 0.40);
+	x_pos[0] = new Float(x - 0.45);
+	x_pos[1] = new Float(x + 0.45);
 
 	Float[] y_pos = new Float[2];
-	y_pos[0] = new Float(y - 0.40);
-	y_pos[1] = new Float(y + 0.40);
+	y_pos[0] = new Float(y - 0.45);
+	y_pos[1] = new Float(y + 0.45);
 
 	Float[] z_pos = new Float[2];
-	z_pos[0] = new Float(z - 0.40);
-	z_pos[1] = new Float(z + 0.40);
+	z_pos[0] = new Float(z - 0.45);
+	z_pos[1] = new Float(z + 0.45);
 
 	Point3f[][][] point = new Point3f[2][2][2];
 
@@ -77,9 +95,11 @@ public class Stone {
 		    point[i][j][k] = new Point3f(x_pos[i], y_pos[j], z_pos[k]);
 
 	for (int i = 0; i < array.length; i++) {
-	    array[i] = new QuadArray(4, GeometryArray.COORDINATES | GeometryArray.COLOR_3);
+	    array[i] = new QuadArray(4, GeometryArray.COORDINATES | GeometryArray.COLOR_3|GeometryArray.NORMALS);
 	    array[i].setCapability(QuadArray.ALLOW_COLOR_WRITE);
 	}
+	
+	array[1].setNormal(0, new Vector3f(0, 0, 1.0f));
 
 	//front
 	array[0].setCoordinate(0, point[0][0][1]);
@@ -115,41 +135,41 @@ public class Stone {
 	for (int i = 0; i < array.length; i++) {
 	    shape.addGeometry(array[i]);
 	}
-
+	
 	return shape;
     }
 
     private Appearance createAppearance(float x, float y, float z) {
 	Appearance appearance = new Appearance();
+	appearance.setMaterial(new Material());
+	appearance.setTexture(new TextureLoader("blau.png", this).getTexture());
+	
+	
+	
 	x = x - 1;
 	y = y - 1;
 	z = z - 1;
 	
-	for (int i = 0; i < 4; i++) {
-	    if (z == 1)
-		array[0].setColor(i, white);
-
-	    if (z == -1)
-		array[1].setColor(i, yellow);
-
-	    if (x == -1)
-		array[2].setColor(i, orange);
-
-	    if (x == 1)
-		array[3].setColor(i, red);
-
-	    if (y == -1)
-		array[4].setColor(i, green);
-
-	    if (y == 1)
-		array[5].setColor(i, blue);
-	}
+//	for (int i = 0; i < 4; i++) {
+//	    if (z == 1)
+//		array[0].setColor(i, white);
+//
+//	    if (z == -1)
+//		array[1].setColor(i, yellow);
+//
+//	    if (x == -1)
+//		array[2].setColor(i, orange);
+//
+//	    if (x == 1)
+//		array[3].setColor(i, red);
+//
+//	    if (y == -1)
+//		array[4].setColor(i, green);
+//
+//	    if (y == 1)
+//		array[5].setColor(i, blue);
+//	}
 	return appearance;
-    }
-
-    void setLocalCord() {
-	x_axis = 1;
-	y_axis = 5;
     }
 
     void setLocalCord(int x_axis, int y_axis) {
@@ -157,20 +177,14 @@ public class Stone {
 	this.y_axis = y_axis;
     }
 
-    public int getX_axis() {
-	return x_axis;
-    }
-
-    public int getY_axis() {
-	return y_axis;
-    }
-
-    public Transform3D getTransform( int rotate_axis, int x_axis, int y_axis) {
+    public Transform3D getTransform(String rotate_axis) {
+	int x_axis = this.x_axis;
+	int y_axis = this.y_axis;
 	Transform3D rotate = new Transform3D();
 	float angle = 90f;
 
 // *** Es wird um die x-Achse rotiert *** //
-	if (rotate_axis == 1) {
+	if (rotate_axis.equals("x-Achse")) {
 	    //x-Achse ist gegen rechts gerichtet
 	    if (x_axis == 1) {//
 		if (y_axis == 5) {
@@ -288,7 +302,7 @@ public class Stone {
 	    }
 	}
 // *** Es wird um die y-Achse rotiert *** //
-	else if (rotate_axis == 2) {
+	else if (rotate_axis.equals("y-Achse")) {
 	    //x-Achse gegen rechts gerichtet
 	    if (x_axis == 1) {//
 		if (y_axis == 5) {
@@ -406,7 +420,7 @@ public class Stone {
 	    }
 	}
 // *** Es soll um die z-Achse rotiert werden *** //
-	else if (rotate_axis == 3) {
+	else if (rotate_axis.equals("z-Achse")) {
 	    //x-Achse gegen rechts gerichtet
 	    if (x_axis == 1) {//
 		if (y_axis == 5) {
