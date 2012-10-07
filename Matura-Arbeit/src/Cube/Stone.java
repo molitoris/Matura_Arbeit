@@ -95,11 +95,9 @@ public class Stone extends Component {
 		    point[i][j][k] = new Point3f(x_pos[i], y_pos[j], z_pos[k]);
 
 	for (int i = 0; i < array.length; i++) {
-	    array[i] = new QuadArray(4, GeometryArray.COORDINATES | GeometryArray.COLOR_3|GeometryArray.NORMALS);
+	    array[i] = new QuadArray(4, GeometryArray.COORDINATES | GeometryArray.COLOR_3);
 	    array[i].setCapability(QuadArray.ALLOW_COLOR_WRITE);
 	}
-	
-	array[1].setNormal(0, new Vector3f(0, 0, 1.0f));
 
 	//front
 	array[0].setCoordinate(0, point[0][0][1]);
@@ -141,10 +139,6 @@ public class Stone extends Component {
 
     private Appearance createAppearance(float x, float y, float z) {
 	Appearance appearance = new Appearance();
-	appearance.setMaterial(new Material());
-	appearance.setTexture(new TextureLoader("blau.png", this).getTexture());
-	
-	
 	
 	x = x - 1;
 	y = y - 1;
